@@ -5,6 +5,8 @@
 <meta name="viewport" content="width=device-width, initial-scale=1.0">
 <title>BellFolio — US Stock Portfolio</title>
 <link rel="icon" type="image/svg+xml" href="data:image/svg+xml,%3Csvg viewBox='0 0 120 120' xmlns='http://www.w3.org/2000/svg'%3E%3Crect rx='28' width='120' height='120' fill='%230f172a'/%3E%3Cpath d='M30 78L50 58L65 66L90 36' stroke='%2338bdf8' stroke-width='5' stroke-linecap='round' stroke-linejoin='round' fill='none'/%3E%3Ccircle cx='90' cy='36' r='5' fill='%2338bdf8'/%3E%3Cpath d='M30 78L50 58L65 66L90 36L90 88L30 88Z' fill='%2338bdf8' opacity='.12'/%3E%3C/svg%3E">
+<script src="https://www.gstatic.com/firebasejs/10.12.0/firebase-app-compat.js"></script>
+<script src="https://www.gstatic.com/firebasejs/10.12.0/firebase-database-compat.js"></script>
 <script src="https://cdnjs.cloudflare.com/ajax/libs/Chart.js/4.4.1/chart.umd.min.js"></script>
 <script src="https://cdn.jsdelivr.net/npm/chartjs-plugin-datalabels@2.2.0"></script>
 <script src="https://unpkg.com/lightweight-charts@4.2.2/dist/lightweight-charts.standalone.production.js"></script>
@@ -2031,6 +2033,33 @@ tbody tr:hover{
     <button class="btn btn-fill" onclick="changePassword()" style="margin-top:10px;">Update Password</button>
   </div>
   <div class="card">
+    <div class="card-title">Cloud Sync (Firebase)</div>
+    <div id="firebaseStatus" style="margin-bottom:12px;padding:10px 14px;border-radius:8px;font-size:13px;background:var(--bg-base);border:1px solid var(--border);">
+      <span id="fbStatusText">Not connected</span>
+    </div>
+    <p style="font-size:12px;color:var(--tx-secondary);margin-bottom:12px;">เชื่อมต่อ Firebase เพื่อ sync ข้อมูลขึ้น cloud — เปิดจากเครื่องไหนก็ได้ข้อมูลเดิม</p>
+    <div class="fg"><label>Firebase Config (JSON)</label>
+      <textarea id="firebaseConfigInput" rows="4" style="width:100%;padding:12px 14px;background:var(--bg-base);border:1px solid var(--border);border-radius:8px;color:var(--tx-primary);font-size:12px;font-family:monospace;resize:vertical;" placeholder='{"apiKey":"...","authDomain":"...","databaseURL":"...","projectId":"..."}'></textarea>
+    </div>
+    <div class="btn-row" style="margin-top:10px;">
+      <button class="btn btn-fill" onclick="saveFirebaseConfig()">Connect Firebase</button>
+      <button class="btn" onclick="disconnectFirebase()">Disconnect</button>
+      <button class="btn" onclick="forceSyncToCloud()">Force Upload</button>
+      <button class="btn" onclick="forceSyncFromCloud()">Force Download</button>
+    </div>
+    <details style="margin-top:14px;font-size:12px;color:var(--tx-secondary);">
+      <summary style="cursor:pointer;font-weight:600;">วิธีสร้าง Firebase (ฟรี)</summary>
+      <ol style="margin-top:8px;padding-left:20px;line-height:2;">
+        <li>ไปที่ <a href="https://console.firebase.google.com" target="_blank">console.firebase.google.com</a></li>
+        <li>กด <b>Create a project</b> → ตั้งชื่อ → สร้าง</li>
+        <li>เมนูซ้าย กด <b>Build → Realtime Database</b> → Create Database → Start in <b>test mode</b></li>
+        <li>กด <b>Project settings</b> (ไอคอนเฟือง) → เลื่อนลงหา <b>Your apps</b> → กด <b>&lt;/&gt;</b> (Web)</li>
+        <li>ตั้งชื่อ app → Register → copy ส่วน <code>firebaseConfig = {...}</code></li>
+        <li>วางข้อมูล JSON ด้านบน → กด <b>Connect Firebase</b></li>
+      </ol>
+    </details>
+  </div>
+  <div class="card">
     <div class="card-title">Data Management</div>
     <div class="btn-row">
       <button class="btn" onclick="exportData()">📥 Export Data</button>
@@ -2082,12 +2111,23 @@ async function doLogin(){
   const u=document.getElementById('loginUser').value.trim().toLowerCase();
   const p=document.getElementById('loginPass').value;
   if(!u||!p){showLoginErr('Please enter username and password');return;}
+
+  // Try init Firebase before login to sync user accounts
+  const fbConfig=getFirebaseConfig();
+  if(fbConfig&&!firebaseConnected)initFirebase(fbConfig);
+  if(firebaseConnected){
+    const cloudUsers=await loadUsersFromCloud();
+    if(cloudUsers){
+      localStorage.setItem(USERS_KEY,JSON.stringify(cloudUsers));
+    }
+  }
+
   const hash=await sha256(p);
   const users=getUsers();
   if(users[u]&&users[u]===hash){
     currentUser=u;
     sessionStorage.setItem(SESSION_KEY,JSON.stringify({user:u,ts:Date.now()}));
-    initApp();
+    await initApp();
   }else{showLoginErr('Invalid username or password');}
 }
 
@@ -2117,7 +2157,215 @@ let appData={
   watchlistCategoryFilter:null
 };
 
-function saveData(){localStorage.setItem(DATA_PREFIX+currentUser,JSON.stringify(appData));}
+// ===== FIREBASE CLOUD SYNC =====
+// ★ ADMIN: วาง Firebase config ตรงนี้ครั้งเดียว แล้ว commit — ทุก user จะใช้ได้เลย ★
+const FIREBASE_CONFIG_EMBEDDED=null;
+// ตัวอย่าง:
+// const FIREBASE_CONFIG_EMBEDDED={
+//   apiKey:"AIzaSy...",
+//   authDomain:"your-project.firebaseapp.com",
+//   databaseURL:"https://your-project-default-rtdb.firebaseio.com",
+//   projectId:"your-project",
+//   storageBucket:"your-project.appspot.com",
+//   messagingSenderId:"123456",
+//   appId:"1:123456:web:abc123"
+// };
+
+let firebaseApp=null;
+let firebaseDB=null;
+let firebaseConnected=false;
+const FB_CONFIG_KEY='bell_firebase_config';
+
+function getFirebaseConfig(){
+  // Embedded config (admin set) takes priority over localStorage
+  if(FIREBASE_CONFIG_EMBEDDED)return FIREBASE_CONFIG_EMBEDDED;
+  const c=localStorage.getItem(FB_CONFIG_KEY);
+  return c?JSON.parse(c):null;
+}
+
+function initFirebase(config){
+  try{
+    if(firebaseApp){
+      // Already initialized, just reconnect
+      firebaseDB=firebase.database();
+      firebaseConnected=true;
+      updateFirebaseStatus(true);
+      return true;
+    }
+    firebaseApp=firebase.initializeApp(config);
+    firebaseDB=firebase.database();
+    firebaseConnected=true;
+    updateFirebaseStatus(true);
+    console.log('Firebase connected successfully');
+    return true;
+  }catch(e){
+    console.error('Firebase init error:',e);
+    firebaseConnected=false;
+    updateFirebaseStatus(false,e.message);
+    return false;
+  }
+}
+
+function updateFirebaseStatus(connected,errMsg){
+  const el=document.getElementById('fbStatusText');
+  if(!el)return;
+  if(connected){
+    el.innerHTML='<span style="color:var(--green);font-weight:600;">Connected</span> — ข้อมูลจะ sync อัตโนมัติ';
+  }else if(errMsg){
+    el.innerHTML='<span style="color:var(--red);font-weight:600;">Error:</span> '+errMsg;
+  }else{
+    el.innerHTML='<span style="color:var(--tx-muted);">Not connected</span> — ข้อมูลเก็บในเบราว์เซอร์เท่านั้น';
+  }
+}
+
+function saveFirebaseConfig(){
+  const raw=document.getElementById('firebaseConfigInput').value.trim();
+  if(!raw){toast('Please paste Firebase config JSON','error');return;}
+  try{
+    // Handle both JSON and JS object format
+    let config;
+    if(raw.startsWith('{')){
+      config=JSON.parse(raw);
+    }else{
+      // Try to extract JSON from JS assignment like: const firebaseConfig = {...}
+      const match=raw.match(/\{[\s\S]*\}/);
+      if(match)config=JSON.parse(match[0]);
+      else throw new Error('Invalid format');
+    }
+    if(!config.databaseURL&&!config.projectId){
+      toast('Config must include databaseURL or projectId','error');return;
+    }
+    // Auto-generate databaseURL if missing
+    if(!config.databaseURL&&config.projectId){
+      config.databaseURL='https://'+config.projectId+'-default-rtdb.firebaseio.com';
+    }
+    localStorage.setItem(FB_CONFIG_KEY,JSON.stringify(config));
+    if(initFirebase(config)){
+      toast('Firebase connected!','success');
+      // Upload current data to cloud
+      saveToCloud();
+      saveUsersToCloud();
+    }
+  }catch(e){
+    toast('Invalid JSON config: '+e.message,'error');
+  }
+}
+
+function disconnectFirebase(){
+  localStorage.removeItem(FB_CONFIG_KEY);
+  firebaseConnected=false;
+  updateFirebaseStatus(false);
+  toast('Firebase disconnected. Data will stay in browser only.','success');
+}
+
+async function saveToCloud(){
+  if(!firebaseConnected||!firebaseDB||!currentUser)return;
+  try{
+    await firebaseDB.ref('users_data/'+currentUser).set(appData);
+    console.log('Cloud sync: saved');
+  }catch(e){
+    console.error('Cloud save error:',e);
+  }
+}
+
+async function loadFromCloud(){
+  if(!firebaseConnected||!firebaseDB||!currentUser)return null;
+  try{
+    const snap=await firebaseDB.ref('users_data/'+currentUser).once('value');
+    const data=snap.val();
+    if(data){
+      console.log('Cloud sync: loaded');
+      return data;
+    }
+    return null;
+  }catch(e){
+    console.error('Cloud load error:',e);
+    return null;
+  }
+}
+
+async function saveUsersToCloud(){
+  if(!firebaseConnected||!firebaseDB)return;
+  try{
+    const users=getUsers();
+    await firebaseDB.ref('auth/users').set(users);
+  }catch(e){console.error('Cloud users save error:',e);}
+}
+
+async function loadUsersFromCloud(){
+  if(!firebaseConnected||!firebaseDB)return null;
+  try{
+    const snap=await firebaseDB.ref('auth/users').once('value');
+    return snap.val()||null;
+  }catch(e){console.error('Cloud users load error:',e);return null;}
+}
+
+async function forceSyncToCloud(){
+  if(!firebaseConnected){toast('Connect Firebase first','error');return;}
+  await saveToCloud();
+  await saveUsersToCloud();
+  toast('Data uploaded to cloud','success');
+}
+
+async function forceSyncFromCloud(){
+  if(!firebaseConnected){toast('Connect Firebase first','error');return;}
+  const cloudData=await loadFromCloud();
+  if(cloudData){
+    appData={...appData,...cloudData};
+    saveData();
+    toast('Data downloaded from cloud','success');
+    refreshAll();
+  }else{
+    toast('No cloud data found for this user','error');
+  }
+}
+
+// Debounced cloud save (max 1 write per 2 seconds for performance)
+let _cloudSaveTimer=null;
+function debouncedCloudSave(){
+  if(_cloudSaveTimer)clearTimeout(_cloudSaveTimer);
+  _cloudSaveTimer=setTimeout(()=>{saveToCloud();},2000);
+}
+
+// Original save/load with cloud sync
+function saveData(){
+  localStorage.setItem(DATA_PREFIX+currentUser,JSON.stringify(appData));
+  // Auto-sync to cloud (debounced, non-blocking)
+  if(firebaseConnected)debouncedCloudSave();
+}
+
+async function loadDataAsync(){
+  // Load from localStorage first (fast)
+  const d=localStorage.getItem(DATA_PREFIX+currentUser);
+  if(d){
+    const parsed=JSON.parse(d);
+    appData={...appData,...parsed};
+  }
+  // Then try cloud (if connected) — cloud wins if newer
+  if(firebaseConnected){
+    const cloudData=await loadFromCloud();
+    if(cloudData){
+      // Merge: cloud data overrides local
+      appData={...appData,...cloudData};
+      localStorage.setItem(DATA_PREFIX+currentUser,JSON.stringify(appData));
+    }else{
+      // No cloud data: upload local to cloud
+      saveToCloud();
+    }
+  }
+  // Ensure defaults
+  if(!appData.portfolios)appData.portfolios={Main:{stocks:{}}};
+  if(!appData.activePort||!appData.portfolios[appData.activePort])appData.activePort=Object.keys(appData.portfolios)[0];
+  if(!appData.allocLimits)appData.allocLimits={};
+  if(!appData.watchlist)appData.watchlist=[];
+  if(!appData.history)appData.history=[];
+  if(!appData.realizedPL)appData.realizedPL=[];
+  if(!appData.categoryFilter)appData.categoryFilter=null;
+  if(!appData.watchlistCategoryFilter)appData.watchlistCategoryFilter=null;
+  if(!appData.allocViewPort)appData.allocViewPort=null;
+  if(!appData.customCategories)appData.customCategories={};
+}
+
 function loadData(){
   const d=localStorage.getItem(DATA_PREFIX+currentUser);
   if(d){
@@ -4061,6 +4309,7 @@ async function changePassword(){
   const newHash=await sha256(nw);
   users[currentUser]=newHash;
   localStorage.setItem(USERS_KEY,JSON.stringify(users));
+  saveUsersToCloud();
   document.getElementById('setPwOld').value='';
   document.getElementById('setPwNew').value='';
   toast('Password updated','success');
@@ -4069,7 +4318,38 @@ async function changePassword(){
 // ===== IMPORT / EXPORT =====
 function exportData(){
   const blob=new Blob([JSON.stringify(appData,null,2)],{type:'application/json'});
-  const a=document.createElement('a');a.href=URL.createObjectURL(blob);a.download='portfolio-backup-'+new Date().toISOString().slice(0,10)+'.json';a.click();
+  const a=document.createElement('a');a.href=URL.createObjectURL(blob);a.download='bellfolio-backup-'+currentUser+'-'+new Date().toISOString().slice(0,10)+'.json';a.click();
+  // Record last backup time
+  localStorage.setItem('bell_last_backup',Date.now().toString());
+  toast('Backup saved!','success');
+}
+
+// ===== AUTO-BACKUP REMINDER =====
+function checkBackupReminder(){
+  const last=parseInt(localStorage.getItem('bell_last_backup')||'0');
+  const daysSince=Math.floor((Date.now()-last)/86400000);
+  // Remind every 7 days
+  if(daysSince>=7&&Object.keys(getStocks()).length>0){
+    showBackupReminder(daysSince);
+  }
+}
+
+function showBackupReminder(days){
+  // Don't show if already dismissed today
+  const dismissed=localStorage.getItem('bell_backup_dismissed');
+  if(dismissed&&Date.now()-parseInt(dismissed)<86400000)return;
+
+  const bar=document.createElement('div');
+  bar.id='backupReminder';
+  bar.style.cssText='position:fixed;bottom:0;left:0;right:0;padding:12px 20px;background:var(--tx-primary);color:var(--bg-surface);font-size:13px;z-index:998;display:flex;align-items:center;justify-content:space-between;gap:12px;';
+  bar.innerHTML=`
+    <span>${days>365?'ยังไม่เคย backup เลย':'ไม่ได้ backup มา '+days+' วันแล้ว'} — แนะนำให้ Export Data เก็บไว้เผื่อเปลี่ยน domain หรือล้างเบราว์เซอร์</span>
+    <span style="display:flex;gap:8px;flex-shrink:0;">
+      <button onclick="exportData();document.getElementById('backupReminder').remove();" style="padding:6px 14px;border-radius:6px;border:none;background:var(--accent);color:#fff;font-size:12px;font-weight:600;cursor:pointer;">Backup Now</button>
+      <button onclick="localStorage.setItem('bell_backup_dismissed',Date.now().toString());document.getElementById('backupReminder').remove();" style="padding:6px 10px;border-radius:6px;border:1px solid rgba(255,255,255,.3);background:transparent;color:inherit;font-size:12px;cursor:pointer;">Later</button>
+    </span>
+  `;
+  document.body.appendChild(bar);
 }
 
 function importData(e){
@@ -4566,6 +4846,7 @@ async function adminCreateUser(){
   const hash=await sha256(password);
   users[username]=hash;
   localStorage.setItem(USERS_KEY,JSON.stringify(users));
+  saveUsersToCloud();
 
   document.getElementById('newUsername').value='';
   document.getElementById('newPassword').value='';
@@ -4581,6 +4862,7 @@ function adminDeleteUser(username){
   const users=getUsers();
   delete users[username];
   localStorage.setItem(USERS_KEY,JSON.stringify(users));
+  saveUsersToCloud();
 
   // Also remove their data
   localStorage.removeItem(DATA_PREFIX+username);
@@ -4603,16 +4885,24 @@ async function adminResetPassword(){
   const hash=await sha256(newPw);
   users[username]=hash;
   localStorage.setItem(USERS_KEY,JSON.stringify(users));
+  saveUsersToCloud();
 
   document.getElementById('resetPwValue').value='';
   toast('Password reset for "'+username+'"','success');
 }
 
 // ===== INIT =====
-function initApp(){
+async function initApp(){
   document.getElementById('loginScreen').style.display='none';
   document.getElementById('appMain').classList.remove('hide');
-  loadData();
+
+  // Init Firebase if config exists
+  const fbConfig=getFirebaseConfig();
+  if(fbConfig)initFirebase(fbConfig);
+
+  // Load data (local first, then cloud sync)
+  await loadDataAsync();
+
   apiKey=appData.apiKey||'';
   showCurrency=appData.currency||'USD';
   document.getElementById('currLabel').textContent=showCurrency;
@@ -4620,6 +4910,17 @@ function initApp(){
   // Show logged-in user in header
   const ud=document.getElementById('userDisplay');
   if(ud&&currentUser)ud.textContent='👤 '+currentUser;
+
+  // Show Firebase config in settings
+  const configInput=document.getElementById('firebaseConfigInput');
+  if(FIREBASE_CONFIG_EMBEDDED){
+    // Admin embedded config — hide manual setup for non-admin
+    if(configInput)configInput.value='(Config embedded in code by admin)';
+    if(configInput)configInput.disabled=true;
+  }else if(configInput&&fbConfig){
+    configInput.value=JSON.stringify(fbConfig,null,2);
+  }
+
   fetchExchangeRate();
   refreshAll();
 
@@ -4628,6 +4929,9 @@ function initApp(){
 
   // auto-refresh every 60s
   setInterval(()=>{fetchExchangeRate();refreshAll();},60000);
+
+  // Check backup reminder after 3 seconds (don't block UI)
+  setTimeout(checkBackupReminder,3000);
 }
 
 // ===== HEADER SCROLL SHADOW EFFECT =====
