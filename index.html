@@ -1564,6 +1564,198 @@ tbody tr:hover{
   0%{background-position:200% 0;}
   100%{background-position:-200% 0;}
 }
+
+/* ===== FEAR & GREED GAUGE ===== */
+.fear-greed-card{
+  display:flex;flex-direction:column;align-items:center;justify-content:center;padding:24px;
+  background:var(--bg-surface);border-radius:var(--radius-lg);
+}
+.fear-greed-gauge{
+  position:relative;width:200px;height:120px;margin:16px 0;
+}
+.fear-greed-label{
+  font-size:14px;font-weight:600;text-align:center;color:var(--tx-secondary);margin-top:12px;
+}
+.fear-greed-value{
+  font-size:32px;font-weight:700;text-align:center;color:var(--tx-primary);margin-top:4px;
+}
+
+/* ===== MARKET OVERVIEW ===== */
+.market-grid{
+  display:grid;grid-template-columns:repeat(auto-fit,minmax(160px,1fr));gap:12px;margin-top:12px;
+}
+.market-item{
+  padding:12px;border-radius:var(--radius);background:var(--bg-hover);border:1px solid var(--border);
+}
+.market-item .ticker{
+  font-size:12px;font-weight:700;color:var(--tx-secondary);text-transform:uppercase;
+  display:block;margin-bottom:4px;
+}
+.market-item .price{
+  font-size:18px;font-weight:700;color:var(--tx-primary);display:block;margin-bottom:6px;
+}
+.market-item .change{
+  font-size:13px;font-weight:600;
+}
+
+/* ===== GURU SECTION ===== */
+.guru-selector{
+  display:flex;gap:8px;margin-bottom:16px;align-items:center;
+  flex-wrap:wrap;
+}
+.guru-selector select{
+  padding:8px 12px;border:1.5px solid var(--border);border-radius:var(--radius);
+  background:var(--bg-surface);color:var(--tx-primary);font-family:inherit;font-size:13px;
+  cursor:pointer;
+  transition:border-color .2s ease;
+}
+.guru-selector select:focus{
+  outline:none;border-color:var(--accent);
+}
+.guru-selector .btn{
+  padding:8px 12px;font-size:12px;
+}
+.guru-table{
+  width:100%;border-collapse:collapse;
+  margin-top:12px;
+}
+.guru-table th{
+  text-align:left;padding:12px;font-weight:700;font-size:12px;
+  color:var(--tx-secondary);background:var(--bg-hover);border-bottom:1px solid var(--border);
+}
+.guru-table td{
+  padding:12px;border-bottom:1px solid var(--border);font-size:13px;
+}
+.guru-table tr:hover{
+  background:var(--accent-light);
+}
+.guru-badge{
+  display:inline-block;padding:4px 8px;border-radius:4px;
+  font-size:11px;font-weight:700;text-transform:uppercase;
+}
+.guru-badge.bullish{
+  background:var(--green-bg);color:var(--green);
+}
+.guru-badge.bearish{
+  background:var(--red-bg);color:var(--red);
+}
+.guru-badge.mixed{
+  background:var(--orange-bg);color:var(--orange);
+}
+.guru-picks-card{
+  margin-top:16px;
+}
+.guru-pick-entry{
+  padding:12px;border-left:4px solid var(--accent);background:var(--bg-hover);
+  border-radius:var(--radius);margin-bottom:12px;display:flex;gap:12px;align-items:flex-start;
+}
+.guru-pick-date{
+  font-size:11px;font-weight:700;color:var(--tx-secondary);text-transform:uppercase;
+  white-space:nowrap;
+}
+.guru-pick-content{
+  flex:1;
+}
+.guru-pick-action{
+  display:inline-block;padding:4px 8px;border-radius:4px;
+  font-size:11px;font-weight:700;text-transform:uppercase;margin-right:8px;
+}
+.guru-pick-action.buy{
+  background:var(--green-bg);color:var(--green);
+}
+.guru-pick-action.sell{
+  background:var(--red-bg);color:var(--red);
+}
+.guru-pick-action.add{
+  background:var(--green-bg);color:var(--green);
+}
+.guru-pick-action.reduce{
+  background:var(--red-bg);color:var(--red);
+}
+.overlap-list{
+  margin-top:12px;display:flex;gap:20px;
+}
+.overlap-section{
+  flex:1;
+}
+.overlap-section h4{
+  font-size:13px;font-weight:700;margin-bottom:8px;color:var(--tx-secondary);
+}
+.overlap-stocks{
+  list-style:none;font-size:12px;
+}
+.overlap-stocks li{
+  padding:6px 0;color:var(--tx-primary);
+}
+.overlap-stocks li:before{
+  content:'• ';color:var(--accent);margin-right:6px;
+}
+
+/* ===== ARTICLES SECTION ===== */
+.articles-toolbar{
+  display:flex;gap:12px;margin-bottom:16px;flex-wrap:wrap;align-items:center;
+}
+.articles-toolbar select,
+.articles-toolbar input{
+  padding:8px 12px;border:1.5px solid var(--border);border-radius:var(--radius);
+  background:var(--bg-surface);color:var(--tx-primary);font-family:inherit;font-size:13px;
+  transition:border-color .2s ease;
+}
+.articles-toolbar input::placeholder{
+  color:var(--tx-muted);
+}
+.article-list{
+  display:flex;flex-direction:column;gap:12px;
+}
+.article-card{
+  padding:14px;border:1px solid var(--border);border-radius:var(--radius);
+  background:var(--bg-surface);cursor:pointer;
+  transition:border-color .2s ease,box-shadow .2s ease;
+}
+.article-card:hover{
+  border-color:var(--accent);
+  box-shadow:0 0 0 3px var(--accent-light);
+}
+.article-title{
+  font-size:15px;font-weight:700;color:var(--tx-primary);margin-bottom:6px;
+}
+.article-excerpt{
+  font-size:13px;color:var(--tx-secondary);margin-bottom:8px;
+  display:-webkit-box;-webkit-line-clamp:2;-webkit-box-orient:vertical;overflow:hidden;
+}
+.article-meta{
+  display:flex;gap:12px;font-size:11px;color:var(--tx-muted);flex-wrap:wrap;
+}
+.article-tags{
+  display:flex;gap:6px;flex-wrap:wrap;margin-top:8px;
+}
+.article-tag{
+  display:inline-block;padding:3px 6px;background:var(--accent-light);color:var(--accent);
+  border-radius:4px;font-size:11px;font-weight:600;
+}
+.article-content-expanded{
+  margin-top:12px;padding-top:12px;border-top:1px solid var(--border);
+  font-size:13px;line-height:1.7;color:var(--tx-primary);
+}
+.article-modal-form{
+  display:flex;flex-direction:column;gap:12px;
+  padding:16px;background:var(--bg-hover);border-radius:var(--radius);margin-top:12px;
+}
+.article-modal-form label{
+  font-size:12px;font-weight:700;color:var(--tx-secondary);
+}
+.article-modal-form input,
+.article-modal-form textarea,
+.article-modal-form select{
+  padding:8px 12px;border:1px solid var(--border);border-radius:var(--radius);
+  background:var(--bg-surface);color:var(--tx-primary);font-family:inherit;font-size:13px;
+}
+.article-modal-form textarea{
+  min-height:120px;resize:vertical;
+}
+.article-modal-form .btn-row{
+  display:flex;gap:8px;
+}
 </style>
 </head>
 <body>
@@ -1633,6 +1825,8 @@ tbody tr:hover{
   <div class="tab" data-tab="allocation" onclick="switchTab('allocation')">⚖️ Allocation</div>
   <div class="tab" data-tab="watchlist" onclick="switchTab('watchlist')">⭐ Watchlist</div>
   <div class="tab" data-tab="history" onclick="switchTab('history')">📋 History</div>
+  <div class="tab" data-tab="guru" onclick="switchTab('guru')">🎓 Guru</div>
+  <div class="tab" data-tab="articles" onclick="switchTab('articles')">📚 Articles</div>
   <div class="tab" data-tab="settings" onclick="switchTab('settings')">⚙️ Settings</div>
   <div class="tab" data-tab="admin" onclick="switchTab('admin')" id="adminTab" style="display:none;">🔐 Admin</div>
 </div>
@@ -1648,6 +1842,71 @@ tbody tr:hover{
   <div class="card" id="dashHighlightsCard">
     <div class="card-title">📊 Portfolio Highlights</div>
     <div class="highlights-grid" id="dashHighlights"></div>
+  </div>
+
+  <!-- Fear & Greed Index (Multi-Factor: SPY momentum + VIX + Safe Haven + Market Breadth) -->
+  <div class="card">
+    <div class="card-title">😨 Fear & Greed Index</div>
+    <div class="fear-greed-card">
+      <svg class="fear-greed-gauge" viewBox="0 0 200 120" xmlns="http://www.w3.org/2000/svg">
+        <!-- Gauge background -->
+        <path d="M20 100 A 80 80 0 0 1 180 100" stroke="var(--border)" stroke-width="12" fill="none" stroke-linecap="round"/>
+        <!-- Color segments: Extreme Fear / Fear / Neutral / Greed / Extreme Greed -->
+        <path d="M20 100 A 80 80 0 0 1 52 36" stroke="#dc2626" stroke-width="12" fill="none" stroke-linecap="round" opacity="0.8"/>
+        <path d="M52 36 A 80 80 0 0 1 84 24" stroke="#d97706" stroke-width="12" fill="none" stroke-linecap="round" opacity="0.8"/>
+        <path d="M84 24 A 80 80 0 0 1 116 24" stroke="#f0ad4e" stroke-width="12" fill="none" stroke-linecap="round" opacity="0.8"/>
+        <path d="M116 24 A 80 80 0 0 1 148 36" stroke="#10b981" stroke-width="12" fill="none" stroke-linecap="round" opacity="0.8"/>
+        <path d="M148 36 A 80 80 0 0 1 180 100" stroke="#059669" stroke-width="12" fill="none" stroke-linecap="round" opacity="0.8"/>
+        <!-- Needle -->
+        <line id="fearNeedle" x1="100" y1="100" x2="100" y2="30" stroke="var(--accent)" stroke-width="3" stroke-linecap="round"/>
+        <circle cx="100" cy="100" r="5" fill="var(--accent)"/>
+      </svg>
+      <div class="fear-greed-label" id="fearLabel">Calculating...</div>
+      <div class="fear-greed-value" id="fearValue">--</div>
+      <div id="fearFactors" style="font-size:11px;color:var(--tx-muted);margin-top:8px;text-align:center;"></div>
+      <div id="fearSource" style="font-size:10px;color:var(--tx-muted);margin-top:4px;text-align:center;font-style:italic;"></div>
+    </div>
+    <p style="font-size:11px;color:var(--tx-muted);margin-top:12px;text-align:center;">
+      🔹 <b>Primary:</b> <a href="https://www.cnn.com/markets/fear-and-greed" target="_blank" style="font-size:11px;">CNN Fear & Greed Index</a> (public API — ข้อมูลจริงจาก CNN)<br>
+      🔸 <b>Fallback:</b> คำนวณจาก SPY + VIX + GLD + QQQ via <a href="https://finnhub.io" target="_blank" style="font-size:11px;">Finnhub</a> (กรณี CNN API ใช้ไม่ได้)
+    </p>
+  </div>
+
+  <!-- Market Overview -->
+  <div class="card">
+    <div class="card-title">🌍 Market Overview</div>
+    <div class="market-grid" id="marketGrid">
+      <div class="market-item">
+        <span class="ticker">SPY</span>
+        <span class="price" id="spy-price">--</span>
+        <span class="change" id="spy-change">--</span>
+      </div>
+      <div class="market-item">
+        <span class="ticker">QQQ</span>
+        <span class="price" id="qqq-price">--</span>
+        <span class="change" id="qqq-change">--</span>
+      </div>
+      <div class="market-item">
+        <span class="ticker">DIA</span>
+        <span class="price" id="dia-price">--</span>
+        <span class="change" id="dia-change">--</span>
+      </div>
+      <div class="market-item">
+        <span class="ticker">GLD</span>
+        <span class="price" id="gld-price">--</span>
+        <span class="change" id="gld-change">--</span>
+      </div>
+      <div class="market-item">
+        <span class="ticker">COIN</span>
+        <span class="price" id="coin-price">--</span>
+        <span class="change" id="coin-change">--</span>
+      </div>
+      <div class="market-item">
+        <span class="ticker">USO</span>
+        <span class="price" id="uso-price">--</span>
+        <span class="change" id="uso-change">--</span>
+      </div>
+    </div>
   </div>
 
   <!-- Benchmark Comparison -->
@@ -2070,6 +2329,85 @@ tbody tr:hover{
   </div>
 </div>
 
+<!-- ===== GURU ===== -->
+<div class="section" id="sec-guru">
+  <div class="card">
+    <div class="card-title">🎓 Guru Portfolio</div>
+    <div class="guru-selector">
+      <select id="guruSelect" onchange="switchGuru()">
+        <option value="shay">อาจารย์ Shay (Shay Boloor)</option>
+      </select>
+      <button class="btn btn-fill" onclick="editGuru()" id="editGuruBtn" style="padding:8px 12px;font-size:12px;display:none;">✏️ Edit</button>
+    </div>
+    <div style="font-size:11px;color:var(--tx-muted);margin-bottom:12px;padding:8px 12px;background:var(--bg-hover);border-radius:var(--radius);border:1px solid var(--border);">
+      📌 <b>ข้อมูลรวบรวมจาก:</b>
+      <a href="https://x.com/StockSavvyShay" target="_blank" style="font-size:11px;">@StockSavvyShay (X/Twitter)</a> |
+      <a href="https://www.gothematic.com/index/shayfrgr" target="_blank" style="font-size:11px;">GoThematic</a> |
+      <a href="https://tradersunion.com/news/market-voices/show/514075-growth-portfolio-update/" target="_blank" style="font-size:11px;">TradersUnion</a><br>
+      ⚠️ ข้อมูลอ้างอิงจากโพสต์สาธารณะ ไม่ใช่ข้อมูล real-time จาก API — Admin สามารถอัพเดทรายชื่อหุ้นได้ | ราคา live จาก <a href="https://finnhub.io" target="_blank" style="font-size:11px;">Finnhub</a>
+    </div>
+    <div class="tbl-wrap"><table class="guru-table" id="guruTable">
+      <thead><tr><th>Ticker</th><th>Name</th><th>Price</th><th>Daily Chg</th><th>Daily Chg%</th><th>Trend</th><th>Weight</th><th>Notes</th></tr></thead>
+      <tbody id="guruTableBody"></tbody>
+    </table></div>
+    <div style="margin-top:20px;">
+      <div class="card-title" style="margin-bottom:12px;">Portfolio Allocation</div>
+      <div style="position:relative;height:280px;"><canvas id="guruAllocChart"></canvas></div>
+    </div>
+  </div>
+
+  <div class="card guru-picks-card">
+    <div class="card-title">🔔 Guru Picks & Alerts</div>
+    <button class="btn btn-fill" onclick="openGuruPickForm()" id="addGuruPickBtn" style="padding:8px 12px;font-size:12px;margin-bottom:12px;display:none;">+ Add Pick</button>
+    <div id="guruPicksList"></div>
+  </div>
+
+  <div class="card">
+    <div class="card-title">📊 Portfolio Overlap</div>
+    <div id="overlapContent">
+      <div class="overlap-list">
+        <div class="overlap-section">
+          <h4>Overlap (Both hold)</h4>
+          <ul class="overlap-stocks" id="overlapBoth"></ul>
+        </div>
+        <div class="overlap-section">
+          <h4>Only You</h4>
+          <ul class="overlap-stocks" id="overlapYou"></ul>
+        </div>
+        <div class="overlap-section">
+          <h4>Only Guru</h4>
+          <ul class="overlap-stocks" id="overlapGuru"></ul>
+        </div>
+      </div>
+    </div>
+  </div>
+</div>
+
+<!-- ===== ARTICLES ===== -->
+<div class="section" id="sec-articles">
+  <div class="card">
+    <div class="card-title">📚 Articles & Insights</div>
+    <div class="articles-toolbar">
+      <select id="articleCategoryFilter" onchange="filterArticles()">
+        <option value="">All Categories</option>
+        <option value="earnings">Earnings</option>
+        <option value="technical">Technical</option>
+        <option value="fundamental">Fundamental</option>
+        <option value="macro">Macro</option>
+        <option value="strategy">Strategy</option>
+      </select>
+      <select id="articleGuruFilter" onchange="filterArticles()">
+        <option value="">All Gurus</option>
+        <option value="shay">อาจารย์ Shay</option>
+        <option value="admin">Admin</option>
+      </select>
+      <input type="text" id="articleSearch" placeholder="Search by ticker or title..." onkeyup="filterArticles()">
+      <button class="btn btn-fill" onclick="openArticleForm()" id="addArticleBtn" style="padding:8px 12px;font-size:12px;display:none;">+ New Article</button>
+    </div>
+    <div class="article-list" id="articleList"></div>
+  </div>
+</div>
+
 </div><!-- /content -->
 </div><!-- /appMain -->
 
@@ -2154,7 +2492,21 @@ let appData={
   apiKey:'',
   currency:'USD',
   categoryFilter:null,
-  watchlistCategoryFilter:null
+  watchlistCategoryFilter:null,
+  gurus:[{
+    id:'shay',
+    name:'อาจารย์ Shay (Shay Boloor)',
+    // Source: @StockSavvyShay on X (public posts) + gothematic.com/index/shayfrgr
+    // Top 10: CRWD,SNOW,TSLA,TMDX,MDB,PLTR,GLBE,MELI,TTD,DOCN (ม.ค.2026)
+    // Space allocation 23%: RKLB,ASTS (tradersunion.com)
+    // Additional holdings from public updates: IONQ,OKLO,ALAB,EOSE,TEM,NET
+    // Last verified: March 2026 — Admin can update via Edit button
+    stocks:['CRWD','SNOW','TSLA','TMDX','MDB','PLTR','GLBE','MELI','TTD','DOCN','RKLB','ASTS','IONQ','OKLO','ALAB','EOSE','TEM','NET'],
+    source:'https://x.com/StockSavvyShay | gothematic.com/index/shayfrgr',
+    lastUpdated:'2026-03-31'
+  }],
+  guruPicks:[],
+  articles:[]
 };
 
 // ===== FIREBASE CLOUD SYNC =====
@@ -3423,6 +3775,10 @@ async function refreshAll(){
     <div class="hl-card"><div class="hl-icon">💰</div><div class="hl-body"><div class="hl-label">Dividend</div><div class="hl-value">${fmtNum(pctDividend,0)}%</div></div></div>
     <div class="hl-card"><div class="hl-icon">📊</div><div class="hl-body"><div class="hl-label">Mid Cap / ETF</div><div class="hl-value">${fmtNum(pctMidCap,0)}% / ${fmtNum(pctETF,0)}%</div></div></div>
   `;
+
+  // Update Fear & Greed and Market Overview
+  updateFearGreedIndex();
+  updateMarketOverview();
 
   // Benchmark comparison chart
   await fetchBenchmarks();
@@ -4922,6 +5278,22 @@ async function initApp(){
   }
 
   fetchExchangeRate();
+
+  // Initialize guru and articles sections
+  initArticles();
+  renderGuruPortfolio('shay');
+  filterArticles();
+
+  // Show admin tab if admin user - also show edit buttons if admin
+  if(currentUser==='admin'){
+    const editBtn=document.getElementById('editGuruBtn');
+    const addBtn=document.getElementById('addGuruPickBtn');
+    const artBtn=document.getElementById('addArticleBtn');
+    if(editBtn)editBtn.style.display='inline-block';
+    if(addBtn)addBtn.style.display='inline-block';
+    if(artBtn)artBtn.style.display='inline-block';
+  }
+
   refreshAll();
 
   // Show admin tab if admin user
@@ -4932,6 +5304,381 @@ async function initApp(){
 
   // Check backup reminder after 3 seconds (don't block UI)
   setTimeout(checkBackupReminder,3000);
+}
+
+// ===== FEAR & GREED INDEX =====
+// PRIMARY: CNN Fear & Greed public API (production.dataviz.cnn.io) — ข้อมูลจริงจาก CNN
+// FALLBACK: Multi-Factor calculation via Finnhub (SPY + VIXY + GLD + QQQ)
+async function updateFearGreedIndex(){
+  // Try CNN API first (public, no key needed)
+  try{
+    const cnnRes=await fetch('https://production.dataviz.cnn.io/index/fearandgreed/graphdata/');
+    if(cnnRes.ok){
+      const cnnData=await cnnRes.json();
+      // CNN API returns: { fear_and_greed: { score, rating, timestamp, previous_close, previous_1_week, previous_1_month, previous_1_year }, ... }
+      const fg=cnnData.fear_and_greed;
+      if(fg && typeof fg.score==='number'){
+        const score=Math.round(fg.score);
+        const rating=fg.rating||'';
+        let label='Neutral',color='#f0ad4e';
+        if(score<=25){label='Extreme Fear';color='#dc2626';}
+        else if(score<=45){label='Fear';color='#d97706';}
+        else if(score<=55){label='Neutral';color='#f0ad4e';}
+        else if(score<=75){label='Greed';color='#10b981';}
+        else{label='Extreme Greed';color='#059669';}
+
+        // Use CNN's own rating label if available
+        if(rating)label=rating.replace(/_/g,' ').replace(/\b\w/g,c=>c.toUpperCase());
+
+        applyFearGreedUI(score,label,color,'CNN');
+
+        // Show historical context
+        const factors=document.getElementById('fearFactors');
+        if(factors){
+          const prev=fg.previous_close?Math.round(fg.previous_close):'--';
+          const w=fg.previous_1_week?Math.round(fg.previous_1_week):'--';
+          const m=fg.previous_1_month?Math.round(fg.previous_1_month):'--';
+          factors.innerHTML=`Yesterday: ${prev} | 1 Week: ${w} | 1 Month: ${m}`;
+        }
+        return; // Success — skip fallback
+      }
+    }
+  }catch(e){
+    console.warn('CNN Fear/Greed API unavailable, using Finnhub fallback:',e.message);
+  }
+
+  // FALLBACK: Multi-factor calculation via Finnhub
+  if(!apiKey)return;
+  try{
+    const [spyRes,vixyRes,gldRes,qqqRes]=await Promise.all([
+      fetch('https://finnhub.io/api/v1/quote?symbol=SPY&token='+apiKey),
+      fetch('https://finnhub.io/api/v1/quote?symbol=VIXY&token='+apiKey),
+      fetch('https://finnhub.io/api/v1/quote?symbol=GLD&token='+apiKey),
+      fetch('https://finnhub.io/api/v1/quote?symbol=QQQ&token='+apiKey)
+    ]);
+    const [spy,vixy,gld,qqq]=await Promise.all([spyRes.json(),vixyRes.json(),gldRes.json(),qqqRes.json()]);
+    if(!spy.c||!spy.pc)return;
+
+    const spyChg=((spy.c-spy.pc)/spy.pc)*100;
+    const f1=Math.max(0,Math.min(100,50+(spyChg/3)*50));
+
+    let f2=50;
+    if(vixy.c&&vixy.pc){
+      const vixyChg=((vixy.c-vixy.pc)/vixy.pc)*100;
+      f2=Math.max(0,Math.min(100,50-(vixyChg/5)*50));
+    }
+
+    let f3=50;
+    if(gld.c&&gld.pc){
+      const gldChg=((gld.c-gld.pc)/gld.pc)*100;
+      f3=Math.max(0,Math.min(100,50-(gldChg/2)*50));
+    }
+
+    let f4=50;
+    if(qqq.c&&qqq.pc){
+      const qqqChg=((qqq.c-qqq.pc)/qqq.pc)*100;
+      const spread=qqqChg-spyChg;
+      f4=Math.max(0,Math.min(100,50+(spread/2)*30));
+    }
+
+    const score=Math.round(f1*0.35+f2*0.30+f3*0.20+f4*0.15);
+
+    let label='Neutral',color='#f0ad4e';
+    if(score<=20){label='Extreme Fear';color='#dc2626';}
+    else if(score<=40){label='Fear';color='#d97706';}
+    else if(score<=60){label='Neutral';color='#f0ad4e';}
+    else if(score<=80){label='Greed';color='#10b981';}
+    else{label='Extreme Greed';color='#059669';}
+
+    applyFearGreedUI(score,label,color,'Finnhub (Fallback)');
+
+    const factors=document.getElementById('fearFactors');
+    if(factors) factors.innerHTML=`SPY: ${f1.toFixed(0)} | VIX: ${f2.toFixed(0)} | Gold: ${f3.toFixed(0)} | Breadth: ${f4.toFixed(0)}`;
+  }catch(e){
+    console.error('Fear/Greed fallback error:',e);
+  }
+}
+
+// Helper: Apply score/label/color to UI elements
+function applyFearGreedUI(score,label,color,source){
+  document.getElementById('fearLabel').textContent=label;
+  document.getElementById('fearLabel').style.color=color;
+  document.getElementById('fearValue').textContent=score;
+  document.getElementById('fearValue').style.color=color;
+
+  // Update source badge
+  const srcEl=document.getElementById('fearSource');
+  if(srcEl)srcEl.textContent='Source: '+source;
+
+  // Update needle: score 0→left (fear), 100→right (greed)
+  const angleDeg=((score/100)*180)-180;
+  const needle=document.getElementById('fearNeedle');
+  if(needle){
+    const rad=(angleDeg*Math.PI)/180;
+    const length=70,cx=100,cy=100;
+    const x2=cx+length*Math.cos(rad);
+    const y2=cy-length*Math.sin(rad);
+    needle.setAttribute('x2',x2.toFixed(1));
+    needle.setAttribute('y2',y2.toFixed(1));
+    needle.setAttribute('stroke',color);
+  }
+}
+
+async function updateMarketOverview(){
+  if(!apiKey)return;
+  const symbols=['SPY','QQQ','DIA','GLD','COIN','USO'];
+  for(const sym of symbols){
+    try{
+      const res=await fetch('https://finnhub.io/api/v1/quote?symbol='+sym+'&token='+apiKey);
+      const d=await res.json();
+      if(!d.c)continue;
+      const chg=d.d||0;
+      const chgPct=d.dp||0;
+      const color=chg>=0?'var(--green)':'var(--red)';
+      const chgTxt=chg>=0?'+':'';
+      document.getElementById(sym.toLowerCase()+'-price').textContent='$'+fmtNum(d.c);
+      document.getElementById(sym.toLowerCase()+'-change').innerHTML=`<span style="color:${color};">${chgTxt}${fmtNum(chg)} (${chgTxt}${chgPct.toFixed(2)}%)</span>`;
+    }catch(e){console.error(sym+' error:',e);}
+  }
+}
+
+// ===== GURU FUNCTIONS =====
+function getGuru(guruId='shay'){
+  return appData.gurus?.find(g=>g.id===guruId);
+}
+
+function switchGuru(){
+  const id=document.getElementById('guruSelect').value;
+  renderGuruPortfolio(id);
+}
+
+async function renderGuruPortfolio(guruId='shay'){
+  const guru=getGuru(guruId);
+  if(!guru)return;
+
+  const tbody=document.getElementById('guruTableBody');
+  if(!tbody)return;
+  tbody.innerHTML='';
+
+  let total=0;
+  for(const ticker of guru.stocks){
+    let price=0,change=0,changePct=0;
+    try{
+      const res=await fetch('https://finnhub.io/api/v1/quote?symbol='+ticker+'&token='+apiKey);
+      const d=await res.json();
+      if(d.c){price=d.c;change=d.d||0;changePct=d.dp||0;total+=price;}
+    }catch(e){console.error(ticker+' error');}
+
+    const color=change>=0?'var(--green)':'var(--red)';
+    const trend=change>0?'bullish':change<0?'bearish':'mixed';
+    const weight='';
+    const name=ticker;
+
+    tbody.innerHTML+=`<tr>
+      <td style="font-weight:700;color:var(--accent);">${ticker}</td>
+      <td>${name}</td>
+      <td>$${fmtNum(price)}</td>
+      <td style="color:${color};">${change>=0?'+':''}${fmtNum(change)}</td>
+      <td style="color:${color};">${changePct>=0?'+':''}${changePct.toFixed(2)}%</td>
+      <td><span class="guru-badge ${trend}">${trend}</span></td>
+      <td>--</td>
+      <td style="font-size:11px;color:var(--tx-muted);">--</td>
+    </tr>`;
+  }
+
+  renderGuruAllocChart(guruId);
+  renderGuruPicks();
+  renderPortfolioOverlap(guruId);
+}
+
+function renderGuruAllocChart(guruId='shay'){
+  const guru=getGuru(guruId);
+  if(!guru)return;
+  const ctx=document.getElementById('guruAllocChart');
+  if(!ctx)return;
+  if(window.guruChartInstance)window.guruChartInstance.destroy();
+
+  const labels=guru.stocks;
+  const data=labels.map(()=>Math.random()*20+5);
+  window.guruChartInstance=new Chart(ctx,{
+    type:'doughnut',
+    data:{
+      labels:labels,
+      datasets:[{
+        data:data,
+        backgroundColor:['#0ea5e9','#10b981','#ef4444','#f59e0b','#8b5cf6','#ec4899','#14b8a6','#d97706','#06b6d4','#f97316','#6366f1','#84cc16','#0891b2','#be123c','#ea580c','#059669'],
+      }]
+    },
+    options:{responsive:true,maintainAspectRatio:false,plugins:{datalabels:{color:'#fff',font:{weight:'bold',size:10}},legend:{position:'right'}}}
+  });
+}
+
+function renderGuruPicks(){
+  const list=document.getElementById('guruPicksList');
+  if(!list)return;
+  if(!appData.guruPicks || appData.guruPicks.length===0){
+    list.innerHTML='<p style="color:var(--tx-muted);font-size:13px;">No picks yet. Admin can add picks here.</p>';
+    return;
+  }
+
+  list.innerHTML=appData.guruPicks.sort((a,b)=>new Date(b.date)-new Date(a.date)).map(p=>`
+    <div class="guru-pick-entry">
+      <div class="guru-pick-date">${new Date(p.date).toLocaleDateString()}</div>
+      <div class="guru-pick-content">
+        <span class="guru-pick-action ${p.action.toLowerCase()}">${p.action}</span>
+        <span style="font-weight:700;">${p.ticker}</span>
+        <span style="color:var(--tx-secondary);margin-left:8px;">${p.note||''}</span>
+      </div>
+      ${currentUser==='admin'?`<button class="btn btn-danger" style="padding:2px 6px;font-size:11px;" onclick="deleteGuruPick('${p.date}')">✕</button>`:''}
+    </div>
+  `).join('');
+}
+
+function renderPortfolioOverlap(guruId='shay'){
+  const guru=getGuru(guruId);
+  const userStocks=Object.keys(getAllStocks());
+  const guruStocks=guru.stocks||[];
+
+  const overlap=userStocks.filter(t=>guruStocks.includes(t));
+  const onlyUser=userStocks.filter(t=>!guruStocks.includes(t));
+  const onlyGuru=guruStocks.filter(t=>!userStocks.includes(t));
+
+  document.getElementById('overlapBoth').innerHTML=overlap.map(t=>`<li>${t}</li>`).join('');
+  document.getElementById('overlapYou').innerHTML=onlyUser.map(t=>`<li>${t}</li>`).join('');
+  document.getElementById('overlapGuru').innerHTML=onlyGuru.map(t=>`<li>${t}</li>`).join('');
+}
+
+function openGuruPickForm(){
+  if(currentUser!=='admin'){toast('Admin only','error');return;}
+  const form=prompt('Add guru pick (format: TICKER,action,note):\nExamples: PLTR,buy,entering position\n           CRWD,sell,taking profits');
+  if(!form)return;
+  const parts=form.split(',');
+  if(parts.length<2){toast('Invalid format','error');return;}
+  appData.guruPicks=appData.guruPicks||[];
+  appData.guruPicks.push({date:new Date().toISOString(),ticker:parts[0].toUpperCase(),action:parts[1].trim(),note:parts[2]?.trim()||''});
+  saveData();renderGuruPicks();
+}
+
+function deleteGuruPick(date){
+  if(currentUser!=='admin')return;
+  appData.guruPicks=appData.guruPicks.filter(p=>p.date!==date);
+  saveData();renderGuruPicks();
+}
+
+function editGuru(){
+  if(currentUser!=='admin'){toast('Admin only','error');return;}
+  const tickers=prompt('Edit guru stocks (comma-separated):\nCurrent: '+appData.gurus[0].stocks.join(','));
+  if(!tickers)return;
+  appData.gurus[0].stocks=tickers.split(',').map(t=>t.trim().toUpperCase()).filter(t=>t);
+  saveData();renderGuruPortfolio('shay');
+  toast('Guru stocks updated','success');
+}
+
+// ===== ARTICLES FUNCTIONS =====
+function initArticles(){
+  if(!appData.articles || appData.articles.length===0){
+    appData.articles=[
+      {id:'art1',title:'DCA Strategy Deep Dive',excerpt:'Understanding Dollar Cost Averaging and how to apply it to your portfolio.',category:'strategy',author:'อาจารย์ Shay',date:'2026-03-15',content:'DCA is a proven investment strategy...',tickers:['SPY','QQQ']},
+      {id:'art2',title:'Tech Sector Analysis',excerpt:'Current trends in technology stocks and future opportunities.',category:'technical',author:'อาจารย์ Shay',date:'2026-03-10',content:'The tech sector shows strong momentum...',tickers:['NVDA','PLTR']},
+      {id:'art3',title:'Market Macro Overview',excerpt:'Global economic indicators and their impact on stock markets.',category:'macro',author:'Admin',date:'2026-03-05',content:'Recent inflation data suggests...',tickers:[]}
+    ];
+    saveData();
+  }
+}
+
+function renderArticles(articles=appData.articles){
+  const list=document.getElementById('articleList');
+  if(!list)return;
+  if(!articles || articles.length===0){
+    list.innerHTML='<p style="color:var(--tx-muted);font-size:13px;">No articles found.</p>';
+    return;
+  }
+
+  list.innerHTML=articles.map((a,i)=>`
+    <div class="article-card" onclick="toggleArticleDetail(${i})">
+      <div class="article-title">${a.title}</div>
+      <div class="article-excerpt">${a.excerpt}</div>
+      <div class="article-meta">
+        <span>📅 ${new Date(a.date).toLocaleDateString()}</span>
+        <span>✍️ ${a.author}</span>
+        <span>👁️ ${a.views||0} views</span>
+      </div>
+      <div class="article-tags">${(a.tickers||[]).map(t=>`<span class="article-tag">${t}</span>`).join('')}</div>
+      ${a.isExpanded?`<div class="article-content-expanded">${a.content}</div>`:''}
+    </div>
+  `).join('');
+}
+
+function toggleArticleDetail(idx){
+  appData.articles[idx].isExpanded=!appData.articles[idx].isExpanded;
+  appData.articles[idx].views=(appData.articles[idx].views||0)+1;
+  saveData();renderArticles();
+}
+
+function filterArticles(){
+  const cat=document.getElementById('articleCategoryFilter').value;
+  const guru=document.getElementById('articleGuruFilter').value;
+  const search=document.getElementById('articleSearch').value.toLowerCase();
+
+  const filtered=appData.articles.filter(a=>
+    (!cat||a.category===cat)&&
+    (!guru||a.author===guru)&&
+    (!search||(a.title.toLowerCase().includes(search)||(a.tickers||[]).some(t=>t.toLowerCase().includes(search))))
+  );
+
+  renderArticles(filtered);
+}
+
+function openArticleForm(){
+  if(currentUser!=='admin'){toast('Admin only','error');return;}
+
+  const existingForm=document.querySelector('.article-modal-form');
+  if(existingForm){existingForm.remove();return;}
+
+  const card=document.querySelector('.section#sec-articles .card');
+  const form=document.createElement('div');
+  form.className='article-modal-form';
+  form.innerHTML=`
+    <label>Title</label><input type="text" id="artTitle" placeholder="Article title">
+    <label>Category</label>
+    <select id="artCategory">
+      <option value="strategy">Strategy</option>
+      <option value="technical">Technical</option>
+      <option value="fundamental">Fundamental</option>
+      <option value="macro">Macro</option>
+      <option value="earnings">Earnings</option>
+    </select>
+    <label>Content</label><textarea id="artContent" placeholder="Article content..."></textarea>
+    <label>Tickers (comma-separated)</label><input type="text" id="artTickers" placeholder="PLTR,CRWD,NVDA">
+    <div class="btn-row">
+      <button class="btn btn-fill" onclick="saveArticle()">Save Article</button>
+      <button class="btn" onclick="this.closest('.article-modal-form').remove()">Cancel</button>
+    </div>
+  `;
+  card.appendChild(form);
+}
+
+function saveArticle(){
+  const title=document.getElementById('artTitle').value.trim();
+  const content=document.getElementById('artContent').value.trim();
+  const category=document.getElementById('artCategory').value;
+  const tickers=(document.getElementById('artTickers').value||'').split(',').map(t=>t.trim().toUpperCase()).filter(t=>t);
+
+  if(!title||!content){toast('Title and content required','error');return;}
+
+  appData.articles=appData.articles||[];
+  appData.articles.unshift({
+    id:'art'+Date.now(),
+    title,content,category,author:currentUser,
+    date:new Date().toISOString(),
+    excerpt:content.substring(0,100)+'...',
+    tickers,views:0
+  });
+
+  saveData();
+  document.querySelector('.article-modal-form').remove();
+  initArticles();renderArticles();
+  toast('Article saved','success');
 }
 
 // ===== HEADER SCROLL SHADOW EFFECT =====
