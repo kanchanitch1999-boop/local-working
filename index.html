@@ -18,41 +18,26 @@ html{scroll-behavior:smooth;}
 
 @media(prefers-reduced-motion:reduce){*{animation-duration:.01ms!important;animation-iteration-count:1!important;transition-duration:.01ms!important;scroll-behavior:auto!important;}}
 
-/* ===== DESIGN TOKENS — MINIMAL FINTECH ===== */
+/* ===== DESIGN TOKENS — WETHAIINVEST DARK THEME ===== */
 :root{
-  --bg-base:#f8f9fb;--bg-surface:#ffffff;--bg-elevated:#ffffff;--bg-hover:#f1f3f5;
-  --border:#e2e5e9;--border-focus:#0ea5e9;
-  --tx-primary:#0f172a;--tx-secondary:#64748b;--tx-muted:#94a3b8;
-  --accent:#0ea5e9;--accent-hover:#0284c7;--accent-light:rgba(14,165,233,.06);
-  --accent-gradient:linear-gradient(135deg,#0ea5e9 0%,#38bdf8 100%);
-  --green:#059669;--green-bg:rgba(5,150,105,.06);--green-light:#ecfdf5;
-  --red:#dc2626;--red-bg:rgba(220,38,38,.06);--red-light:#fef2f2;
-  --orange:#d97706;--orange-bg:rgba(217,119,6,.06);
-  --purple:#7c3aed;--purple-bg:rgba(124,58,237,.06);
-  --shadow-xs:0 1px 2px rgba(0,0,0,.03);
-  --shadow-sm:0 1px 3px rgba(0,0,0,.03),0 4px 12px rgba(0,0,0,.04);
-  --shadow-md:0 2px 6px rgba(0,0,0,.04),0 8px 20px rgba(0,0,0,.06);
-  --shadow-lg:0 4px 12px rgba(0,0,0,.05),0 16px 32px rgba(0,0,0,.08);
-  --shadow-xl:0 8px 24px rgba(0,0,0,.06),0 24px 48px rgba(0,0,0,.10);
-  --radius:10px;--radius-lg:14px;--radius-full:9999px;
-}
-
-[data-theme="dark"]{
-  --bg-base:#0c1021;--bg-surface:#111827;--bg-elevated:#1e293b;--bg-hover:#1e293b;
-  --border:#1e293b;--border-focus:#38bdf8;
-  --tx-primary:#f1f5f9;--tx-secondary:#94a3b8;--tx-muted:#64748b;
-  --accent:#38bdf8;--accent-hover:#7dd3fc;--accent-light:rgba(56,189,248,.08);
-  --accent-gradient:linear-gradient(135deg,#0ea5e9 0%,#38bdf8 100%);
+  --bg-base:#0a0a1a;--bg-surface:#1a1a2e;--bg-elevated:#252540;--bg-hover:#252540;
+  --border:#2a2a3e;--border-focus:#FFD700;
+  --tx-primary:#ffffff;--tx-secondary:#a0a0b0;--tx-muted:#808090;
+  --accent:#FFD700;--accent-hover:#FFC107;--accent-light:rgba(255,215,0,.08);
+  --accent-gradient:linear-gradient(135deg,#FFD700 0%,#FFC107 100%);
   --green:#10b981;--green-bg:rgba(16,185,129,.1);--green-light:#064e3b;
   --red:#ef4444;--red-bg:rgba(239,68,68,.1);--red-light:#7f1d1d;
   --orange:#f59e0b;--orange-bg:rgba(245,158,11,.1);
   --purple:#a78bfa;--purple-bg:rgba(167,139,250,.1);
-  --shadow-xs:0 1px 2px rgba(0,0,0,.2);
-  --shadow-sm:0 1px 3px rgba(0,0,0,.2),0 4px 12px rgba(0,0,0,.15);
-  --shadow-md:0 2px 6px rgba(0,0,0,.2),0 8px 20px rgba(0,0,0,.2);
-  --shadow-lg:0 4px 12px rgba(0,0,0,.2),0 16px 32px rgba(0,0,0,.25);
-  --shadow-xl:0 8px 24px rgba(0,0,0,.25),0 24px 48px rgba(0,0,0,.3);
+  --shadow-xs:0 1px 2px rgba(0,0,0,.3);
+  --shadow-sm:0 1px 3px rgba(0,0,0,.3),0 4px 12px rgba(0,0,0,.25);
+  --shadow-md:0 2px 6px rgba(0,0,0,.3),0 8px 20px rgba(0,0,0,.3);
+  --shadow-lg:0 4px 12px rgba(0,0,0,.3),0 16px 32px rgba(0,0,0,.4);
+  --shadow-xl:0 8px 24px rgba(0,0,0,.4),0 24px 48px rgba(0,0,0,.5);
+  --radius:10px;--radius-lg:14px;--radius-full:9999px;
 }
+
+/* Dark theme is now the default */
 
 body{
   font-family:'Inter',sans-serif;
@@ -89,7 +74,7 @@ a:hover{color:var(--accent-hover);}
   position:absolute;
   inset:0;
   background:
-    radial-gradient(ellipse 60% 50% at 20% 60%,rgba(56,189,248,.06) 0%,transparent 70%),
+    radial-gradient(ellipse 60% 50% at 20% 60%,rgba(255,215,0,.06) 0%,transparent 70%),
     radial-gradient(ellipse 50% 40% at 80% 30%,rgba(99,102,241,.05) 0%,transparent 70%);
   pointer-events:none;
 }
@@ -99,7 +84,7 @@ a:hover{color:var(--accent-hover);}
   position:absolute;
   bottom:0;left:0;right:0;
   height:1px;
-  background:linear-gradient(90deg,transparent,rgba(56,189,248,.2),transparent);
+  background:linear-gradient(90deg,transparent,rgba(255,215,0,.2),transparent);
 }
 
 @keyframes fadeInUp{
@@ -165,14 +150,14 @@ a:hover{color:var(--accent-hover);}
 .login-box .fg input::placeholder{color:#475569;}
 
 .login-box .fg input:focus{
-  border-color:rgba(56,189,248,.4);
-  box-shadow:0 0 0 3px rgba(56,189,248,.08);
+  border-color:rgba(255,215,0,.4);
+  box-shadow:0 0 0 3px rgba(255,215,0,.08);
   background:rgba(15,23,42,.8);
 }
 
 .login-box .btn-primary{
-  background:linear-gradient(135deg,#0ea5e9,#38bdf8);
-  box-shadow:0 4px 16px rgba(14,165,233,.25);
+  background:linear-gradient(135deg,#FFD700,#FFC107);
+  box-shadow:0 4px 16px rgba(255,215,0,.25);
   border-radius:10px;
   font-size:14px;
   font-weight:600;
@@ -181,7 +166,7 @@ a:hover{color:var(--accent-hover);}
 }
 
 .login-box .btn-primary:hover{
-  box-shadow:0 6px 24px rgba(14,165,233,.35);
+  box-shadow:0 6px 24px rgba(255,215,0,.35);
   transform:translateY(-1px);
 }
 
@@ -225,7 +210,7 @@ a:hover{color:var(--accent-hover);}
   border:none;
   border-radius:8px;
   background:var(--accent);
-  color:#fff;
+  color:#0a0a1a;
   font-size:14px;
   font-weight:600;
   cursor:pointer;
@@ -269,10 +254,7 @@ a:hover{color:var(--accent-hover);}
   top:0;
   z-index:100;
   backdrop-filter:blur(16px);
-  background:rgba(255,255,255,.85);
 }
-
-[data-theme="dark"] .header{background:rgba(17,24,39,.85);}
 
 .header.scroll-shadow{
   box-shadow:var(--shadow-xs);
@@ -406,7 +388,7 @@ a:hover{color:var(--accent-hover);}
   border:none;
   border-radius:8px;
   background:var(--accent);
-  color:#fff;
+  color:#0a0a1a;
   font-size:13px;
   font-weight:600;
   cursor:pointer;
@@ -671,8 +653,9 @@ tbody tr:hover{
 
 .btn-fill{
   background:var(--accent);
-  color:#fff;
+  color:#0a0a1a;
   border-color:var(--accent);
+  font-weight:600;
 }
 
 .btn-fill:hover{
@@ -1767,10 +1750,10 @@ tbody tr:hover{
       <svg class="logo-icon" viewBox="0 0 120 120" fill="none" xmlns="http://www.w3.org/2000/svg">
         <rect rx="28" width="120" height="120" fill="#0f172a"/>
         <rect rx="28" width="120" height="120" fill="url(#loginLogoGrad)" opacity=".15"/>
-        <defs><linearGradient id="loginLogoGrad" x1="0" y1="120" x2="120" y2="0"><stop offset="0%" stop-color="#0ea5e9"/><stop offset="100%" stop-color="#38bdf8"/></linearGradient></defs>
-        <path d="M30 78L50 58L65 66L90 36" stroke="#38bdf8" stroke-width="5" stroke-linecap="round" stroke-linejoin="round" fill="none"/>
-        <circle cx="90" cy="36" r="5" fill="#38bdf8"/>
-        <path d="M30 78L50 58L65 66L90 36L90 88L30 88Z" fill="#38bdf8" opacity=".1"/>
+        <defs><linearGradient id="loginLogoGrad" x1="0" y1="120" x2="120" y2="0"><stop offset="0%" stop-color="#FFD700"/><stop offset="100%" stop-color="#FFC107"/></linearGradient></defs>
+        <path d="M30 78L50 58L65 66L90 36" stroke="#FFD700" stroke-width="5" stroke-linecap="round" stroke-linejoin="round" fill="none"/>
+        <circle cx="90" cy="36" r="5" fill="#FFD700"/>
+        <path d="M30 78L50 58L65 66L90 36L90 88L30 88Z" fill="#FFD700" opacity=".1"/>
       </svg>
       <div class="logo-text">BellFolio<span>US Stock Portfolio</span></div>
     </div>
@@ -1791,9 +1774,9 @@ tbody tr:hover{
   <div class="brand">
     <svg class="logo-icon" viewBox="0 0 120 120" fill="none" xmlns="http://www.w3.org/2000/svg">
       <rect rx="28" width="120" height="120" fill="#0f172a"/>
-      <path d="M30 78L50 58L65 66L90 36" stroke="#38bdf8" stroke-width="5" stroke-linecap="round" stroke-linejoin="round" fill="none"/>
-      <circle cx="90" cy="36" r="5" fill="#38bdf8"/>
-      <path d="M30 78L50 58L65 66L90 36L90 88L30 88Z" fill="#38bdf8" opacity=".1"/>
+      <path d="M30 78L50 58L65 66L90 36" stroke="#FFD700" stroke-width="5" stroke-linecap="round" stroke-linejoin="round" fill="none"/>
+      <circle cx="90" cy="36" r="5" fill="#FFD700"/>
+      <path d="M30 78L50 58L65 66L90 36L90 88L30 88Z" fill="#FFD700" opacity=".1"/>
     </svg>
     <div class="logo-text">BellFolio <span>by Bell</span></div>
   </div>
@@ -1874,7 +1857,7 @@ tbody tr:hover{
 
   <!-- Market Overview -->
   <div class="card">
-    <div class="card-title">🌍 Market Overview</div>
+    <div class="card-title">🌍 Market Overview <span id="marketTimestamp" style="font-size:11px;font-weight:400;color:var(--tx-muted);margin-left:12px;"></span></div>
     <div class="market-grid" id="marketGrid">
       <div class="market-item">
         <span class="ticker">SPY</span>
@@ -2332,11 +2315,12 @@ tbody tr:hover{
 <!-- ===== GURU ===== -->
 <div class="section" id="sec-guru">
   <div class="card">
-    <div class="card-title">🎓 Guru Portfolio</div>
+    <div class="card-title">🎓 Guru Portfolio <span id="guruTimestamp" style="font-size:11px;font-weight:400;color:var(--tx-muted);margin-left:12px;"></span></div>
     <div class="guru-selector">
       <select id="guruSelect" onchange="switchGuru()">
         <option value="shay">อาจารย์ Shay (Shay Boloor)</option>
       </select>
+      <button class="btn btn-fill" onclick="refreshGuruFromSource()" id="refreshGuruBtn" style="padding:8px 12px;font-size:12px;">🔄 Refresh</button>
       <button class="btn btn-fill" onclick="editGuru()" id="editGuruBtn" style="padding:8px 12px;font-size:12px;display:none;">✏️ Edit</button>
     </div>
     <div style="font-size:11px;color:var(--tx-muted);margin-bottom:12px;padding:8px 12px;background:var(--bg-hover);border-radius:var(--radius);border:1px solid var(--border);">
@@ -2386,7 +2370,7 @@ tbody tr:hover{
 <!-- ===== ARTICLES ===== -->
 <div class="section" id="sec-articles">
   <div class="card">
-    <div class="card-title">📚 Articles & Insights</div>
+    <div class="card-title">📚 Articles & Insights <span id="articleTimestamp" style="font-size:11px;font-weight:400;color:var(--tx-muted);margin-left:12px;"></span></div>
     <div class="articles-toolbar">
       <select id="articleCategoryFilter" onchange="filterArticles()">
         <option value="">All Categories</option>
@@ -3228,13 +3212,13 @@ async function loadStockChart(ticker,period){
   if(ohlcData.length===0){container.innerHTML='<p style="text-align:center;padding:40px;color:var(--tx-secondary);">No chart data available</p>';return;}
 
   try{
-  const isDark=document.body.classList.contains('dark');
+  const isDark=true; // Always dark theme now (wethaiinvest.com style)
   const chart=LightweightCharts.createChart(container,{
     width:container.clientWidth||container.offsetWidth||800,
     height:420,
     layout:{
-      background:{type:'solid',color:isDark?'#0b0e1a':'#ffffff'},
-      textColor:isDark?'#94a3b8':'#64748b',
+      background:{type:'solid',color:'#0a0a1a'},
+      textColor:'#a0a0b0',
       fontFamily:'Inter, sans-serif',
     },
     grid:{
@@ -5310,42 +5294,51 @@ async function initApp(){
 // PRIMARY: CNN Fear & Greed public API (production.dataviz.cnn.io) — ข้อมูลจริงจาก CNN
 // FALLBACK: Multi-Factor calculation via Finnhub (SPY + VIXY + GLD + QQQ)
 async function updateFearGreedIndex(){
-  // Try CNN API first (public, no key needed)
-  try{
-    const cnnRes=await fetch('https://production.dataviz.cnn.io/index/fearandgreed/graphdata/');
-    if(cnnRes.ok){
-      const cnnData=await cnnRes.json();
-      // CNN API returns: { fear_and_greed: { score, rating, timestamp, previous_close, previous_1_week, previous_1_month, previous_1_year }, ... }
-      const fg=cnnData.fear_and_greed;
-      if(fg && typeof fg.score==='number'){
-        const score=Math.round(fg.score);
-        const rating=fg.rating||'';
-        let label='Neutral',color='#f0ad4e';
-        if(score<=25){label='Extreme Fear';color='#dc2626';}
-        else if(score<=45){label='Fear';color='#d97706';}
-        else if(score<=55){label='Neutral';color='#f0ad4e';}
-        else if(score<=75){label='Greed';color='#10b981';}
-        else{label='Extreme Greed';color='#059669';}
+  // Try CNN API first with CORS proxies
+  const cnnUrl='https://production.dataviz.cnn.io/index/fearandgreed/graphdata/';
+  const proxies=[
+    'https://api.allorigins.win/raw?url=',
+    'https://corsproxy.io/?',
+    'https://api.codetabs.com/v1/proxy?quest=',
+  ];
 
-        // Use CNN's own rating label if available
-        if(rating)label=rating.replace(/_/g,' ').replace(/\b\w/g,c=>c.toUpperCase());
+  for(const proxy of proxies){
+    try{
+      const cnnRes=await fetch(proxy+encodeURIComponent(cnnUrl),{timeout:5000});
+      if(cnnRes.ok){
+        const cnnData=await cnnRes.json();
+        const fg=cnnData.fear_and_greed;
+        if(fg && typeof fg.score==='number'){
+          const score=Math.round(fg.score);
+          const rating=fg.rating||'';
+          let label='Neutral',color='#f0ad4e';
+          if(score<=25){label='Extreme Fear';color='#dc2626';}
+          else if(score<=45){label='Fear';color='#d97706';}
+          else if(score<=55){label='Neutral';color='#f0ad4e';}
+          else if(score<=75){label='Greed';color='#10b981';}
+          else{label='Extreme Greed';color='#059669';}
 
-        applyFearGreedUI(score,label,color,'CNN');
+          if(rating)label=rating.replace(/_/g,' ').replace(/\b\w/g,c=>c.toUpperCase());
 
-        // Show historical context
-        const factors=document.getElementById('fearFactors');
-        if(factors){
-          const prev=fg.previous_close?Math.round(fg.previous_close):'--';
-          const w=fg.previous_1_week?Math.round(fg.previous_1_week):'--';
-          const m=fg.previous_1_month?Math.round(fg.previous_1_month):'--';
-          factors.innerHTML=`Yesterday: ${prev} | 1 Week: ${w} | 1 Month: ${m}`;
+          const _ts=new Date();const timestamp=_ts.toLocaleDateString('en-US',{month:'short',day:'numeric'})+' at '+_ts.toLocaleTimeString('en-US',{hour:'numeric',minute:'2-digit',second:'2-digit',hour12:true});
+          applyFearGreedUI(score,label,color,'CNN',timestamp);
+
+          const factors=document.getElementById('fearFactors');
+          if(factors){
+            const prev=fg.previous_close?Math.round(fg.previous_close):'--';
+            const w=fg.previous_1_week?Math.round(fg.previous_1_week):'--';
+            const m=fg.previous_1_month?Math.round(fg.previous_1_month):'--';
+            factors.innerHTML=`Yesterday: ${prev} | 1 Week: ${w} | 1 Month: ${m}`;
+          }
+          return;
         }
-        return; // Success — skip fallback
       }
+    }catch(e){
+      console.warn('CNN Fear/Greed via '+proxy+' failed:',e.message);
+      continue;
     }
-  }catch(e){
-    console.warn('CNN Fear/Greed API unavailable, using Finnhub fallback:',e.message);
   }
+  console.warn('All CNN proxies failed, using Finnhub fallback');
 
   // FALLBACK: Multi-factor calculation via Finnhub
   if(!apiKey)return;
@@ -5390,7 +5383,8 @@ async function updateFearGreedIndex(){
     else if(score<=80){label='Greed';color='#10b981';}
     else{label='Extreme Greed';color='#059669';}
 
-    applyFearGreedUI(score,label,color,'Finnhub (Fallback)');
+    const _ts=new Date();const timestamp=_ts.toLocaleDateString('en-US',{month:'short',day:'numeric'})+' at '+_ts.toLocaleTimeString('en-US',{hour:'numeric',minute:'2-digit',second:'2-digit',hour12:true});
+    applyFearGreedUI(score,label,color,'Finnhub (Fallback)',timestamp);
 
     const factors=document.getElementById('fearFactors');
     if(factors) factors.innerHTML=`SPY: ${f1.toFixed(0)} | VIX: ${f2.toFixed(0)} | Gold: ${f3.toFixed(0)} | Breadth: ${f4.toFixed(0)}`;
@@ -5400,15 +5394,19 @@ async function updateFearGreedIndex(){
 }
 
 // Helper: Apply score/label/color to UI elements
-function applyFearGreedUI(score,label,color,source){
+function applyFearGreedUI(score,label,color,source,timestamp){
   document.getElementById('fearLabel').textContent=label;
   document.getElementById('fearLabel').style.color=color;
   document.getElementById('fearValue').textContent=score;
   document.getElementById('fearValue').style.color=color;
 
-  // Update source badge
+  // Update source badge with timestamp
   const srcEl=document.getElementById('fearSource');
-  if(srcEl)srcEl.textContent='Source: '+source;
+  if(srcEl){
+    srcEl.textContent='Source: '+source+(timestamp?' (Updated: '+timestamp+')':'');
+    srcEl.style.fontSize='11px';
+    srcEl.style.color='var(--tx-muted)';
+  }
 
   // Update needle: score 0→left (fear), 100→right (greed)
   const angleDeg=((score/100)*180)-180;
@@ -5427,6 +5425,8 @@ function applyFearGreedUI(score,label,color,source){
 async function updateMarketOverview(){
   if(!apiKey)return;
   const symbols=['SPY','QQQ','DIA','GLD','COIN','USO'];
+  const _now=new Date();
+  let updatedAt=_now.toLocaleDateString('en-US',{month:'short',day:'numeric'})+' at '+_now.toLocaleTimeString('en-US',{hour:'numeric',minute:'2-digit',second:'2-digit',hour12:true});
   for(const sym of symbols){
     try{
       const res=await fetch('https://finnhub.io/api/v1/quote?symbol='+sym+'&token='+apiKey);
@@ -5440,6 +5440,9 @@ async function updateMarketOverview(){
       document.getElementById(sym.toLowerCase()+'-change').innerHTML=`<span style="color:${color};">${chgTxt}${fmtNum(chg)} (${chgTxt}${chgPct.toFixed(2)}%)</span>`;
     }catch(e){console.error(sym+' error:',e);}
   }
+  // Add timestamp to market overview
+  const tsEl=document.getElementById('marketTimestamp');
+  if(tsEl) tsEl.textContent='Last updated: '+updatedAt;
 }
 
 // ===== GURU FUNCTIONS =====
@@ -5461,6 +5464,8 @@ async function renderGuruPortfolio(guruId='shay'){
   tbody.innerHTML='';
 
   let total=0;
+  const now=new Date();
+  let updateTime=now.toLocaleDateString('en-US',{month:'short',day:'numeric'})+' at '+now.toLocaleTimeString('en-US',{hour:'numeric',minute:'2-digit',second:'2-digit',hour12:true});
   for(const ticker of guru.stocks){
     let price=0,change=0,changePct=0;
     try{
@@ -5485,6 +5490,10 @@ async function renderGuruPortfolio(guruId='shay'){
       <td style="font-size:11px;color:var(--tx-muted);">--</td>
     </tr>`;
   }
+
+  // Add timestamp to guru section
+  const tsEl=document.getElementById('guruTimestamp');
+  if(tsEl) tsEl.textContent='Last updated: '+updateTime;
 
   renderGuruAllocChart(guruId);
   renderGuruPicks();
@@ -5570,8 +5579,53 @@ function editGuru(){
   const tickers=prompt('Edit guru stocks (comma-separated):\nCurrent: '+appData.gurus[0].stocks.join(','));
   if(!tickers)return;
   appData.gurus[0].stocks=tickers.split(',').map(t=>t.trim().toUpperCase()).filter(t=>t);
+  appData.gurus[0].lastUpdated=new Date().toISOString().split('T')[0];
   saveData();renderGuruPortfolio('shay');
   toast('Guru stocks updated','success');
+}
+
+// ===== GOTHEMATIC AUTO-SCRAPE =====
+async function refreshGuruFromSource(){
+  toast('🔄 กำลังดึงข้อมูลจาก GoThematic...','info');
+  const gothematicUrl='https://www.gothematic.com/index/shayfrgr';
+  const proxies=[
+    'https://api.allorigins.win/raw?url=',
+    'https://corsproxy.io/?',
+    'https://api.codetabs.com/v1/proxy?quest='
+  ];
+
+  let html=null;
+  for(const proxy of proxies){
+    try{
+      const res=await fetch(proxy+encodeURIComponent(gothematicUrl),{timeout:10000});
+      if(res.ok){html=await res.text();break;}
+    }catch(e){console.warn('GoThematic via '+proxy+' failed:',e.message);continue;}
+  }
+
+  if(html){
+    // Try to parse ticker symbols from GoThematic HTML
+    try{
+      const tickerMatches=html.match(/symbol["\s:=]+["']?([A-Z]{1,5})["']?/gi)||[];
+      const tickers=[...new Set(tickerMatches.map(m=>{
+        const match=m.match(/([A-Z]{1,5})$/);
+        return match?match[1]:null;
+      }).filter(t=>t&&t.length>=2&&t.length<=5))];
+
+      if(tickers.length>=5){
+        appData.gurus[0].stocks=tickers;
+        appData.gurus[0].lastUpdated=new Date().toISOString().split('T')[0];
+        saveData();
+        renderGuruPortfolio('shay');
+        toast('✅ อัพเดท '+tickers.length+' หุ้นจาก GoThematic สำเร็จ!','success');
+        return;
+      }
+    }catch(e){console.error('GoThematic parse error:',e);}
+  }
+
+  // If scraping fails, just refresh prices from Finnhub
+  toast('⚠️ GoThematic scrape ไม่สำเร็จ — กำลังรีเฟรชราคาจาก Finnhub แทน','info');
+  await renderGuruPortfolio('shay');
+  toast('✅ รีเฟรชราคาเรียบร้อย','success');
 }
 
 // ===== ARTICLES FUNCTIONS =====
@@ -5594,19 +5648,32 @@ function renderArticles(articles=appData.articles){
     return;
   }
 
-  list.innerHTML=articles.map((a,i)=>`
-    <div class="article-card" onclick="toggleArticleDetail(${i})">
+  // Sort articles by date (newest first)
+  const sorted=[...articles].sort((a,b)=>new Date(b.date)-new Date(a.date));
+
+  // Update article timestamp
+  const artTs=document.getElementById('articleTimestamp');
+  if(artTs && sorted.length>0){
+    const latestDate=new Date(sorted[0].date);
+    artTs.textContent='Latest: '+latestDate.toLocaleDateString('en-US',{month:'short',day:'numeric',year:'numeric'});
+  }
+
+  list.innerHTML=sorted.map((a,i)=>{
+    const origIdx=appData.articles.indexOf(a);
+    const dateFormatted=new Date(a.date).toLocaleDateString('en-US',{month:'short',day:'numeric',year:'numeric'});
+    return `
+    <div class="article-card" onclick="toggleArticleDetail(${origIdx})">
       <div class="article-title">${a.title}</div>
       <div class="article-excerpt">${a.excerpt}</div>
       <div class="article-meta">
-        <span>📅 ${new Date(a.date).toLocaleDateString()}</span>
+        <span>📅 ${dateFormatted}</span>
         <span>✍️ ${a.author}</span>
-        <span>👁️ ${a.views||0} views</span>
+        <span>👁️ ${a.views||0} Views</span>
       </div>
       <div class="article-tags">${(a.tickers||[]).map(t=>`<span class="article-tag">${t}</span>`).join('')}</div>
       ${a.isExpanded?`<div class="article-content-expanded">${a.content}</div>`:''}
     </div>
-  `).join('');
+  `;}).join('');
 }
 
 function toggleArticleDetail(idx){
