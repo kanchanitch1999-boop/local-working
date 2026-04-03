@@ -4,7 +4,7 @@
 <meta charset="UTF-8">
 <meta name="viewport" content="width=device-width, initial-scale=1.0">
 <title>BellFolio — US Stock Portfolio</title>
-<link rel="icon" type="image/svg+xml" href="data:image/svg+xml,%3Csvg viewBox='0 0 120 120' xmlns='http://www.w3.org/2000/svg'%3E%3Crect rx='28' width='120' height='120' fill='%230f172a'/%3E%3Cpath d='M30 78L50 58L65 66L90 36' stroke='%2338bdf8' stroke-width='5' stroke-linecap='round' stroke-linejoin='round' fill='none'/%3E%3Ccircle cx='90' cy='36' r='5' fill='%2338bdf8'/%3E%3Cpath d='M30 78L50 58L65 66L90 36L90 88L30 88Z' fill='%2338bdf8' opacity='.12'/%3E%3C/svg%3E">
+<link rel="icon" type="image/svg+xml" href="data:image/svg+xml,%3Csvg viewBox='0 0 120 120' xmlns='http://www.w3.org/2000/svg'%3E%3Crect rx='28' width='120' height='120' fill='%230d0d0d'/%3E%3Cpath d='M30 78L50 58L65 66L90 36' stroke='%235AC8FA' stroke-width='5' stroke-linecap='round' stroke-linejoin='round' fill='none'/%3E%3Ccircle cx='90' cy='36' r='5' fill='%235AC8FA'/%3E%3Cpath d='M30 78L50 58L65 66L90 36L90 88L30 88Z' fill='%235AC8FA' opacity='.12'/%3E%3C/svg%3E">
 <script src="https://www.gstatic.com/firebasejs/10.12.0/firebase-app-compat.js"></script>
 <script src="https://www.gstatic.com/firebasejs/10.12.0/firebase-database-compat.js"></script>
 <script src="https://cdnjs.cloudflare.com/ajax/libs/Chart.js/4.4.1/chart.umd.min.js"></script>
@@ -20,21 +20,21 @@ html{scroll-behavior:smooth;}
 
 /* ===== DESIGN TOKENS — WETHAIINVEST DARK THEME ===== */
 :root{
-  --bg-base:#0a0a1a;--bg-surface:#1a1a2e;--bg-elevated:#252540;--bg-hover:#252540;
-  --border:#2a2a3e;--border-focus:#FFD700;
-  --tx-primary:#ffffff;--tx-secondary:#a0a0b0;--tx-muted:#808090;
-  --accent:#FFD700;--accent-hover:#FFC107;--accent-light:rgba(255,215,0,.08);
-  --accent-gradient:linear-gradient(135deg,#FFD700 0%,#FFC107 100%);
-  --green:#10b981;--green-bg:rgba(16,185,129,.1);--green-light:#064e3b;
-  --red:#ef4444;--red-bg:rgba(239,68,68,.1);--red-light:#7f1d1d;
-  --orange:#f59e0b;--orange-bg:rgba(245,158,11,.1);
-  --purple:#a78bfa;--purple-bg:rgba(167,139,250,.1);
-  --shadow-xs:0 1px 2px rgba(0,0,0,.3);
-  --shadow-sm:0 1px 3px rgba(0,0,0,.3),0 4px 12px rgba(0,0,0,.25);
-  --shadow-md:0 2px 6px rgba(0,0,0,.3),0 8px 20px rgba(0,0,0,.3);
-  --shadow-lg:0 4px 12px rgba(0,0,0,.3),0 16px 32px rgba(0,0,0,.4);
-  --shadow-xl:0 8px 24px rgba(0,0,0,.4),0 24px 48px rgba(0,0,0,.5);
-  --radius:10px;--radius-lg:14px;--radius-full:9999px;
+  --bg-base:#0d0d0d;--bg-surface:#1a1a1a;--bg-elevated:#222222;--bg-hover:#1f1f1f;
+  --border:#2a2a2a;--border-focus:#5AC8FA;
+  --tx-primary:#ffffff;--tx-secondary:#9CA3AF;--tx-muted:#6B7280;
+  --accent:#5AC8FA;--accent-hover:#7DD3FC;--accent-light:rgba(90,200,250,.06);
+  --accent-gradient:linear-gradient(135deg,#5AC8FA 0%,#7DD3FC 100%);
+  --green:#00D09C;--green-bg:rgba(0,208,156,.08);--green-light:#00D09C;
+  --red:#FF5252;--red-bg:rgba(255,82,82,.08);--red-light:#FF5252;
+  --orange:#FF9800;--orange-bg:rgba(255,152,0,.08);
+  --purple:#5AC8FA;--purple-bg:rgba(90,200,250,.08);
+  --shadow-xs:none;
+  --shadow-sm:none;
+  --shadow-md:none;
+  --shadow-lg:none;
+  --shadow-xl:none;
+  --radius:8px;--radius-lg:8px;--radius-full:9999px;
 }
 
 /* Dark theme is now the default */
@@ -64,7 +64,7 @@ a:hover{color:var(--accent-hover);}
   align-items:center;
   justify-content:center;
   min-height:100vh;
-  background:#0f172a;
+  background:#0d0d0d;
   position:relative;
   overflow:hidden;
 }
@@ -74,7 +74,7 @@ a:hover{color:var(--accent-hover);}
   position:absolute;
   inset:0;
   background:
-    radial-gradient(ellipse 60% 50% at 20% 60%,rgba(255,215,0,.06) 0%,transparent 70%),
+    radial-gradient(ellipse 60% 50% at 20% 60%,rgba(90,200,250,.06) 0%,transparent 70%),
     radial-gradient(ellipse 50% 40% at 80% 30%,rgba(99,102,241,.05) 0%,transparent 70%);
   pointer-events:none;
 }
@@ -84,7 +84,7 @@ a:hover{color:var(--accent-hover);}
   position:absolute;
   bottom:0;left:0;right:0;
   height:1px;
-  background:linear-gradient(90deg,transparent,rgba(255,215,0,.2),transparent);
+  background:linear-gradient(90deg,transparent,rgba(90,200,250,.15),transparent);
 }
 
 @keyframes fadeInUp{
@@ -150,14 +150,14 @@ a:hover{color:var(--accent-hover);}
 .login-box .fg input::placeholder{color:#475569;}
 
 .login-box .fg input:focus{
-  border-color:rgba(255,215,0,.4);
-  box-shadow:0 0 0 3px rgba(255,215,0,.08);
+  border-color:rgba(90,200,250,.4);
+  box-shadow:0 0 0 3px rgba(90,200,250,.08);
   background:rgba(15,23,42,.8);
 }
 
 .login-box .btn-primary{
-  background:linear-gradient(135deg,#FFD700,#FFC107);
-  box-shadow:0 4px 16px rgba(255,215,0,.25);
+  background:#5AC8FA;
+  box-shadow:0 4px 16px rgba(90,200,250,.25);
   border-radius:10px;
   font-size:14px;
   font-weight:600;
@@ -166,7 +166,7 @@ a:hover{color:var(--accent-hover);}
 }
 
 .login-box .btn-primary:hover{
-  box-shadow:0 6px 24px rgba(255,215,0,.35);
+  box-shadow:0 6px 24px rgba(90,200,250,.35);
   transform:translateY(-1px);
 }
 
@@ -210,7 +210,7 @@ a:hover{color:var(--accent-hover);}
   border:none;
   border-radius:8px;
   background:var(--accent);
-  color:#0a0a1a;
+  color:#000000;
   font-size:14px;
   font-weight:600;
   cursor:pointer;
@@ -246,7 +246,7 @@ a:hover{color:var(--accent-hover);}
   background:var(--bg-surface);
   border-bottom:1px solid var(--border);
   padding:0 24px;
-  height:56px;
+  height:48px;
   display:flex;
   align-items:center;
   justify-content:space-between;
@@ -257,7 +257,7 @@ a:hover{color:var(--accent-hover);}
 }
 
 .header.scroll-shadow{
-  box-shadow:var(--shadow-xs);
+  box-shadow:inset 0 -1px 0 var(--border);
 }
 
 .header .brand{
@@ -388,7 +388,7 @@ a:hover{color:var(--accent-hover);}
   border:none;
   border-radius:8px;
   background:var(--accent);
-  color:#0a0a1a;
+  color:#000000;
   font-size:13px;
   font-weight:600;
   cursor:pointer;
@@ -470,27 +470,28 @@ a:hover{color:var(--accent-hover);}
 .card{
   background:var(--bg-surface);
   border:1px solid var(--border);
-  border-radius:var(--radius-lg);
-  padding:24px;
+  border-radius:var(--radius);
+  padding:20px;
   margin-bottom:16px;
-  box-shadow:var(--shadow-xs);
-  transition:box-shadow .2s ease;
+  box-shadow:none;
+  transition:border-color .2s ease,background .2s ease;
   position:relative;
 }
 
 .card:hover{
-  box-shadow:var(--shadow-sm);
+  border-color:#333333;
+  background:#1f1f1f;
 }
 
 .card-title{
-  font-size:15px;
-  font-weight:600;
-  margin-bottom:18px;
+  font-size:14px;
+  font-weight:500;
+  margin-bottom:16px;
   display:flex;
   align-items:center;
   gap:8px;
   color:var(--tx-primary);
-  letter-spacing:-.2px;
+  letter-spacing:0;
 }
 
 .card-title .badge{
@@ -503,12 +504,12 @@ a:hover{color:var(--accent-hover);}
 }
 
 .badge-live{
-  background:var(--green-light);
+  background:var(--green-bg);
   color:var(--green);
 }
 
 .badge-sim{
-  background:var(--red-light);
+  background:var(--red-bg);
   color:var(--red);
 }
 
@@ -516,7 +517,7 @@ a:hover{color:var(--accent-hover);}
 .summary-row{
   display:grid;
   grid-template-columns:repeat(auto-fit,minmax(220px,1fr));
-  gap:16px;
+  gap:12px;
   margin-bottom:24px;
 }
 
@@ -525,12 +526,13 @@ a:hover{color:var(--accent-hover);}
   border:1px solid var(--border);
   border-radius:var(--radius);
   padding:20px;
-  box-shadow:var(--shadow-xs);
-  transition:box-shadow .2s ease;
+  box-shadow:none;
+  transition:border-color .2s ease,background .2s ease;
 }
 
 .sum-card:hover{
-  box-shadow:var(--shadow-sm);
+  border-color:#333333;
+  background:#1f1f1f;
 }
 
 .sum-card .label{
@@ -611,7 +613,7 @@ tbody tr:hover{
 /* ===== FORMS ===== */
 .form-row{
   display:flex;
-  gap:16px;
+  gap:12px;
   flex-wrap:wrap;
   margin-bottom:16px;
 }
@@ -653,7 +655,7 @@ tbody tr:hover{
 
 .btn-fill{
   background:var(--accent);
-  color:#0a0a1a;
+  color:#000000;
   border-color:var(--accent);
   font-weight:600;
 }
@@ -689,11 +691,11 @@ tbody tr:hover{
 .modal{
   background:var(--bg-surface);
   border:1px solid var(--border);
-  border-radius:var(--radius-lg);
+  border-radius:var(--radius);
   padding:36px;
   width:480px;
   max-width:92vw;
-  box-shadow:var(--shadow-xl);
+  box-shadow:0 20px 25px -5px rgba(0,0,0,.5), 0 10px 10px -5px rgba(0,0,0,.3);
   max-height:90vh;
   overflow-y:auto;
   animation:slideUp .3s ease-out;
@@ -837,7 +839,7 @@ tbody tr:hover{
   .login-box .brand .logo-icon{width:38px;height:38px;}
   .login-box .brand{font-size:24px;}
   .summary-row{grid-template-columns:1fr 1fr;}
-  .modal{width:95vw;padding:24px;}
+  .modal{width:95vw;padding:20px;}
   .card{padding:20px;}
   .sum-card{padding:18px;}
   .login-box{padding:40px 32px;}
@@ -848,7 +850,7 @@ tbody tr:hover{
   .tabs{gap:4px;padding:16px 12px 0;overflow-x:auto;-webkit-overflow-scrolling:touch;scrollbar-width:none;}
   .tabs::-webkit-scrollbar{display:none;}
   .tab{padding:8px 14px;font-size:12px;}
-  .header{height:56px;padding:0 12px;}
+  .header{height:48px;padding:0 12px;}
   .content{padding:14px 12px 30px;}
   .card{padding:16px;margin-bottom:16px;}
   .card-title{font-size:14px;}
@@ -875,7 +877,7 @@ tbody tr:hover{
   color:#fff;
   font-size:13px;
   font-weight:500;
-  box-shadow:var(--shadow-md);
+  box-shadow:0 10px 15px -3px rgba(0,0,0,.4), 0 4px 6px -2px rgba(0,0,0,.25);
   z-index:999;
   animation:slideInRight .3s ease-out;
   max-width:340px;
@@ -1115,7 +1117,7 @@ tbody tr:hover{
   border-color:var(--accent);
   background:var(--accent-light);
   transform:translateY(-2px);
-  box-shadow:var(--shadow-sm);
+  box-shadow:0 4px 6px -1px rgba(0,0,0,.3);
 }
 
 .loss-scenario-card .pct{
@@ -1307,7 +1309,7 @@ tbody tr:hover{
   overflow-y:auto;
   z-index:50;
   display:none;
-  box-shadow:var(--shadow-md);
+  box-shadow:0 10px 15px -3px rgba(0,0,0,.4), 0 4px 6px -2px rgba(0,0,0,.25);
   margin-top:4px;
 }
 
@@ -1550,8 +1552,8 @@ tbody tr:hover{
 
 /* ===== FEAR & GREED GAUGE ===== */
 .fear-greed-card{
-  display:flex;flex-direction:column;align-items:center;justify-content:center;padding:24px;
-  background:var(--bg-surface);border-radius:var(--radius-lg);
+  display:flex;flex-direction:column;align-items:center;justify-content:center;padding:20px;
+  background:var(--bg-surface);border-radius:var(--radius);
 }
 .fear-greed-gauge{
   position:relative;width:200px;height:120px;margin:16px 0;
@@ -1748,12 +1750,12 @@ tbody tr:hover{
   <div class="login-box">
     <div class="brand">
       <svg class="logo-icon" viewBox="0 0 120 120" fill="none" xmlns="http://www.w3.org/2000/svg">
-        <rect rx="28" width="120" height="120" fill="#0f172a"/>
+        <rect rx="28" width="120" height="120" fill="#0d0d0d"/>
         <rect rx="28" width="120" height="120" fill="url(#loginLogoGrad)" opacity=".15"/>
-        <defs><linearGradient id="loginLogoGrad" x1="0" y1="120" x2="120" y2="0"><stop offset="0%" stop-color="#FFD700"/><stop offset="100%" stop-color="#FFC107"/></linearGradient></defs>
-        <path d="M30 78L50 58L65 66L90 36" stroke="#FFD700" stroke-width="5" stroke-linecap="round" stroke-linejoin="round" fill="none"/>
-        <circle cx="90" cy="36" r="5" fill="#FFD700"/>
-        <path d="M30 78L50 58L65 66L90 36L90 88L30 88Z" fill="#FFD700" opacity=".1"/>
+        <defs><linearGradient id="loginLogoGrad" x1="0" y1="120" x2="120" y2="0"><stop offset="0%" stop-color="#5AC8FA"/><stop offset="100%" stop-color="#7DD3FC"/></linearGradient></defs>
+        <path d="M30 78L50 58L65 66L90 36" stroke="#5AC8FA" stroke-width="5" stroke-linecap="round" stroke-linejoin="round" fill="none"/>
+        <circle cx="90" cy="36" r="5" fill="#5AC8FA"/>
+        <path d="M30 78L50 58L65 66L90 36L90 88L30 88Z" fill="#5AC8FA" opacity=".1"/>
       </svg>
       <div class="logo-text">BellFolio<span>US Stock Portfolio</span></div>
     </div>
@@ -1773,18 +1775,18 @@ tbody tr:hover{
 <div class="header">
   <div class="brand">
     <svg class="logo-icon" viewBox="0 0 120 120" fill="none" xmlns="http://www.w3.org/2000/svg">
-      <rect rx="28" width="120" height="120" fill="#0f172a"/>
-      <path d="M30 78L50 58L65 66L90 36" stroke="#FFD700" stroke-width="5" stroke-linecap="round" stroke-linejoin="round" fill="none"/>
-      <circle cx="90" cy="36" r="5" fill="#FFD700"/>
-      <path d="M30 78L50 58L65 66L90 36L90 88L30 88Z" fill="#FFD700" opacity=".1"/>
+      <rect rx="28" width="120" height="120" fill="#0d0d0d"/>
+      <path d="M30 78L50 58L65 66L90 36" stroke="#5AC8FA" stroke-width="5" stroke-linecap="round" stroke-linejoin="round" fill="none"/>
+      <circle cx="90" cy="36" r="5" fill="#5AC8FA"/>
+      <path d="M30 78L50 58L65 66L90 36L90 88L30 88Z" fill="#5AC8FA" opacity=".1"/>
     </svg>
     <div class="logo-text">BellFolio <span>by Bell</span></div>
   </div>
   <div class="hdr-right">
-    <span class="user-badge" id="userDisplay">👤 User</span>
+    <span class="user-badge" id="userDisplay">User</span>
     <div class="rate-badge" id="rateBadge">USD/THB: <b id="rateVal">--</b></div>
-    <button class="hdr-btn" onclick="toggleCurrency()">💱 <span id="currLabel">USD</span></button>
-    <button class="hdr-btn" onclick="toggleTheme()">🌓 Theme</button>
+    <button class="hdr-btn" onclick="toggleCurrency()"><span id="currLabel">USD</span></button>
+    <button class="hdr-btn" onclick="toggleTheme()">Theme</button>
     <button class="hdr-btn" onclick="doLogout()">↗ Logout</button>
   </div>
 </div>
@@ -1792,7 +1794,7 @@ tbody tr:hover{
 <!-- API BANNER -->
 <div class="api-banner" id="apiBanner">
   <div class="info">
-    <strong>🔗 Connect Real-Time Data</strong>
+    <strong>Connect Real-Time Data</strong>
     <small>Enter your free Finnhub API key for live stock prices. Get one at <a href="https://finnhub.io" target="_blank">finnhub.io</a></small>
   </div>
   <input id="apiKeyInput" placeholder="Enter Finnhub API key..." />
@@ -1802,16 +1804,16 @@ tbody tr:hover{
 
 <!-- TABS -->
 <div class="tabs" id="tabBar">
-  <div class="tab active" data-tab="dashboard" onclick="switchTab('dashboard')">📊 Dashboard</div>
-  <div class="tab" data-tab="portfolio" onclick="switchTab('portfolio')">💼 Portfolio</div>
-  <div class="tab" data-tab="trade" onclick="switchTab('trade')">📈 Trade</div>
-  <div class="tab" data-tab="allocation" onclick="switchTab('allocation')">⚖️ Allocation</div>
-  <div class="tab" data-tab="watchlist" onclick="switchTab('watchlist')">⭐ Watchlist</div>
-  <div class="tab" data-tab="history" onclick="switchTab('history')">📋 History</div>
-  <div class="tab" data-tab="guru" onclick="switchTab('guru')">🎓 Guru</div>
-  <div class="tab" data-tab="articles" onclick="switchTab('articles')">📚 Articles</div>
-  <div class="tab" data-tab="settings" onclick="switchTab('settings')">⚙️ Settings</div>
-  <div class="tab" data-tab="admin" onclick="switchTab('admin')" id="adminTab" style="display:none;">🔐 Admin</div>
+  <div class="tab active" data-tab="dashboard" onclick="switchTab('dashboard')">Dashboard</div>
+  <div class="tab" data-tab="portfolio" onclick="switchTab('portfolio')">Portfolio</div>
+  <div class="tab" data-tab="trade" onclick="switchTab('trade')">Trade</div>
+  <div class="tab" data-tab="allocation" onclick="switchTab('allocation')">Allocation</div>
+  <div class="tab" data-tab="watchlist" onclick="switchTab('watchlist')">Watchlist</div>
+  <div class="tab" data-tab="history" onclick="switchTab('history')">History</div>
+  <div class="tab" data-tab="guru" onclick="switchTab('guru')">Guru</div>
+  <div class="tab" data-tab="articles" onclick="switchTab('articles')">Articles</div>
+  <div class="tab" data-tab="settings" onclick="switchTab('settings')">Settings</div>
+  <div class="tab" data-tab="admin" onclick="switchTab('admin')" id="adminTab" style="display:none;">Admin</div>
 </div>
 
 <div class="content">
@@ -1823,13 +1825,13 @@ tbody tr:hover{
 
   <!-- Portfolio Highlights (Google Finance style) -->
   <div class="card" id="dashHighlightsCard">
-    <div class="card-title">📊 Portfolio Highlights</div>
+    <div class="card-title">Portfolio Highlights</div>
     <div class="highlights-grid" id="dashHighlights"></div>
   </div>
 
   <!-- Fear & Greed Index (Multi-Factor: SPY momentum + VIX + Safe Haven + Market Breadth) -->
   <div class="card">
-    <div class="card-title">😨 Fear & Greed Index</div>
+    <div class="card-title">Fear & Greed Index</div>
     <div class="fear-greed-card">
       <svg class="fear-greed-gauge" viewBox="0 0 200 120" xmlns="http://www.w3.org/2000/svg">
         <!-- Gauge background -->
@@ -1850,14 +1852,14 @@ tbody tr:hover{
       <div id="fearSource" style="font-size:10px;color:var(--tx-muted);margin-top:4px;text-align:center;font-style:italic;"></div>
     </div>
     <p style="font-size:11px;color:var(--tx-muted);margin-top:12px;text-align:center;">
-      🔹 <b>Primary:</b> <a href="https://www.cnn.com/markets/fear-and-greed" target="_blank" style="font-size:11px;">CNN Fear & Greed Index</a> (public API — ข้อมูลจริงจาก CNN)<br>
-      🔸 <b>Fallback:</b> คำนวณจาก SPY + VIX + GLD + QQQ via <a href="https://finnhub.io" target="_blank" style="font-size:11px;">Finnhub</a> (กรณี CNN API ใช้ไม่ได้)
+       <b>Primary:</b> <a href="https://www.cnn.com/markets/fear-and-greed" target="_blank" style="font-size:11px;">CNN Fear & Greed Index</a> (public API — ข้อมูลจริงจาก CNN)<br>
+       <b>Fallback:</b> คำนวณจาก SPY + VIX + GLD + QQQ via <a href="https://finnhub.io" target="_blank" style="font-size:11px;">Finnhub</a> (กรณี CNN API ใช้ไม่ได้)
     </p>
   </div>
 
   <!-- Market Overview -->
   <div class="card">
-    <div class="card-title">🌍 Market Overview <span id="marketTimestamp" style="font-size:11px;font-weight:400;color:var(--tx-muted);margin-left:12px;"></span></div>
+    <div class="card-title">Market Overview <span id="marketTimestamp" style="font-size:11px;font-weight:400;color:var(--tx-muted);margin-left:12px;"></span></div>
     <div class="market-grid" id="marketGrid">
       <div class="market-item">
         <span class="ticker">SPY</span>
@@ -1894,7 +1896,7 @@ tbody tr:hover{
 
   <!-- Benchmark Comparison -->
   <div class="card">
-    <div class="card-title">📈 Benchmark Comparison</div>
+    <div class="card-title">Benchmark Comparison</div>
     <!-- Time period selectors -->
     <div class="bench-period-row" id="benchPeriodRow">
       <button class="bench-period-btn" onclick="setBenchPeriod('1M')" id="benchP-1M">1 เดือน</button>
@@ -1913,7 +1915,7 @@ tbody tr:hover{
 
   <!-- P&L Summary -->
   <div class="card">
-    <div class="card-title">💰 P&L Summary</div>
+    <div class="card-title">P&L Summary</div>
     <div class="pnl-summary">
       <div class="pnl-card"><div class="label">Realized P&L</div><div class="value pnl-realized" id="realizedPLValue">$0.00</div></div>
       <div class="pnl-card"><div class="label">Unrealized P&L</div><div class="value pnl-unrealized" id="unrealizedPLValue">$0.00</div></div>
@@ -1934,13 +1936,13 @@ tbody tr:hover{
 
   <!-- Category Allocation Chart -->
   <div class="card">
-    <div class="card-title">📊 Category Allocation</div>
+    <div class="card-title">Category Allocation</div>
     <div class="chart-box"><canvas id="categoryAllocChart"></canvas></div>
   </div>
 
   <!-- Category Filter + Sort -->
   <div class="card">
-    <div class="card-title">📋 All Holdings (across all portfolios)</div>
+    <div class="card-title">All Holdings (across all portfolios)</div>
     <div class="category-filters" id="dashCategoryFilters" style="margin-bottom:12px;"></div>
     <div class="sort-filter-bar">
       <label style="font-size:12px;font-weight:700;color:var(--tx-secondary);white-space:nowrap;">Sort by</label>
@@ -2032,14 +2034,14 @@ tbody tr:hover{
 
   <!-- Stock Info from Portfolio -->
   <div class="card" id="tradeStockInfoCard" style="display:none;">
-    <div class="card-title">📋 Current Position — <span id="tradeStockInfoTicker">—</span> <span id="tradeStockInfoCat" style="font-weight:400;"></span></div>
+    <div class="card-title">Current Position — <span id="tradeStockInfoTicker">—</span> <span id="tradeStockInfoCat" style="font-weight:400;"></span></div>
     <div class="summary-row" id="tradeStockInfoSummary"></div>
     <div id="tradeStockInfoDetails" style="margin-top:12px;"></div>
   </div>
 
   <!-- DCA Simulation Table in Trade Page -->
   <div class="card" id="tradeDCASimCard" style="display:none;">
-    <div class="card-title" id="tradeDCASimTitle">📊 จำลองการซื้อเพิ่ม — ถ้าซื้อ $100, $200, $300...</div>
+    <div class="card-title" id="tradeDCASimTitle">DCA Simulator — ถ้าซื้อ $100, $200, $300...</div>
     <p style="font-size:12px;color:var(--tx-secondary);margin-bottom:12px;" id="tradeDCASimDesc">สัดส่วนและต้นทุนเฉลี่ยจะเปลี่ยนไปเท่าไหร่?</p>
     <div id="tradeDCASimInfo"></div>
     <div style="display:flex;gap:12px;margin-bottom:12px;flex-wrap:wrap;align-items:end;">
@@ -2063,7 +2065,7 @@ tbody tr:hover{
 
   <!-- Target Allocation (sum = 100%) -->
   <div class="card">
-    <div class="card-title">🎯 Target Allocation <span class="badge" id="allocSumBadge" style="font-size:11px;padding:3px 10px;">—</span></div>
+    <div class="card-title">Target Allocation <span class="badge" id="allocSumBadge" style="font-size:11px;padding:3px 10px;">—</span></div>
     <p style="font-size:13px;color:var(--tx-secondary);margin-bottom:14px;">Set target allocation % for each ticker. Total must equal 100%.</p>
     <div id="allocSumBar" style="margin-bottom:14px;">
       <div style="display:flex;justify-content:space-between;font-size:12px;font-weight:600;margin-bottom:4px;">
@@ -2096,7 +2098,7 @@ tbody tr:hover{
 <!-- ===== WATCHLIST ===== -->
 <div class="section" id="sec-watchlist">
   <div class="card">
-    <div class="card-title">Watchlist / Favorites ⭐</div>
+    <div class="card-title">Watchlist / Favorites </div>
     <div class="form-row" style="margin-bottom:14px;">
       <div class="fg ticker-autocomplete-wrapper">
         <label>Add Ticker</label>
@@ -2115,7 +2117,7 @@ tbody tr:hover{
   <!-- Stock Detail Drill-Down -->
   <div class="card" id="stockDetailCard" style="display:none;">
     <div class="card-title"><span id="detailTicker">—</span> <span id="detailName" style="font-weight:400;color:var(--tx-secondary);font-size:13px;"></span>
-      <button class="btn btn-danger" style="margin-left:auto;padding:4px 12px;font-size:11px;" onclick="closeStockDetail()">✕ Close</button>
+      <button class="btn btn-danger" style="margin-left:auto;padding:4px 12px;font-size:11px;" onclick="closeStockDetail()">Close</button>
     </div>
     <div class="summary-row" id="detailSummary"></div>
 
@@ -2141,13 +2143,13 @@ tbody tr:hover{
 
     <!-- ===== DCA SIMULATION TABLE ===== -->
     <div style="margin-top:16px;padding-top:16px;border-top:1px solid var(--border);" id="dcaSimSection">
-      <div class="card-title" style="margin-bottom:4px;">📊 คำนวณค่าเฉลี่ยส่วนหน้า (DCA Simulator)</div>
+      <div class="card-title" style="margin-bottom:4px;">DCA Simulator (DCA Simulator)</div>
       <p style="font-size:12px;color:var(--tx-secondary);margin-bottom:12px;">คำนวณต้นทุนเฉลี่ยใหม่ได้ 3 แบบ</p>
       <!-- DCA Mode Tabs -->
       <div style="display:flex;gap:0;border:1px solid var(--border);border-radius:var(--radius);overflow:hidden;margin-bottom:14px;">
-        <button class="trade-mode-btn active" id="dcaMode1Btn" onclick="switchDCAMode(1)">💵 กำหนดราคาเอง</button>
-        <button class="trade-mode-btn" id="dcaMode2Btn" onclick="switchDCAMode(2)">📊 คำนวณเป็น %</button>
-        <button class="trade-mode-btn" id="dcaMode3Btn" onclick="switchDCAMode(3)">🎯 ใส่ค่าเฉลี่ยที่ต้องการ</button>
+        <button class="trade-mode-btn active" id="dcaMode1Btn" onclick="switchDCAMode(1)">กำหนดราคาเอง</button>
+        <button class="trade-mode-btn" id="dcaMode2Btn" onclick="switchDCAMode(2)">Calculate as %</button>
+        <button class="trade-mode-btn" id="dcaMode3Btn" onclick="switchDCAMode(3)">ใส่ค่าเฉลี่ยที่ต้องการ</button>
       </div>
       <div id="dcaSimCurrentInfo"></div>
       <!-- Mode 1: Original step-based -->
@@ -2192,7 +2194,7 @@ tbody tr:hover{
 
     <!-- ===== SUPPORT & RESISTANCE WITH P/L ===== -->
     <div style="margin-top:16px;padding-top:16px;border-top:1px solid var(--border);">
-      <div class="card-title" style="margin-bottom:4px;cursor:pointer;" onclick="this.nextElementSibling.style.display=this.nextElementSibling.style.display==='none'?'':'none';this.querySelector('.toggle-icon').textContent=this.nextElementSibling.style.display==='none'?'▶':'▼';">📈 ตารางคำนวณ แนวรับ-แนวต้าน <span class="toggle-icon" style="font-size:12px;margin-left:8px;">▼</span></div>
+      <div class="card-title" style="margin-bottom:4px;cursor:pointer;" onclick="this.nextElementSibling.style.display=this.nextElementSibling.style.display==='none'?'':'none';this.querySelector('.toggle-icon').textContent=this.nextElementSibling.style.display==='none'?'▶':'▼';">Support / Resistance แนวรับ-แนวต้าน <span class="toggle-icon" style="font-size:12px;margin-left:8px;">▼</span></div>
       <div>
         <p style="font-size:12px;color:var(--tx-secondary);margin-bottom:12px;">กำไร/ขาดทุนที่แต่ละแนวรับ-แนวต้าน</p>
         <div class="fg" style="margin-bottom:12px;">
@@ -2205,7 +2207,7 @@ tbody tr:hover{
 
     <!-- ===== LOSS SCENARIO CALCULATOR ===== -->
     <div style="margin-top:16px;padding-top:16px;border-top:1px solid var(--border);">
-      <div class="card-title" style="margin-bottom:4px;cursor:pointer;" onclick="this.nextElementSibling.style.display=this.nextElementSibling.style.display==='none'?'':'none';this.querySelector('.toggle-icon').textContent=this.nextElementSibling.style.display==='none'?'▶':'▼';">📉 คำนวณความเสียหายส่วนหน้า <span class="toggle-icon" style="font-size:12px;margin-left:8px;">▼</span></div>
+      <div class="card-title" style="margin-bottom:4px;cursor:pointer;" onclick="this.nextElementSibling.style.display=this.nextElementSibling.style.display==='none'?'':'none';this.querySelector('.toggle-icon').textContent=this.nextElementSibling.style.display==='none'?'▶':'▼';"> คำนวณความเสียหายส่วนหน้า <span class="toggle-icon" style="font-size:12px;margin-left:8px;">▼</span></div>
       <div>
         <p style="font-size:12px;color:var(--tx-secondary);margin-bottom:12px;">Scenario: ถ้าหุ้นตก...</p>
         <div class="fg" style="margin-bottom:12px;">
@@ -2229,7 +2231,7 @@ tbody tr:hover{
 <!-- ===== ADMIN: USER MANAGEMENT ===== -->
 <div class="section" id="sec-admin">
   <div class="card">
-    <div class="card-title">🔐 User Management</div>
+    <div class="card-title">User Management</div>
     <p style="font-size:13px;color:var(--tx-secondary);margin-bottom:14px;">Manage user accounts. Only the <b>admin</b> account can access this page.</p>
     <div class="tbl-wrap">
       <table id="userTable">
@@ -2239,7 +2241,7 @@ tbody tr:hover{
     </div>
   </div>
   <div class="card">
-    <div class="card-title">➕ Create New User</div>
+    <div class="card-title">Create New User</div>
     <div class="form-row">
       <div class="fg"><label>Username</label><input id="newUsername" placeholder="e.g. john" oninput="this.value=this.value.toLowerCase().replace(/[^a-z0-9_]/g,'')"></div>
       <div class="fg"><label>Password</label><input id="newPassword" type="password" placeholder="Enter password"></div>
@@ -2249,7 +2251,7 @@ tbody tr:hover{
     </div>
   </div>
   <div class="card">
-    <div class="card-title">🔑 Reset User Password</div>
+    <div class="card-title">Reset User Password</div>
     <div class="form-row">
       <div class="fg"><label>Select User</label><select id="resetPwUser"></select></div>
       <div class="fg"><label>New Password</label><input id="resetPwValue" type="password" placeholder="New password"></div>
@@ -2304,10 +2306,10 @@ tbody tr:hover{
   <div class="card">
     <div class="card-title">Data Management</div>
     <div class="btn-row">
-      <button class="btn" onclick="exportData()">📥 Export Data</button>
-      <button class="btn" onclick="document.getElementById('importFile').click()">📤 Import Data</button>
+      <button class="btn" onclick="exportData()">Export Data</button>
+      <button class="btn" onclick="document.getElementById('importFile').click()">Import Data</button>
       <input type="file" id="importFile" accept=".json" style="display:none;" onchange="importData(event)">
-      <button class="btn btn-danger" onclick="if(confirm('Delete ALL data? This cannot be undone.')){localStorage.clear();location.reload();}">🗑️ Reset All Data</button>
+      <button class="btn btn-danger" onclick="if(confirm('Delete ALL data? This cannot be undone.')){localStorage.clear();location.reload();}">Reset All Data</button>
     </div>
   </div>
 </div>
@@ -2315,20 +2317,20 @@ tbody tr:hover{
 <!-- ===== GURU ===== -->
 <div class="section" id="sec-guru">
   <div class="card">
-    <div class="card-title">🎓 Guru Portfolio <span id="guruTimestamp" style="font-size:11px;font-weight:400;color:var(--tx-muted);margin-left:12px;"></span></div>
+    <div class="card-title">Guru Portfolio <span id="guruTimestamp" style="font-size:11px;font-weight:400;color:var(--tx-muted);margin-left:12px;"></span></div>
     <div class="guru-selector">
       <select id="guruSelect" onchange="switchGuru()">
         <option value="shay">อาจารย์ Shay (Shay Boloor)</option>
       </select>
-      <button class="btn btn-fill" onclick="refreshGuruFromSource()" id="refreshGuruBtn" style="padding:8px 12px;font-size:12px;">🔄 Refresh</button>
-      <button class="btn btn-fill" onclick="editGuru()" id="editGuruBtn" style="padding:8px 12px;font-size:12px;display:none;">✏️ Edit</button>
+      <button class="btn btn-fill" onclick="refreshGuruFromSource()" id="refreshGuruBtn" style="padding:8px 12px;font-size:12px;">Refresh</button>
+      <button class="btn btn-fill" onclick="editGuru()" id="editGuruBtn" style="padding:8px 12px;font-size:12px;display:none;">Edit</button>
     </div>
     <div style="font-size:11px;color:var(--tx-muted);margin-bottom:12px;padding:8px 12px;background:var(--bg-hover);border-radius:var(--radius);border:1px solid var(--border);">
-      📌 <b>ข้อมูลรวบรวมจาก:</b>
+       <b>ข้อมูลรวบรวมจาก:</b>
       <a href="https://x.com/StockSavvyShay" target="_blank" style="font-size:11px;">@StockSavvyShay (X/Twitter)</a> |
       <a href="https://www.gothematic.com/index/shayfrgr" target="_blank" style="font-size:11px;">GoThematic</a> |
       <a href="https://tradersunion.com/news/market-voices/show/514075-growth-portfolio-update/" target="_blank" style="font-size:11px;">TradersUnion</a><br>
-      ⚠️ ข้อมูลอ้างอิงจากโพสต์สาธารณะ ไม่ใช่ข้อมูล real-time จาก API — Admin สามารถอัพเดทรายชื่อหุ้นได้ | ราคา live จาก <a href="https://finnhub.io" target="_blank" style="font-size:11px;">Finnhub</a>
+       ข้อมูลอ้างอิงจากโพสต์สาธารณะ ไม่ใช่ข้อมูล real-time จาก API — Admin สามารถอัพเดทรายชื่อหุ้นได้ | ราคา live จาก <a href="https://finnhub.io" target="_blank" style="font-size:11px;">Finnhub</a>
     </div>
     <div class="tbl-wrap"><table class="guru-table" id="guruTable">
       <thead><tr><th>Ticker</th><th>Name</th><th>Price</th><th>Daily Chg</th><th>Daily Chg%</th><th>Trend</th><th>Weight</th><th>Notes</th></tr></thead>
@@ -2341,13 +2343,13 @@ tbody tr:hover{
   </div>
 
   <div class="card guru-picks-card">
-    <div class="card-title">🔔 Guru Picks & Alerts</div>
+    <div class="card-title">Guru Picks & Alerts</div>
     <button class="btn btn-fill" onclick="openGuruPickForm()" id="addGuruPickBtn" style="padding:8px 12px;font-size:12px;margin-bottom:12px;display:none;">+ Add Pick</button>
     <div id="guruPicksList"></div>
   </div>
 
   <div class="card">
-    <div class="card-title">📊 Portfolio Overlap</div>
+    <div class="card-title">Portfolio Overlap</div>
     <div id="overlapContent">
       <div class="overlap-list">
         <div class="overlap-section">
@@ -2370,7 +2372,7 @@ tbody tr:hover{
 <!-- ===== ARTICLES ===== -->
 <div class="section" id="sec-articles">
   <div class="card">
-    <div class="card-title">📚 Articles & Insights <span id="articleTimestamp" style="font-size:11px;font-weight:400;color:var(--tx-muted);margin-left:12px;"></span></div>
+    <div class="card-title">Articles & Insights <span id="articleTimestamp" style="font-size:11px;font-weight:400;color:var(--tx-muted);margin-left:12px;"></span></div>
     <div class="articles-toolbar">
       <select id="articleCategoryFilter" onchange="filterArticles()">
         <option value="">All Categories</option>
@@ -2863,8 +2865,8 @@ function renderPortSelector(){
   const names=Object.keys(appData.portfolios);
   c.innerHTML=names.map(n=>`<div class="port-chip ${n===appData.activePort?'active':''}" onclick="switchPort('${n}')">${n}</div>`).join('')+
     '<div class="port-add" onclick="createPortfolio()" title="Add portfolio">+</div>'+
-    '<button class="hdr-btn" style="padding:6px 12px;font-size:12px;margin-left:4px;" onclick="renamePortfolio()" title="Rename">✏️ Rename</button>'+
-    '<button class="hdr-btn" style="padding:6px 12px;font-size:12px;color:var(--red);border-color:var(--red);" onclick="deletePortfolio()" title="Delete">🗑 Delete</button>';
+    '<button class="hdr-btn" style="padding:6px 12px;font-size:12px;margin-left:4px;" onclick="renamePortfolio()" title="Rename">Rename</button>'+
+    '<button class="hdr-btn" style="padding:6px 12px;font-size:12px;color:var(--red);border-color:var(--red);" onclick="deletePortfolio()" title="Delete">Delete</button>';
 }
 
 function renamePortfolio(){
@@ -3217,8 +3219,8 @@ async function loadStockChart(ticker,period){
     width:container.clientWidth||container.offsetWidth||800,
     height:420,
     layout:{
-      background:{type:'solid',color:'#0a0a1a'},
-      textColor:'#a0a0b0',
+      background:{type:'solid',color:'#0d0d0d'},
+      textColor:'#9CA3AF',
       fontFamily:'Inter, sans-serif',
     },
     grid:{
@@ -3752,12 +3754,12 @@ async function refreshAll(){
   const pctETF=allData.totalValue>0?((catCount['ETF']||0)/allData.totalValue*100):0;
 
   document.getElementById('dashHighlights').innerHTML=`
-    <div class="hl-card"><div class="hl-icon">${dailyGain>=0?'📈':'📉'}</div><div class="hl-body"><div class="hl-label">Daily Gain</div><div class="hl-value ${dailyGain>=0?'clr-green':'clr-red'}">${dailyGain>=0?'+':''}${fmtMoneyDual(dailyGain)}</div></div></div>
-    <div class="hl-card"><div class="hl-icon">${allData.totalPL>=0?'💹':'💔'}</div><div class="hl-body"><div class="hl-label">Total Gain</div><div class="hl-value ${allData.totalPL>=0?'clr-green':'clr-red'}">${allData.totalPL>=0?'+':''}${fmtMoneyDual(allData.totalPL)} (${allData.totalPLPct>=0?'+':''}${fmtNum(allData.totalPLPct)}%)</div></div></div>
-    <div class="hl-card"><div class="hl-icon">🏢</div><div class="hl-body"><div class="hl-label">Large Cap</div><div class="hl-value">${fmtNum(pctLargeCap,0)}%</div></div></div>
-    <div class="hl-card"><div class="hl-icon">🚀</div><div class="hl-body"><div class="hl-label">Growth</div><div class="hl-value">${fmtNum(pctGrowth,0)}%</div></div></div>
-    <div class="hl-card"><div class="hl-icon">💰</div><div class="hl-body"><div class="hl-label">Dividend</div><div class="hl-value">${fmtNum(pctDividend,0)}%</div></div></div>
-    <div class="hl-card"><div class="hl-icon">📊</div><div class="hl-body"><div class="hl-label">Mid Cap / ETF</div><div class="hl-value">${fmtNum(pctMidCap,0)}% / ${fmtNum(pctETF,0)}%</div></div></div>
+    <div class="hl-card"><div class="hl-icon">${dailyGain>=0?'':''}</div><div class="hl-body"><div class="hl-label">Daily Gain</div><div class="hl-value ${dailyGain>=0?'clr-green':'clr-red'}">${dailyGain>=0?'+':''}${fmtMoneyDual(dailyGain)}</div></div></div>
+    <div class="hl-card"><div class="hl-icon">${allData.totalPL>=0?'':''}</div><div class="hl-body"><div class="hl-label">Total Gain</div><div class="hl-value ${allData.totalPL>=0?'clr-green':'clr-red'}">${allData.totalPL>=0?'+':''}${fmtMoneyDual(allData.totalPL)} (${allData.totalPLPct>=0?'+':''}${fmtNum(allData.totalPLPct)}%)</div></div></div>
+    <div class="hl-card"><div class="hl-icon"></div><div class="hl-body"><div class="hl-label">Large Cap</div><div class="hl-value">${fmtNum(pctLargeCap,0)}%</div></div></div>
+    <div class="hl-card"><div class="hl-icon"></div><div class="hl-body"><div class="hl-label">Growth</div><div class="hl-value">${fmtNum(pctGrowth,0)}%</div></div></div>
+    <div class="hl-card"><div class="hl-icon"></div><div class="hl-body"><div class="hl-label">Dividend</div><div class="hl-value">${fmtNum(pctDividend,0)}%</div></div></div>
+    <div class="hl-card"><div class="hl-icon"></div><div class="hl-body"><div class="hl-label">Mid Cap / ETF</div><div class="hl-value">${fmtNum(pctMidCap,0)}% / ${fmtNum(pctETF,0)}%</div></div></div>
   `;
 
   // Update Fear & Greed and Market Overview
@@ -3848,7 +3850,7 @@ async function refreshAll(){
     <div class="sum-card"><div class="label">Portfolio Value</div><div class="value">${fmtMoneyDual(totalValue)}</div><div class="sub">${filteredTickers.length} holdings</div></div>
     <div class="sum-card"><div class="label">Total Cost</div><div class="value">${fmtMoneyDual(totalCost)}</div></div>
     <div class="sum-card"><div class="label">P&L</div><div class="value ${totalPL>=0?'clr-green':'clr-red'}" style="font-weight:700;">${totalPL>=0?'+':''}${fmtMoneyDual(totalPL)}</div><div class="sub ${totalPLPct>=0?'clr-green':'clr-red'}" style="font-weight:700;">${totalPLPct>=0?'+':''}${fmtNum(totalPLPct)}%</div></div>
-    <div class="sum-card"><div class="label">Alloc Alerts</div><div class="value ${tickers.filter(t2=>{const w2=calcWeight(stocks[t2].shares,(prices[t2]?.p||stocks[t2].avgCost),totalValue);return appData.allocLimits[t2]!=null&&w2>appData.allocLimits[t2];}).length>0?'clr-red':'clr-green'}" style="font-weight:700;">${tickers.filter(t2=>{const w2=calcWeight(stocks[t2].shares,(prices[t2]?.p||stocks[t2].avgCost),totalValue);return appData.allocLimits[t2]!=null&&w2>appData.allocLimits[t2];}).length>0?'⚠ '+tickers.filter(t2=>{const w2=calcWeight(stocks[t2].shares,(prices[t2]?.p||stocks[t2].avgCost),totalValue);return appData.allocLimits[t2]!=null&&w2>appData.allocLimits[t2];}).length+' Over':'✓ OK'}</div></div>
+    <div class="sum-card"><div class="label">Alloc Alerts</div><div class="value ${tickers.filter(t2=>{const w2=calcWeight(stocks[t2].shares,(prices[t2]?.p||stocks[t2].avgCost),totalValue);return appData.allocLimits[t2]!=null&&w2>appData.allocLimits[t2];}).length>0?'clr-red':'clr-green'}" style="font-weight:700;">${tickers.filter(t2=>{const w2=calcWeight(stocks[t2].shares,(prices[t2]?.p||stocks[t2].avgCost),totalValue);return appData.allocLimits[t2]!=null&&w2>appData.allocLimits[t2];}).length>0?' '+tickers.filter(t2=>{const w2=calcWeight(stocks[t2].shares,(prices[t2]?.p||stocks[t2].avgCost),totalValue);return appData.allocLimits[t2]!=null&&w2>appData.allocLimits[t2];}).length+' Over':'✓ OK'}</div></div>
   `;
 
   // Apply portfolio sort
@@ -3873,8 +3875,8 @@ async function refreshAll(){
       <td class="${plp>=0?'clr-green':'clr-red'}" style="font-weight:700;">${plp>=0?'+':''}${fmtNum(plp)}%</td>
       <td style="font-weight:700;">${fmtNum(w,1)}%</td>
       <td>${appData.allocLimits[t]!=null?allocLimit+'%':'—'}</td>
-      <td>${isOver?'<span class="clr-red" style="font-weight:700;">⚠ Over</span>':'<span class="clr-green">✓ OK</span>'}</td>
-      <td><button class="btn" style="padding:4px 10px;font-size:11px;margin-right:4px;" onclick="moveStock('${t}')">📦 Move</button><button class="btn btn-danger" style="padding:4px 10px;font-size:11px;" onclick="removeStock('${t}')">Remove</button></td></tr>`;
+      <td>${isOver?'<span class="clr-red" style="font-weight:700;"> Over</span>':'<span class="clr-green">✓ OK</span>'}</td>
+      <td><button class="btn" style="padding:4px 10px;font-size:11px;margin-right:4px;" onclick="moveStock('${t}')"> Move</button><button class="btn btn-danger" style="padding:4px 10px;font-size:11px;" onclick="removeStock('${t}')">Remove</button></td></tr>`;
   }
   ptb.innerHTML=ptbHtml;
 
@@ -3904,7 +3906,7 @@ async function refreshAll(){
         <div class="alloc-bar-label">${t}</div>
         <div class="alloc-bar-track"><div class="alloc-bar-fill" style="width:${Math.min(w2,100)}%;background:${barColor};">${fmtNum(w2,1)}%</div></div>
         <div class="alloc-bar-limit">${hasLim?'max '+lim+'%':''}</div>
-        <div class="alloc-bar-status" style="color:${isO?'var(--red)':'var(--green)'}; font-weight:${isO?'700':'400'};">${isO?'⚠ Over':'✓'}</div>
+        <div class="alloc-bar-status" style="color:${isO?'var(--red)':'var(--green)'}; font-weight:${isO?'700':'400'};">${isO?' Over':'✓'}</div>
       </div>`;
     }).join('');
   }
@@ -3959,7 +3961,7 @@ async function refreshAll(){
     sumRemain.style.color=remain<0?'var(--red)':remain===0?'var(--green)':'var(--orange)';
     if(allocSum===0){sumBadge.textContent='No targets set';sumBadge.className='badge badge-sim';}
     else if(allocSum===100){sumBadge.textContent='✓ Balanced (100%)';sumBadge.className='badge badge-live';}
-    else if(allocSum>100){sumBadge.textContent='⚠ Over 100%';sumBadge.className='badge badge-sim';}
+    else if(allocSum>100){sumBadge.textContent=' Over 100%';sumBadge.className='badge badge-sim';}
     else{sumBadge.textContent=`${fmtNum(100-allocSum,1)}% unassigned`;sumBadge.className='badge badge-sim';}
   }
 
@@ -3977,7 +3979,7 @@ async function refreshAll(){
       <td class="ticker">${t}</td><td>${fmtNum(w,1)}%</td>
       <td><input type="number" min="0" max="100" step="0.1" value="${hasTarget?target:''}" placeholder="—" style="width:65px;padding:4px;border:1px solid var(--border);border-radius:4px;background:var(--bg-base);color:var(--tx-primary);font-size:12px;" onchange="updateAllocTarget('${t}',this.value)"></td>
       <td class="${diff>0?'clr-red':diff<0?'clr-green':''}">${hasTarget?(diff>=0?'+':'')+fmtNum(diff,1)+'%':'—'}</td>
-      <td>${!hasTarget?'<span style="color:var(--tx-muted);">No target</span>':over?'<span class="clr-red" style="font-weight:700;">⚠ Over</span>':under?'<span style="color:var(--orange);">↓ Under</span>':'<span class="clr-green">✓ OK</span>'}</td>
+      <td>${!hasTarget?'<span style="color:var(--tx-muted);">No target</span>':over?'<span class="clr-red" style="font-weight:700;"> Over</span>':under?'<span style="color:var(--orange);">↓ Under</span>':'<span class="clr-green">✓ OK</span>'}</td>
       <td><button class="btn btn-danger" style="padding:2px 8px;font-size:11px;" onclick="clearAllocTarget('${t}')">Clear</button></td></tr>`;
   }
   atb.innerHTML=atbHtml;
@@ -3989,13 +3991,13 @@ async function refreshAll(){
   const undersAlloc=allocTickersWithTarget.filter(t=>{const w=calcWeight(allocStocks[t].shares,(allocPrices[t]?.p||allocStocks[t].avgCost),allocTotalValue);return w<appData.allocLimits[t]-1;});
 
   if(allocSum>0&&allocSum!==100){
-    rb.innerHTML=`<p style="color:var(--orange);margin-bottom:8px;">⚠ Target allocations sum to <b>${fmtNum(allocSum,1)}%</b> — should be exactly 100%.</p>`;
+    rb.innerHTML=`<p style="color:var(--orange);margin-bottom:8px;"> Target allocations sum to <b>${fmtNum(allocSum,1)}%</b> — should be exactly 100%.</p>`;
   }else if(oversAlloc.length===0&&undersAlloc.length===0){
     rb.innerHTML='<p style="color:var(--green);">✓ All holdings within target allocation. Portfolio is balanced.</p>';
   }else{
     let rbHtml='';
     if(oversAlloc.length>0){
-      rbHtml+='<p style="color:var(--red);margin-bottom:8px;">⚠ Over-allocated positions:</p>'+
+      rbHtml+='<p style="color:var(--red);margin-bottom:8px;"> Over-allocated positions:</p>'+
         oversAlloc.map(t=>{const w=calcWeight(allocStocks[t].shares,(allocPrices[t]?.p||allocStocks[t].avgCost),allocTotalValue);const lim=appData.allocLimits[t];
           const excess=w-lim;const pr=allocPrices[t]?.p||allocStocks[t].avgCost;const sharesToSell=Math.ceil((excess/100*allocTotalValue)/pr);
           return`<p>• <b>${t}</b>: ${fmtNum(w,1)}% → target ${lim}% — Sell ~${sharesToSell} shares</p>`;}).join('');
@@ -4092,7 +4094,7 @@ function tradePreview(){
       html+=`<div class="row"><span>Remaining</span><b>${fmtNum(Math.max(0,remain),4)} shares</b></div>`;
       html+=`<div class="row"><span>Realized P&L</span><b class="${pl>=0?'clr-green':'clr-red'}">${pl>=0?'+':''}${fmtMoney(pl)}</b></div>`;
     }else{
-      html+=`<div class="divider"></div><div class="row"><span style="color:var(--red);">⚠ No position to sell</span></div>`;
+      html+=`<div class="divider"></div><div class="row"><span style="color:var(--red);"> No position to sell</span></div>`;
     }
   }
   box.innerHTML=html;
@@ -4160,7 +4162,7 @@ async function renderTradeStockInfo(ticker,pfName){
       <div class="divider"></div>
       <div class="row"><span>Weight in ${pfName}</span><b>${fmtNum(weight,1)}%</b></div>
       ${allocLimit?`<div class="row"><span>Target Allocation</span><b>${allocLimit}%</b></div>
-      <div class="row"><span>Status</span><b class="${weight>allocLimit?'clr-red':'clr-green'}">${weight>allocLimit?'⚠ Over Target ('+fmtNum(weight-allocLimit,1)+'% excess)':'✓ Within Target'}</b></div>`:''}
+      <div class="row"><span>Status</span><b class="${weight>allocLimit?'clr-red':'clr-green'}">${weight>allocLimit?' Over Target ('+fmtNum(weight-allocLimit,1)+'% excess)':'✓ Within Target'}</b></div>`:''}
     </div>
   `;
 }
@@ -4252,7 +4254,7 @@ function tradeUSDPreview(){
       html+=`<div class="row"><span>Remaining</span><b>${fmtNum(Math.max(0,remain),4)} shares</b></div>`;
       html+=`<div class="row"><span>Realized P&L</span><b class="${pl>=0?'clr-green':'clr-red'}">${pl>=0?'+':''}${fmtMoney(pl)}</b></div>`;
     }else{
-      html+=`<div class="divider"></div><div class="row"><span style="color:var(--red);">⚠ No position to sell</span></div>`;
+      html+=`<div class="divider"></div><div class="row"><span style="color:var(--red);"> No position to sell</span></div>`;
     }
   }
   box.innerHTML=html;
@@ -4264,10 +4266,10 @@ function updateTradeSimTitle(){
   const titleEl=document.getElementById('tradeDCASimTitle');
   const descEl=document.getElementById('tradeDCASimDesc');
   if(side==='sell'){
-    titleEl.textContent='📊 จำลองการขาย — ถ้าขาย $100, $200, $300...';
+    titleEl.textContent=' จำลองการขาย — ถ้าขาย $100, $200, $300...';
     descEl.textContent='จะเหลือหุ้นเท่าไหร่? กำไร/ขาดทุนเท่าไหร่?';
   }else{
-    titleEl.textContent='📊 จำลองการซื้อเพิ่ม — ถ้าซื้อ $100, $200, $300...';
+    titleEl.textContent='DCA Simulator — ถ้าซื้อ $100, $200, $300...';
     descEl.textContent='สัดส่วนและต้นทุนเฉลี่ยจะเปลี่ยนไปเท่าไหร่?';
   }
   calcTradeDCA();
@@ -4410,12 +4412,12 @@ async function calcTradeDCA(){
       <td>${fmtMoney(newAvg)}</td>
       <td class="${avgChange<0?'dca-change-dn':avgChange>0?'dca-change-up':''}">${avgChange>=0?'+':''}${fmtMoney(Math.abs(avgChange))} (${avgChangePct>=0?'+':''}${fmtNum(avgChangePct)}%)</td>
       <td>${fmtMoney(newInvested)}</td>
-      <td${isOverLimit?' style="color:var(--red);font-weight:700;"':''}>${fmtNum(newWeight)}%${isOverLimit?' ⚠️':''}</td>
+      <td${isOverLimit?' style="color:var(--red);font-weight:700;"':''}>${fmtNum(newWeight)}%${isOverLimit?' ':''}</td>
       <td class="dca-change-up">+${fmtNum(weightChange)}%</td>
     </tr>`;
   }
   html+='</tbody></table></div>';
-  if(allocLimit)html+=`<p style="font-size:11px;color:var(--tx-secondary);margin-top:6px;">⚠️ เป้าหมาย: ${allocLimit}% — แถวสีแดง = เกินเป้า</p>`;
+  if(allocLimit)html+=`<p style="font-size:11px;color:var(--tx-secondary);margin-top:6px;"> เป้าหมาย: ${allocLimit}% — แถวสีแดง = เกินเป้า</p>`;
   document.getElementById('tradeDCASimOutput').innerHTML=html;
 }
 
@@ -4612,7 +4614,7 @@ function renderWatchlistTable(){
       <td class="${(pr.pct||0)>=0?'clr-green':'clr-red'}">${(pr.pct||0)>=0?'+':''}${fmtNum(pr.pct||0)}%</td>
       <td>${fmtMoney(pr.h||0)}</td><td>${fmtMoney(pr.l||0)}</td>
       <td><button class="btn btn-danger" style="padding:4px 10px;font-size:11px;" onclick="removeWatchlist('${t}')">Remove</button></td>
-      <td><button class="btn" style="padding:4px 10px;font-size:11px;" onclick="openStockDetail('${t}')">📈 Detail</button></td></tr>`;
+      <td><button class="btn" style="padding:4px 10px;font-size:11px;" onclick="openStockDetail('${t}')"> Detail</button></td></tr>`;
   }
 }
 
@@ -4867,7 +4869,7 @@ async function calcDCASimulation(){
       <td>${fmtMoney(newAvgCost)}</td>
       <td class="${avgChangeClass}">${avgChange>=0?'+':''}${fmtMoney(Math.abs(avgChange))} (${avgChangePct>=0?'+':''}${fmtNum(avgChangePct)}%)</td>
       <td>${fmtMoney(newTotalInvested)}</td>
-      <td${isOverLimit?' style="color:var(--red);font-weight:700;"':''}>${fmtNum(newWeight)}%${isOverLimit?' ⚠️':''}</td>
+      <td${isOverLimit?' style="color:var(--red);font-weight:700;"':''}>${fmtNum(newWeight)}%${isOverLimit?' ':''}</td>
       <td class="${weightChangeClass}">+${fmtNum(weightChange)}%</td>
     </tr>`;
   }
@@ -4875,7 +4877,7 @@ async function calcDCASimulation(){
   html+='</tbody></table></div>';
 
   if(allocLimit){
-    html+=`<p style="font-size:11px;color:var(--tx-secondary);margin-top:8px;">⚠️ เป้าหมายสัดส่วน: ${fmtNum(allocLimit)}% — แถวสีแดงหมายถึงเกินเป้าหมาย</p>`;
+    html+=`<p style="font-size:11px;color:var(--tx-secondary);margin-top:8px;"> เป้าหมายสัดส่วน: ${fmtNum(allocLimit)}% — แถวสีแดงหมายถึงเกินเป้าหมาย</p>`;
   }
 
   document.getElementById('dcaSimOutput').innerHTML=html;
@@ -5031,7 +5033,7 @@ function renderRealizedPLCard(){
   // Summary cards row
   let summaryHtml='<div style="display:grid;grid-template-columns:repeat(auto-fill,minmax(160px,1fr));gap:12px;margin-bottom:16px;">';
   for(const g of sorted){
-    const icon=g.totalPL>=0?'📈':'📉';
+    const icon=g.totalPL>=0?'':'';
     const clr=g.totalPL>=0?'clr-green':'clr-red';
     summaryHtml+=`<div style="background:var(--bg-base);border:1px solid var(--border);border-radius:var(--radius);padding:14px;text-align:center;">
       <div style="font-size:20px;margin-bottom:4px;">${icon}</div>
@@ -5249,7 +5251,7 @@ async function initApp(){
   if(apiKey)document.getElementById('apiBanner').classList.add('hide');
   // Show logged-in user in header
   const ud=document.getElementById('userDisplay');
-  if(ud&&currentUser)ud.textContent='👤 '+currentUser;
+  if(ud&&currentUser)ud.textContent=''+currentUser;
 
   // Show Firebase config in settings
   const configInput=document.getElementById('firebaseConfigInput');
@@ -5586,7 +5588,7 @@ function editGuru(){
 
 // ===== GOTHEMATIC AUTO-SCRAPE =====
 async function refreshGuruFromSource(){
-  toast('🔄 กำลังดึงข้อมูลจาก GoThematic...','info');
+  toast('กำลังดึงข้อมูลจาก GoThematic...','info');
   const gothematicUrl='https://www.gothematic.com/index/shayfrgr';
   const proxies=[
     'https://api.allorigins.win/raw?url=',
@@ -5616,16 +5618,16 @@ async function refreshGuruFromSource(){
         appData.gurus[0].lastUpdated=new Date().toISOString().split('T')[0];
         saveData();
         renderGuruPortfolio('shay');
-        toast('✅ อัพเดท '+tickers.length+' หุ้นจาก GoThematic สำเร็จ!','success');
+        toast('อัพเดท '+tickers.length+' หุ้นจาก GoThematic สำเร็จ!','success');
         return;
       }
     }catch(e){console.error('GoThematic parse error:',e);}
   }
 
   // If scraping fails, just refresh prices from Finnhub
-  toast('⚠️ GoThematic scrape ไม่สำเร็จ — กำลังรีเฟรชราคาจาก Finnhub แทน','info');
+  toast(' GoThematic scrape ไม่สำเร็จ — กำลังรีเฟรชราคาจาก Finnhub แทน','info');
   await renderGuruPortfolio('shay');
-  toast('✅ รีเฟรชราคาเรียบร้อย','success');
+  toast('รีเฟรชราคาเรียบร้อย','success');
 }
 
 // ===== ARTICLES FUNCTIONS =====
@@ -5666,9 +5668,9 @@ function renderArticles(articles=appData.articles){
       <div class="article-title">${a.title}</div>
       <div class="article-excerpt">${a.excerpt}</div>
       <div class="article-meta">
-        <span>📅 ${dateFormatted}</span>
-        <span>✍️ ${a.author}</span>
-        <span>👁️ ${a.views||0} Views</span>
+        <span> ${dateFormatted}</span>
+        <span> ${a.author}</span>
+        <span> ${a.views||0} Views</span>
       </div>
       <div class="article-tags">${(a.tickers||[]).map(t=>`<span class="article-tag">${t}</span>`).join('')}</div>
       ${a.isExpanded?`<div class="article-content-expanded">${a.content}</div>`:''}
