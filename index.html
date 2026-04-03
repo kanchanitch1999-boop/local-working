@@ -1095,6 +1095,75 @@ tbody tr:hover{
   box-shadow:none;
 }
 
+/* ===== TRADING BOARD LAYOUT ===== */
+.trading-board{
+  display:grid;
+  grid-template-columns:1fr 380px;
+  gap:16px;
+  min-height:600px;
+}
+
+.trading-board-left{
+  display:flex;
+  flex-direction:column;
+  gap:12px;
+}
+
+.trading-board-right{
+  display:flex;
+  flex-direction:column;
+  gap:12px;
+  overflow-y:auto;
+  max-height:calc(100vh - 200px);
+}
+
+.stock-header{
+  padding:16px;
+  background:var(--bg-surface);
+  border-radius:var(--radius);
+  border:1px solid var(--border);
+  margin-bottom:12px;
+}
+
+.stock-price{
+  font-size:32px;
+  font-weight:700;
+  color:var(--tx-primary);
+}
+
+.stock-change{
+  font-weight:600;
+}
+
+.stock-change.positive{
+  color:var(--green);
+}
+
+.stock-change.negative{
+  color:var(--red);
+}
+
+.trading-panel{
+  background:var(--bg-surface);
+  padding:16px;
+  border-radius:var(--radius);
+  border:1px solid var(--border);
+}
+
+.dca-section{
+  padding:12px;
+}
+
+/* Responsive: Stack on mobile */
+@media(max-width:1024px){
+  .trading-board{
+    grid-template-columns:1fr;
+  }
+  .trading-board-right{
+    max-height:none;
+  }
+}
+
 /* ===== LOSS SCENARIO CALCULATOR ===== */
 .loss-scenario-grid{
   display:grid;
@@ -1998,63 +2067,159 @@ tbody tr:hover{
 
 <!-- ===== TRADE ===== -->
 <div class="section" id="sec-trade">
-  <div class="card">
-    <div class="card-title">Execute Trade</div>
-    <div class="form-row">
-      <div class="fg"><label>Portfolio</label><select id="tradePf" onchange="tradePreview()"></select></div>
-      <div class="fg ticker-autocomplete-wrapper"><label>Ticker</label><input id="tradeTicker" placeholder="e.g. AAPL" oninput="handleTickerInput(this.value,'tradeTicker','tradeAutocomplete');this.value=this.value.toUpperCase();tradePreview()" autocomplete="off"><div id="tradeAutocomplete" class="ticker-autocomplete"></div></div>
-      <div class="fg"><label>Side</label><select id="tradeSide" onchange="tradePreview();updateTradeSimTitle()"><option value="buy">BUY</option><option value="sell">SELL</option></select></div>
-    </div>
-    <!-- Trade Mode Toggle -->
-    <div style="margin-bottom:12px;">
-      <label style="font-size:12px;font-weight:600;color:var(--tx-secondary);display:block;margin-bottom:6px;">Buy Mode</label>
-      <div class="trade-mode-toggle">
-        <button class="trade-mode-btn active" id="tradeModeShares" onclick="setTradeMode('shares')">ซื้อตามจำนวนหุ้น (Shares)</button>
-        <button class="trade-mode-btn" id="tradeModeUSD" onclick="setTradeMode('usd')">ซื้อตามเงิน USD ($)</button>
+  <!-- Stock Selector Bar at Top -->
+  <div class="card" style="margin-bottom:16px;">
+    <div style="display:flex;gap:12px;align-items:end;">
+      <div class="fg ticker-autocomplete-wrapper" style="flex:1;min-width:200px;">
+        <label>Select Stock to Trade</label>
+        <input id="tradeTickerSearch" placeholder="Search ticker e.g. AAPL, NVDA..." oninput="handleTickerInput(this.value,'tradeTickerSearch','tradeTickerAutocomplete');this.value=this.value.toUpperCase();onTradeTickerSelected()" autocomplete="off">
+        <div id="tradeTickerAutocomplete" class="ticker-autocomplete"></div>
       </div>
-    </div>
-    <!-- Shares mode inputs -->
-    <div class="form-row" id="tradeSharesRow">
-      <div class="fg"><label>Shares</label><input id="tradeShares" type="number" min="0" step="any" placeholder="0" oninput="tradePreview()"></div>
-      <div class="fg"><label>Price (USD)</label><input id="tradePrice" type="number" min="0" step="any" placeholder="Market price" oninput="tradePreview()"></div>
-    </div>
-    <!-- USD mode inputs -->
-    <div class="form-row" id="tradeUSDRow" style="display:none;">
-      <div class="fg"><label>จำนวนเงิน (USD)</label><input id="tradeUSDAmount" type="number" min="0" step="any" placeholder="e.g. 500" oninput="tradeUSDPreview()"></div>
-      <div class="fg"><label>Price (USD)</label><input id="tradePriceUSD" type="number" min="0" step="any" placeholder="Market price" oninput="tradeUSDPreview()"></div>
-    </div>
-    <!-- Calculated shares display for USD mode -->
-    <div id="tradeUSDCalcInfo" style="display:none;margin-bottom:12px;padding:10px 14px;background:var(--accent-light);border:1px solid var(--border);border-radius:var(--radius);font-size:13px;"></div>
-    <div class="trade-preview" id="tradePreviewBox" style="display:none;"></div>
-    <div class="btn-row" style="margin-top:14px;">
-      <button class="btn btn-fill" onclick="executeTrade()">Execute Trade</button>
-      <button class="btn" onclick="fetchTradePrice()">Fetch Live Price</button>
+      <button class="btn btn-fill" onclick="loadTradeBoard(document.getElementById('tradeTickerSearch').value)" style="margin-bottom:0;">Load Chart</button>
     </div>
   </div>
 
-  <!-- Stock Info from Portfolio -->
-  <div class="card" id="tradeStockInfoCard" style="display:none;">
-    <div class="card-title">Current Position — <span id="tradeStockInfoTicker">—</span> <span id="tradeStockInfoCat" style="font-weight:400;"></span></div>
-    <div class="summary-row" id="tradeStockInfoSummary"></div>
-    <div id="tradeStockInfoDetails" style="margin-top:12px;"></div>
-  </div>
-
-  <!-- DCA Simulation Table in Trade Page -->
-  <div class="card" id="tradeDCASimCard" style="display:none;">
-    <div class="card-title" id="tradeDCASimTitle">DCA Simulator — ถ้าซื้อ $100, $200, $300...</div>
-    <p style="font-size:12px;color:var(--tx-secondary);margin-bottom:12px;" id="tradeDCASimDesc">สัดส่วนและต้นทุนเฉลี่ยจะเปลี่ยนไปเท่าไหร่?</p>
-    <div id="tradeDCASimInfo"></div>
-    <div style="display:flex;gap:12px;margin-bottom:12px;flex-wrap:wrap;align-items:end;">
-      <div class="fg" style="flex:1;min-width:100px;">
-        <label>Step (USD)</label>
-        <input type="number" id="tradeDCAStep" min="50" step="50" value="100" oninput="calcTradeDCA()">
+  <!-- 2-Column Trading Board Layout -->
+  <div class="trading-board">
+    <!-- LEFT COLUMN: Chart & Controls -->
+    <div class="trading-board-left">
+      <!-- Stock Header with Price -->
+      <div class="stock-header" id="tradeStockHeader" style="display:none;">
+        <div style="display:flex;justify-content:space-between;align-items:flex-start;">
+          <div>
+            <div style="display:flex;align-items:center;gap:8px;">
+              <span style="font-size:24px;font-weight:700;" id="tradeChartTicker">—</span>
+              <span style="font-size:14px;color:var(--tx-secondary);" id="tradeChartName"></span>
+            </div>
+            <div style="display:flex;align-items:center;gap:12px;margin-top:8px;">
+              <span class="stock-price" id="tradeChartPrice">$0.00</span>
+              <span class="stock-change" id="tradeChartChange" style="font-size:14px;font-weight:600;">+0.00 (0.00%)</span>
+            </div>
+          </div>
+          <button class="btn btn-danger" style="padding:6px 12px;font-size:11px;" onclick="closeTradeBoard()">Close</button>
+        </div>
       </div>
-      <div class="fg" style="flex:1;min-width:80px;">
-        <label>จำนวนแถว</label>
-        <input type="number" id="tradeDCACount" min="1" max="20" step="1" value="10" oninput="calcTradeDCA()">
+
+      <!-- Chart Controls Bar -->
+      <div id="tradeChartControls" style="display:none;margin-bottom:12px;padding:12px;background:var(--bg-surface);border-radius:var(--radius);border:1px solid var(--border);">
+        <div style="display:flex;gap:8px;margin-bottom:8px;flex-wrap:wrap;">
+          <div style="font-size:12px;color:var(--tx-secondary);font-weight:600;display:flex;align-items:center;gap:6px;">
+            Range:
+          </div>
+          <button class="period-btn active" onclick="loadTradeChart(document.getElementById('tradeChartTicker').textContent,'1D')">1D</button>
+          <button class="period-btn" onclick="loadTradeChart(document.getElementById('tradeChartTicker').textContent,'5D')">5D</button>
+          <button class="period-btn" onclick="loadTradeChart(document.getElementById('tradeChartTicker').textContent,'1M')">1M</button>
+          <button class="period-btn" onclick="loadTradeChart(document.getElementById('tradeChartTicker').textContent,'6M')">6M</button>
+          <button class="period-btn" onclick="loadTradeChart(document.getElementById('tradeChartTicker').textContent,'1Y')">1Y</button>
+        </div>
+        <div style="display:flex;gap:8px;flex-wrap:wrap;">
+          <button class="indicator-toggle" onclick="toggleTradeIndicator('bb')">Bollinger Bands</button>
+          <button class="indicator-toggle" onclick="toggleTradeIndicator('sma20')">SMA 20</button>
+          <button class="indicator-toggle" onclick="toggleTradeIndicator('sma50')">SMA 50</button>
+        </div>
+      </div>
+
+      <!-- Chart Container -->
+      <div id="tradeChartContainer" style="display:none;margin-bottom:12px;">
+        <div id="tradeChart" style="height:480px;width:100%;background:var(--bg-surface);border-radius:var(--radius);border:1px solid var(--border);"></div>
       </div>
     </div>
-    <div id="tradeDCASimOutput"></div>
+
+    <!-- RIGHT COLUMN: Trade Form & Tools (380px) -->
+    <div class="trading-board-right">
+      <!-- Execute Trade Card -->
+      <div class="card trading-panel" id="tradeExecutePanel" style="display:none;">
+        <div class="card-title">Execute Trade</div>
+        <div class="form-row">
+          <div class="fg"><label>Portfolio</label><select id="tradePf" onchange="tradePreview()"></select></div>
+          <div class="fg"><label>Side</label><select id="tradeSide" onchange="tradePreview();updateTradeSimTitle()"><option value="buy">BUY</option><option value="sell">SELL</option></select></div>
+        </div>
+        <!-- Trade Mode Toggle -->
+        <div style="margin-bottom:12px;">
+          <label style="font-size:12px;font-weight:600;color:var(--tx-secondary);display:block;margin-bottom:6px;">Buy Mode</label>
+          <div class="trade-mode-toggle">
+            <button class="trade-mode-btn active" id="tradeModeShares" onclick="setTradeMode('shares')">Shares</button>
+            <button class="trade-mode-btn" id="tradeModeUSD" onclick="setTradeMode('usd')">USD</button>
+          </div>
+        </div>
+        <!-- Shares mode inputs -->
+        <div class="form-row" id="tradeSharesRow">
+          <div class="fg"><label>Shares</label><input id="tradeShares" type="number" min="0" step="any" placeholder="0" oninput="tradePreview()"></div>
+          <div class="fg"><label>Price (USD)</label><input id="tradePrice" type="number" min="0" step="any" placeholder="Market" oninput="tradePreview()"></div>
+        </div>
+        <!-- USD mode inputs -->
+        <div class="form-row" id="tradeUSDRow" style="display:none;">
+          <div class="fg"><label>Amount (USD)</label><input id="tradeUSDAmount" type="number" min="0" step="any" placeholder="e.g. 500" oninput="tradeUSDPreview()"></div>
+          <div class="fg"><label>Price (USD)</label><input id="tradePriceUSD" type="number" min="0" step="any" placeholder="Market" oninput="tradeUSDPreview()"></div>
+        </div>
+        <div id="tradeUSDCalcInfo" style="display:none;margin-bottom:12px;padding:10px 14px;background:var(--accent-light);border:1px solid var(--border);border-radius:var(--radius);font-size:13px;"></div>
+        <div class="trade-preview" id="tradePreviewBox" style="display:none;"></div>
+        <div class="btn-row" style="margin-top:12px;">
+          <button class="btn btn-fill" onclick="executeTrade()">Execute</button>
+          <button class="btn" onclick="fetchTradePrice()">Fetch Price</button>
+        </div>
+      </div>
+
+      <!-- Stock Position Card -->
+      <div class="card trading-panel" id="tradeStockInfoCard" style="display:none;margin-top:12px;">
+        <div class="card-title">Position</div>
+        <div class="summary-row" id="tradeStockInfoSummary"></div>
+        <div id="tradeStockInfoDetails" style="margin-top:12px;"></div>
+      </div>
+
+      <!-- DCA Calculator Card -->
+      <div class="card trading-panel dca-section" id="tradeDCACalcCard" style="display:none;margin-top:12px;">
+        <div class="card-title" style="font-size:14px;">DCA Calculator</div>
+        <div style="display:flex;gap:0;border:1px solid var(--border);border-radius:var(--radius);overflow:hidden;margin-bottom:12px;">
+          <button class="trade-mode-btn active" id="dcaMode1Btn" onclick="switchDCAMode(1)" style="font-size:11px;">Amount</button>
+          <button class="trade-mode-btn" id="dcaMode2Btn" onclick="switchDCAMode(2)" style="font-size:11px;">Percent</button>
+          <button class="trade-mode-btn" id="dcaMode3Btn" onclick="switchDCAMode(3)" style="font-size:11px;">Target Avg</button>
+        </div>
+        <div id="dcaSimCurrentInfo" style="font-size:12px;color:var(--tx-secondary);margin-bottom:12px;"></div>
+        <!-- Mode 1 -->
+        <div id="dcaMode1">
+          <div style="display:flex;gap:8px;margin-bottom:12px;">
+            <div class="fg" style="flex:1;min-width:80px;">
+              <label style="font-size:11px;">Step (USD)</label>
+              <input type="number" id="dcaStepAmount" min="50" step="50" value="100" oninput="calcDCASimulation()" style="font-size:12px;">
+            </div>
+            <div class="fg" style="flex:1;min-width:60px;">
+              <label style="font-size:11px;">Steps</label>
+              <input type="number" id="dcaStepCount" min="1" max="20" step="1" value="10" oninput="calcDCASimulation()" style="font-size:12px;">
+            </div>
+          </div>
+          <div id="dcaSimOutput" style="font-size:12px;"></div>
+        </div>
+        <!-- Mode 2 -->
+        <div id="dcaMode2" style="display:none;">
+          <div class="fg" style="margin-bottom:12px;">
+            <label style="font-size:11px;">Target %</label>
+            <input type="number" id="dcaTargetPct" min="0" max="100" step="0.1" placeholder="e.g. 5" oninput="calcDCAByPct()" style="font-size:12px;">
+          </div>
+          <div id="dcaPctOutput" style="font-size:12px;"></div>
+        </div>
+        <!-- Mode 3 -->
+        <div id="dcaMode3" style="display:none;">
+          <div class="fg" style="margin-bottom:12px;">
+            <label style="font-size:11px;">Target Avg Cost ($)</label>
+            <input type="number" id="dcaTargetAvg" min="0" step="0.01" placeholder="e.g. 150" oninput="calcDCAByTargetAvg()" style="font-size:12px;">
+          </div>
+          <div id="dcaAvgOutput" style="font-size:12px;"></div>
+        </div>
+      </div>
+
+      <!-- Support/Resistance Card -->
+      <div class="card trading-panel" id="tradeSRCard" style="display:none;margin-top:12px;">
+        <div class="card-title" style="font-size:14px;cursor:pointer;" onclick="this.nextElementSibling.style.display=this.nextElementSibling.style.display==='none'?'':'none';this.querySelector('.toggle-icon').textContent=this.nextElementSibling.style.display==='none'?'▶':'▼';">Support/Resistance <span class="toggle-icon" style="font-size:12px;margin-left:8px;">▼</span></div>
+        <div>
+          <div class="fg" style="margin-bottom:12px;">
+            <label style="font-size:11px;">Investment (USD)</label>
+            <input type="number" id="srInvestment" min="0" step="100" placeholder="1000" value="1000" oninput="calcSRLevels()" style="font-size:12px;">
+          </div>
+          <div id="srLevelsOutput" style="font-size:12px;"></div>
+        </div>
+      </div>
+    </div>
   </div>
 </div>
 
@@ -3084,6 +3249,243 @@ document.addEventListener('click',function(e){
   });
 });
 
+// ===== TRADING BOARD FUNCTIONS =====
+let currentTradeTicker=null;
+let currentTradeChartPeriod='1D';
+let tradeIndicatorState={bb:false,sma20:false,sma50:false};
+let tradeChartInstance=null;
+let tradeMainSeries=null;
+
+async function loadTradeBoard(ticker){
+  if(!ticker||ticker.length===0){showToast('Please select a ticker','error');return;}
+  currentTradeTicker=ticker;
+  document.getElementById('tradeTicker').value=ticker;
+  document.getElementById('tradeStockHeader').style.display='block';
+  document.getElementById('tradeChartControls').style.display='block';
+  document.getElementById('tradeChartContainer').style.display='block';
+  document.getElementById('tradeExecutePanel').style.display='block';
+  document.getElementById('tradeStockInfoCard').style.display='block';
+  document.getElementById('tradeDCACalcCard').style.display='block';
+  document.getElementById('tradeSRCard').style.display='block';
+  document.getElementById('tradeChartTicker').textContent=ticker;
+  const found=findTicker(ticker);
+  document.getElementById('tradeChartName').textContent=found?found.n:'';
+  await loadTradeQuote(ticker);
+  await loadTradeChart(ticker,'1D');
+  const stocks=getStocks();
+  const inPort=!!stocks[ticker];
+  if(inPort){
+    document.getElementById('tradeStockInfoCard').style.display='block';
+    await calcDCASimulation();
+    await calcSRLevels();
+  }
+  document.getElementById('sec-trade').scrollIntoView({behavior:'smooth'});
+}
+
+function closeTradeBoard(){
+  document.getElementById('tradeStockHeader').style.display='none';
+  document.getElementById('tradeChartControls').style.display='none';
+  document.getElementById('tradeChartContainer').style.display='none';
+  document.getElementById('tradeExecutePanel').style.display='none';
+  document.getElementById('tradeStockInfoCard').style.display='none';
+  document.getElementById('tradeDCACalcCard').style.display='none';
+  document.getElementById('tradeSRCard').style.display='none';
+  currentTradeTicker=null;
+  if(tradeChartInstance){try{tradeChartInstance.remove();}catch(e){}tradeChartInstance=null;tradeMainSeries=null;}
+}
+
+async function loadTradeQuote(ticker){
+  const pr=await getPrice(ticker);
+  if(!pr){return;}
+  document.getElementById('tradeChartPrice').textContent=fmtMoney(pr.p);
+  const changeEl=document.getElementById('tradeChartChange');
+  changeEl.textContent=`${pr.c>=0?'+':''}${fmtNum(pr.c)} (${pr.pct>=0?'+':''}${fmtNum(pr.pct)}%)`;
+  changeEl.className='stock-change '+(pr.c>=0?'positive':'negative');
+
+  const stocks=getStocks();
+  if(stocks[ticker]){
+    const s=stocks[ticker];
+    document.getElementById('tradeStockInfoSummary').innerHTML=`
+      <div class="sum-card"><div class="label">Holdings</div><div class="value">${fmtNum(s.q)} shares</div></div>
+      <div class="sum-card"><div class="label">Avg Cost</div><div class="value">$${fmtNum(s.c)}</div></div>
+      <div class="sum-card"><div class="label">Position Value</div><div class="value">${fmtMoney(pr.p*s.q)}</div></div>
+      <div class="sum-card"><div class="label">P/L</div><div class="value ${(pr.p-s.c)*s.q>=0?'clr-green':'clr-red'}">${fmtMoney((pr.p-s.c)*s.q)}</div></div>
+    `;
+  }
+}
+
+async function loadTradeChart(ticker,period){
+  if(!ticker)return;
+  currentTradeTicker=ticker;
+  currentTradeChartPeriod=period;
+  const range=period==='1D'?'1d':period==='5D'?'5d':period==='1M'?'1mo':period==='6M'?'6mo':'1y';
+  const interval=period==='1D'?'5m':period==='5D'?'15m':'1d';
+  const isIntraday=period==='1D'||period==='5D';
+
+  let ohlcData=[],volumeData=[];
+
+  try{
+    const url=`https://query1.finance.yahoo.com/v8/finance/chart/${encodeURIComponent(ticker)}?range=${range}&interval=${interval}`;
+    const r=await fetch(url);
+    if(r.ok){
+      const d=await r.json();
+      if(d.chart&&d.chart.result&&d.chart.result[0]){
+        const result=d.chart.result[0];
+        const ts=result.timestamp||[];
+        const q=result.indicators.quote[0];
+        const opens=q.open||[],highs=q.high||[],lows=q.low||[],closes=q.close||[],vols=q.volume||[];
+        for(let i=0;i<ts.length;i++){
+          if(closes[i]==null)continue;
+          const time=isIntraday?ts[i]:formatDate(ts[i]);
+          const o=+(opens[i]||closes[i]).toFixed(2);
+          const h=+(highs[i]||closes[i]).toFixed(2);
+          const l=+(lows[i]||closes[i]).toFixed(2);
+          const c=+closes[i].toFixed(2);
+          ohlcData.push({time,open:o,high:h,low:l,close:c});
+          volumeData.push({time,value:vols[i]||0,color:c>=o?'rgba(5,150,105,0.3)':'rgba(220,38,38,0.3)'});
+        }
+      }
+    }
+  }catch(e){console.log('Yahoo chart unavailable:',e.message);}
+
+  if(ohlcData.length===0&&appData.apiKey){
+    try{
+      const now=Math.floor(Date.now()/1000);
+      const fromMap={'1D':86400,'5D':432000,'1M':2592000,'6M':15552000,'1Y':31536000};
+      const from=now-(fromMap[period]||2592000);
+      const res=period==='1D'?'5':period==='5D'?'15':'D';
+      const url=`https://finnhub.io/api/v1/stock/candle?symbol=${encodeURIComponent(ticker)}&resolution=${res}&from=${from}&to=${now}&token=${appData.apiKey}`;
+      const r=await fetch(url);
+      if(r.ok){
+        const d=await r.json();
+        if(d.s==='ok'&&d.t&&d.t.length>0){
+          for(let i=0;i<d.t.length;i++){
+            const time=isIntraday?d.t[i]:formatDate(d.t[i]);
+            ohlcData.push({time,open:+d.o[i].toFixed(2),high:+d.h[i].toFixed(2),low:+d.l[i].toFixed(2),close:+d.c[i].toFixed(2)});
+            volumeData.push({time,value:d.v[i]||0,color:d.c[i]>=d.o[i]?'rgba(5,150,105,0.3)':'rgba(220,38,38,0.3)'});
+          }
+        }
+      }
+    }catch(e){console.log('Finnhub candle unavailable:',e.message);}
+  }
+
+  if(ohlcData.length===0){
+    const pr=await getPrice(ticker);
+    const base=pr&&pr.p?pr.p:100;
+    const points=period==='1D'?78:period==='5D'?40:period==='1M'?22:period==='6M'?126:252;
+    let price=base*0.95;
+    const now=new Date();
+    for(let i=0;i<points;i++){
+      const op=price;
+      price=price*(1+(Math.random()-0.48)*0.02);
+      const cl=price;
+      const hi=Math.max(op,cl)*(1+Math.random()*0.01);
+      const lo=Math.min(op,cl)*(1-Math.random()*0.01);
+      const d2=new Date(now);
+      if(isIntraday)d2.setMinutes(d2.getMinutes()-points+i);
+      else d2.setDate(d2.getDate()-points+i);
+      const time=isIntraday?Math.floor(d2.getTime()/1000):formatDate(Math.floor(d2.getTime()/1000));
+      ohlcData.push({time,open:+op.toFixed(2),high:+hi.toFixed(2),low:+lo.toFixed(2),close:+cl.toFixed(2)});
+      volumeData.push({time,value:Math.floor(Math.random()*1e6)+1e5,color:cl>=op?'rgba(5,150,105,0.3)':'rgba(220,38,38,0.3)'});
+    }
+  }
+
+  if(tradeChartInstance){try{tradeChartInstance.remove();}catch(e){}tradeChartInstance=null;tradeMainSeries=null;}
+  const container=document.getElementById('tradeChart');
+  container.innerHTML='';
+
+  if(ohlcData.length===0){container.innerHTML='<p style="text-align:center;padding:40px;color:var(--tx-secondary);">No chart data available</p>';return;}
+
+  try{
+    const chart=LightweightCharts.createChart(container,{
+      width:container.clientWidth||container.offsetWidth||600,
+      height:420,
+      layout:{
+        background:{type:'solid',color:'#0d0d0d'},
+        textColor:'#9CA3AF',
+        fontFamily:'Inter, sans-serif',
+      },
+      grid:{
+        vertLines:{color:'rgba(255,255,255,0.06)'},
+        horzLines:{color:'rgba(255,255,255,0.06)'},
+      },
+      rightPriceScale:{borderColor:'#1e293b'},
+      timeScale:{
+        borderColor:'#1e293b',
+        timeVisible:isIntraday,
+        secondsVisible:false,
+      },
+      handleScroll:{vertTouchDrag:false},
+    });
+
+    tradeChartInstance=chart;
+    const isUp=ohlcData.length>1&&ohlcData[ohlcData.length-1].close>=ohlcData[0].open;
+
+    if(isIntraday){
+      const areaSeries=chart.addAreaSeries({
+        topColor:isUp?'rgba(5,150,105,0.28)':'rgba(220,38,38,0.28)',
+        bottomColor:isUp?'rgba(5,150,105,0.02)':'rgba(220,38,38,0.02)',
+        lineColor:isUp?'#059669':'#dc2626',
+        lineWidth:2,
+      });
+      areaSeries.setData(ohlcData.map(d=>({time:d.time,value:d.close})));
+      tradeMainSeries=areaSeries;
+    }else{
+      const candleSeries=chart.addCandlestickSeries({
+        upColor:'#059669',downColor:'#dc2626',
+        borderDownColor:'#dc2626',borderUpColor:'#059669',
+        wickDownColor:'#dc2626',wickUpColor:'#059669',
+      });
+      candleSeries.setData(ohlcData);
+      tradeMainSeries=candleSeries;
+
+      try{
+        const volumeSeries=chart.addHistogramSeries({
+          priceFormat:{type:'volume'},
+          priceScaleId:'volume',
+        });
+        chart.priceScale('volume').applyOptions({
+          scaleMargins:{top:0.8,bottom:0},
+        });
+        volumeSeries.setData(volumeData);
+      }catch(ve){console.log('Volume series error:',ve);}
+    }
+
+    if(!isIntraday){
+      const closes=ohlcData.map(d=>d.close);
+      const times=ohlcData.map(d=>d.time);
+      try{
+        if(tradeIndicatorState.sma20){
+          const sma20=calcSMA(closes,20);
+          const sma20Series=chart.addLineSeries({color:'#3b82f6',lineWidth:1});
+          sma20Series.setData(times.map((t,i)=>({time:t,value:sma20[i]})).filter(d=>d.value));
+        }
+        if(tradeIndicatorState.sma50){
+          const sma50=calcSMA(closes,50);
+          const sma50Series=chart.addLineSeries({color:'#f59e0b',lineWidth:1});
+          sma50Series.setData(times.map((t,i)=>({time:t,value:sma50[i]})).filter(d=>d.value));
+        }
+        if(tradeIndicatorState.bb){
+          const bb=calcBollingerBands(closes,20);
+          const upperSeries=chart.addLineSeries({color:'#8b5cf6',lineWidth:1});
+          const lowerSeries=chart.addLineSeries({color:'#8b5cf6',lineWidth:1});
+          upperSeries.setData(times.map((t,i)=>({time:t,value:bb.upper[i]})).filter(d=>d.value));
+          lowerSeries.setData(times.map((t,i)=>({time:t,value:bb.lower[i]})).filter(d=>d.value));
+        }
+      }catch(ie){console.log('Indicator error:',ie);}
+    }
+
+    chart.timeScale().fitContent();
+    document.querySelectorAll('#tradeChartControls .period-btn').forEach(b=>b.classList.remove('active'));
+    document.querySelector(`#tradeChartControls .period-btn:nth-child(${['1D','5D','1M','6M','1Y'].indexOf(period)+2})`).classList.add('active');
+  }catch(e){console.log('Trade chart error:',e);container.innerHTML='<p style="text-align:center;padding:40px;color:var(--tx-secondary);">Unable to load chart</p>';}
+}
+
+function toggleTradeIndicator(ind){
+  tradeIndicatorState[ind]=!tradeIndicatorState[ind];
+  if(currentTradeTicker)loadTradeChart(currentTradeTicker,currentTradeChartPeriod);
+}
+
 // ===== STOCK DETAIL DRILL-DOWN =====
 function openStockDetail(ticker){
   currentDetailTicker=ticker;
@@ -4038,7 +4440,8 @@ async function refreshAll(){
 // ===== TRADE =====
 function tradePreview(){
   const box=document.getElementById('tradePreviewBox');
-  const ticker=document.getElementById('tradeTicker').value.trim();
+  let ticker=document.getElementById('tradeTicker').value.trim();
+  if(!ticker)ticker=currentTradeTicker||'';
   const shares=parseFloat(document.getElementById('tradeShares').value)||0;
   const price=parseFloat(document.getElementById('tradePrice').value)||0;
   const side=document.getElementById('tradeSide').value;
@@ -4185,7 +4588,8 @@ function setTradeMode(mode){
 function tradeUSDPreview(){
   const box=document.getElementById('tradePreviewBox');
   const calcInfo=document.getElementById('tradeUSDCalcInfo');
-  const ticker=document.getElementById('tradeTicker').value.trim();
+  let ticker=document.getElementById('tradeTicker').value.trim();
+  if(!ticker)ticker=currentTradeTicker||'';
   const usdAmount=parseFloat(document.getElementById('tradeUSDAmount').value)||0;
   const price=parseFloat(document.getElementById('tradePriceUSD').value)||0;
   const side=document.getElementById('tradeSide').value;
@@ -4437,7 +4841,8 @@ async function fetchTradePrice(){
 
 function executeTrade(){
   const pfName=document.getElementById('tradePf').value;
-  const ticker=document.getElementById('tradeTicker').value.trim();
+  let ticker=document.getElementById('tradeTicker').value.trim();
+  if(!ticker)ticker=currentTradeTicker||'';
   const side=document.getElementById('tradeSide').value;
   const shares=parseFloat(document.getElementById('tradeShares').value)||0;
   const price=parseFloat(document.getElementById('tradePrice').value)||0;
