@@ -1095,15 +1095,128 @@ tbody tr:hover{
   box-shadow:none;
 }
 
-/* ===== TRADING BOARD LAYOUT ===== */
+/* ===== TRADING BOARD LAYOUT — 3 COLUMN ===== */
 .trading-board{
   display:grid;
-  grid-template-columns:1fr 380px;
+  grid-template-columns:220px 1fr 350px;
   gap:16px;
   min-height:600px;
 }
 
-.trading-board-left{
+.trading-board-left-sidebar{
+  display:flex;
+  flex-direction:column;
+  gap:12px;
+  background:var(--bg-surface);
+  border-radius:var(--radius);
+  border:1px solid var(--border);
+  padding:16px;
+  overflow-y:auto;
+  max-height:calc(100vh - 200px);
+}
+
+.portfolio-summary-card{
+  background:var(--bg-base);
+  border:1px solid var(--border);
+  border-radius:var(--radius);
+  padding:12px;
+  margin-bottom:12px;
+}
+
+.portfolio-summary-card .header{
+  font-size:11px;
+  font-weight:700;
+  text-transform:uppercase;
+  letter-spacing:.5px;
+  color:var(--tx-secondary);
+  margin-bottom:8px;
+}
+
+.portfolio-summary-card .name{
+  font-size:12px;
+  color:var(--tx-primary);
+  margin-bottom:8px;
+}
+
+.portfolio-summary-card .value{
+  font-size:18px;
+  font-weight:700;
+  color:var(--tx-primary);
+  margin-bottom:4px;
+}
+
+.portfolio-summary-card .pl{
+  font-size:13px;
+  font-weight:600;
+}
+
+.portfolio-summary-card .pl.positive{
+  color:var(--green);
+}
+
+.portfolio-summary-card .pl.negative{
+  color:var(--red);
+}
+
+.favorites-section{
+  flex:1;
+}
+
+.favorites-section .header{
+  font-size:11px;
+  font-weight:700;
+  text-transform:uppercase;
+  letter-spacing:.5px;
+  color:var(--tx-secondary);
+  margin-bottom:8px;
+}
+
+.favorites-search{
+  width:100%;
+  padding:6px 10px;
+  margin-bottom:12px;
+  background:var(--bg-base);
+  border:1px solid var(--border);
+  border-radius:var(--radius);
+  color:var(--tx-primary);
+  font-size:12px;
+}
+
+.favorites-list{
+  list-style:none;
+  padding:0;
+  margin:0;
+}
+
+.favorites-list li{
+  padding:8px 10px;
+  background:var(--bg-base);
+  border:1px solid var(--border);
+  border-radius:var(--radius);
+  margin-bottom:6px;
+  cursor:pointer;
+  transition:all .2s ease;
+  font-size:12px;
+  display:flex;
+  justify-content:space-between;
+  align-items:center;
+}
+
+.favorites-list li:hover{
+  border-color:var(--accent);
+  background:var(--accent-light);
+  transform:translateX(2px);
+}
+
+.favorites-list li .ticker{
+  font-weight:700;
+}
+
+.favorites-list li .price{
+  color:var(--tx-secondary);
+}
+
+.trading-board-center{
   display:flex;
   flex-direction:column;
   gap:12px;
@@ -1122,7 +1235,40 @@ tbody tr:hover{
   background:var(--bg-surface);
   border-radius:var(--radius);
   border:1px solid var(--border);
+}
+
+.stock-header-top{
+  display:flex;
+  justify-content:space-between;
+  align-items:flex-start;
   margin-bottom:12px;
+}
+
+.stock-header-info{
+  flex:1;
+}
+
+.stock-header-ticker{
+  display:flex;
+  align-items:center;
+  gap:8px;
+  margin-bottom:8px;
+}
+
+.stock-header-ticker .ticker{
+  font-size:24px;
+  font-weight:700;
+}
+
+.stock-header-ticker .name{
+  font-size:14px;
+  color:var(--tx-secondary);
+}
+
+.stock-header-price{
+  display:flex;
+  align-items:center;
+  gap:12px;
 }
 
 .stock-price{
@@ -1143,6 +1289,130 @@ tbody tr:hover{
   color:var(--red);
 }
 
+.chart-type-row{
+  display:flex;
+  gap:8px;
+  margin-bottom:12px;
+  align-items:center;
+  flex-wrap:wrap;
+}
+
+.chart-type-row .label{
+  font-size:12px;
+  color:var(--tx-secondary);
+  font-weight:600;
+}
+
+.chart-type-btn{
+  padding:6px 12px;
+  font-size:11px;
+  font-weight:600;
+  background:var(--bg-base);
+  border:1px solid var(--border);
+  border-radius:var(--radius);
+  color:var(--tx-secondary);
+  cursor:pointer;
+  transition:all .2s ease;
+}
+
+.chart-type-btn:hover,
+.chart-type-btn.active{
+  border-color:var(--accent);
+  background:var(--accent-light);
+  color:var(--accent);
+}
+
+.overlay-toggle{
+  padding:6px 12px;
+  font-size:11px;
+  font-weight:600;
+  background:var(--bg-base);
+  border:1px solid var(--border);
+  border-radius:var(--radius);
+  color:var(--tx-secondary);
+  cursor:pointer;
+  transition:all .2s ease;
+}
+
+.overlay-toggle.active{
+  border-color:var(--green);
+  background:rgba(0,208,156,.1);
+  color:var(--green);
+}
+
+.period-row{
+  display:flex;
+  gap:8px;
+  margin-bottom:12px;
+  flex-wrap:wrap;
+  align-items:center;
+}
+
+.period-row .label{
+  font-size:12px;
+  color:var(--tx-secondary);
+  font-weight:600;
+}
+
+.period-btn{
+  padding:6px 12px;
+  font-size:11px;
+  font-weight:600;
+  background:var(--bg-base);
+  border:1px solid var(--border);
+  border-radius:var(--radius);
+  color:var(--tx-secondary);
+  cursor:pointer;
+  transition:all .2s ease;
+}
+
+.period-btn:hover{
+  border-color:var(--accent);
+  background:var(--accent-light);
+  color:var(--accent);
+}
+
+.period-btn.active{
+  background:var(--accent);
+  border-color:var(--accent);
+  color:#fff;
+}
+
+.drawing-tools{
+  display:flex;
+  gap:6px;
+  margin-bottom:12px;
+}
+
+.drawing-tool{
+  width:32px;
+  height:32px;
+  padding:0;
+  font-size:12px;
+  font-weight:700;
+  background:var(--bg-base);
+  border:1px solid var(--border);
+  border-radius:var(--radius);
+  color:var(--tx-secondary);
+  cursor:pointer;
+  transition:all .2s ease;
+  display:flex;
+  align-items:center;
+  justify-content:center;
+}
+
+.drawing-tool:hover{
+  border-color:var(--accent);
+  background:var(--accent-light);
+  color:var(--accent);
+}
+
+.drawing-tool.active{
+  border-color:var(--accent);
+  background:var(--accent);
+  color:#fff;
+}
+
 .trading-panel{
   background:var(--bg-surface);
   padding:16px;
@@ -1159,8 +1429,16 @@ tbody tr:hover{
   .trading-board{
     grid-template-columns:1fr;
   }
+  .trading-board-left-sidebar{
+    max-height:none;
+    order:2;
+  }
+  .trading-board-center{
+    order:1;
+  }
   .trading-board-right{
     max-height:none;
+    order:3;
   }
 }
 
@@ -2079,53 +2357,85 @@ tbody tr:hover{
     </div>
   </div>
 
-  <!-- 2-Column Trading Board Layout -->
+  <!-- 3-COLUMN TRADING BOARD LAYOUT -->
   <div class="trading-board">
-    <!-- LEFT COLUMN: Chart & Controls -->
-    <div class="trading-board-left">
+    <!-- LEFT SIDEBAR: Portfolio Summary + Favorites (220px) -->
+    <div class="trading-board-left-sidebar" id="tradeSidebar">
+      <!-- Portfolio Summary Card -->
+      <div class="portfolio-summary-card">
+        <div class="header">Portfolio</div>
+        <div class="name" id="portfolioName">—</div>
+        <div class="value" id="portfolioValue">$0.00</div>
+        <div class="pl" id="portfolioPL">+$0.00</div>
+      </div>
+
+      <!-- Favorites Section -->
+      <div class="favorites-section">
+        <div class="header">Watchlist</div>
+        <input type="text" class="favorites-search" id="favoritesSearch" placeholder="Search e.g. NVDA, AAPL...">
+        <ul class="favorites-list" id="favoritesList"></ul>
+      </div>
+    </div>
+
+    <!-- CENTER COLUMN: Chart & Controls (flex-grow) -->
+    <div class="trading-board-center">
       <!-- Stock Header with Price -->
       <div class="stock-header" id="tradeStockHeader" style="display:none;">
-        <div style="display:flex;justify-content:space-between;align-items:flex-start;">
-          <div>
-            <div style="display:flex;align-items:center;gap:8px;">
-              <span style="font-size:24px;font-weight:700;" id="tradeChartTicker">—</span>
-              <span style="font-size:14px;color:var(--tx-secondary);" id="tradeChartName"></span>
+        <div class="stock-header-top">
+          <div class="stock-header-info">
+            <div class="stock-header-ticker">
+              <span class="ticker" id="tradeChartTicker">—</span>
+              <span class="name" id="tradeChartName"></span>
             </div>
-            <div style="display:flex;align-items:center;gap:12px;margin-top:8px;">
+            <div class="stock-header-price">
               <span class="stock-price" id="tradeChartPrice">$0.00</span>
-              <span class="stock-change" id="tradeChartChange" style="font-size:14px;font-weight:600;">+0.00 (0.00%)</span>
+              <span class="stock-change" id="tradeChartChange">+0.00 (0.00%)</span>
             </div>
           </div>
           <button class="btn btn-danger" style="padding:6px 12px;font-size:11px;" onclick="closeTradeBoard()">Close</button>
         </div>
       </div>
 
-      <!-- Chart Controls Bar -->
-      <div id="tradeChartControls" style="display:none;margin-bottom:12px;padding:12px;background:var(--bg-surface);border-radius:var(--radius);border:1px solid var(--border);">
-        <div style="display:flex;gap:8px;margin-bottom:8px;flex-wrap:wrap;">
-          <div style="font-size:12px;color:var(--tx-secondary);font-weight:600;display:flex;align-items:center;gap:6px;">
-            Range:
-          </div>
-          <button class="period-btn active" onclick="loadTradeChart(document.getElementById('tradeChartTicker').textContent,'1D')">1D</button>
-          <button class="period-btn" onclick="loadTradeChart(document.getElementById('tradeChartTicker').textContent,'5D')">5D</button>
-          <button class="period-btn" onclick="loadTradeChart(document.getElementById('tradeChartTicker').textContent,'1M')">1M</button>
-          <button class="period-btn" onclick="loadTradeChart(document.getElementById('tradeChartTicker').textContent,'6M')">6M</button>
-          <button class="period-btn" onclick="loadTradeChart(document.getElementById('tradeChartTicker').textContent,'1Y')">1Y</button>
-        </div>
-        <div style="display:flex;gap:8px;flex-wrap:wrap;">
-          <button class="indicator-toggle" onclick="toggleTradeIndicator('bb')">Bollinger Bands</button>
-          <button class="indicator-toggle" onclick="toggleTradeIndicator('sma20')">SMA 20</button>
-          <button class="indicator-toggle" onclick="toggleTradeIndicator('sma50')">SMA 50</button>
-        </div>
+      <!-- Chart Type Row: Price Lines / Freestyle + Overlays -->
+      <div id="tradeChartTypeRow" style="display:none;" class="chart-type-row">
+        <button class="chart-type-btn active" onclick="setChartType('candlestick')">Candlestick</button>
+        <button class="chart-type-btn" onclick="setChartType('line')">Line</button>
+        <span class="label" style="margin-left:auto;">Overlays:</span>
+        <button class="overlay-toggle" id="bbToggle" onclick="toggleTradeIndicator('bb')">Bollinger Bands</button>
+      </div>
+
+      <!-- Period Selectors -->
+      <div id="tradeChartPeriodRow" style="display:none;" class="period-row">
+        <span class="label">Range:</span>
+        <button class="period-btn active" onclick="loadTradeChart(document.getElementById('tradeChartTicker').textContent,'1D')">1D</button>
+        <button class="period-btn" onclick="loadTradeChart(document.getElementById('tradeChartTicker').textContent,'5D')">5D</button>
+        <button class="period-btn" onclick="loadTradeChart(document.getElementById('tradeChartTicker').textContent,'1M')">1M</button>
+        <button class="period-btn" onclick="loadTradeChart(document.getElementById('tradeChartTicker').textContent,'6M')">6M</button>
+        <button class="period-btn" onclick="loadTradeChart(document.getElementById('tradeChartTicker').textContent,'1Y')">1Y</button>
+        <span class="label" style="margin-left:auto;">Freq:</span>
+        <button class="period-btn active" onclick="loadTradeChart(document.getElementById('tradeChartTicker').textContent,null,'day')" title="Daily">Day</button>
+      </div>
+
+      <!-- Drawing Tools -->
+      <div id="tradeDrawingTools" style="display:none;" class="drawing-tools">
+        <button class="drawing-tool" onclick="activateDrawingTool('support')" title="Support Line">S</button>
+        <button class="drawing-tool" onclick="activateDrawingTool('resistance')" title="Resistance Line">R</button>
+        <button class="drawing-tool" onclick="activateDrawingTool('custom')" title="Custom Line">C</button>
       </div>
 
       <!-- Chart Container -->
-      <div id="tradeChartContainer" style="display:none;margin-bottom:12px;">
-        <div id="tradeChart" style="height:480px;width:100%;background:var(--bg-surface);border-radius:var(--radius);border:1px solid var(--border);"></div>
+      <div id="tradeChartContainer" style="display:none;">
+        <div id="tradeChart" style="height:450px;width:100%;background:var(--bg-surface);border-radius:var(--radius);border:1px solid var(--border);"></div>
+      </div>
+
+      <!-- Technical Indicators (RSI, MACD) -->
+      <div id="tradeIndicatorsPanel" style="display:none;background:var(--bg-surface);border-radius:var(--radius);border:1px solid var(--border);padding:12px;height:150px;overflow:hidden;">
+        <div style="font-size:11px;font-weight:700;color:var(--tx-secondary);margin-bottom:8px;">Technical Indicators</div>
+        <div id="tradeIndicatorsChart" style="height:130px;width:100%;"></div>
       </div>
     </div>
 
-    <!-- RIGHT COLUMN: Trade Form & Tools (380px) -->
+    <!-- RIGHT SIDEBAR: Trade Form & Tools (350px) -->
     <div class="trading-board-right">
       <!-- Execute Trade Card -->
       <div class="card trading-panel" id="tradeExecutePanel" style="display:none;">
@@ -3252,17 +3562,89 @@ document.addEventListener('click',function(e){
 // ===== TRADING BOARD FUNCTIONS =====
 let currentTradeTicker=null;
 let currentTradeChartPeriod='1D';
+let currentTradeChartType='candlestick';
+let currentTradeChartFreq='day';
 let tradeIndicatorState={bb:false,sma20:false,sma50:false};
 let tradeChartInstance=null;
 let tradeMainSeries=null;
+let currentDrawingTool=null;
+
+function initTradeSidebar(){
+  updatePortfolioSummary();
+  populateFavoritesList();
+}
+
+function updatePortfolioSummary(){
+  const portName=appData.activePort||Object.keys(appData.portfolios)[0]||'Main';
+  const currentPort=appData.portfolios[portName];
+  if(!currentPort)return;
+
+  const stocks=currentPort.stocks||{};
+  let totalValue=0,totalCost=0;
+  for(const ticker in stocks){
+    const s=stocks[ticker];
+    const qty=s.q||0;
+    const cost=s.c||0;
+    const price=s.p||cost;
+    totalCost+=cost*qty;
+    totalValue+=price*qty;
+  }
+
+  document.getElementById('portfolioName').textContent=portName;
+  document.getElementById('portfolioValue').textContent='$'+fmtNum(totalValue);
+  const pl=totalValue-totalCost;
+  const pct=totalCost>0?((pl/totalCost)*100):0;
+  const plEl=document.getElementById('portfolioPL');
+  plEl.textContent=(pl>=0?'+':'')+('$'+fmtNum(Math.abs(pl)))+' ('+(pl>=0?'+':'')+fmtNum(pct)+'%)';
+  plEl.className='pl '+(pl>=0?'positive':'negative');
+}
+
+function populateFavoritesList(){
+  const watchlist=appData.watchlist||[];
+  const favoritesList=document.getElementById('favoritesList');
+  favoritesList.innerHTML='';
+
+  watchlist.forEach((ticker,idx)=>{
+    const t=typeof ticker==='string'?ticker:ticker.t||ticker;
+    const li=document.createElement('li');
+    li.innerHTML=`<span class="ticker">${idx+1}. ${t}</span><span class="price" id="fav_price_${t}">—</span>`;
+    li.onclick=()=>loadTradeBoard(t);
+    favoritesList.appendChild(li);
+    // Fetch live price for this favorite
+    if(appData.apiKey){
+      fetch(`https://finnhub.io/api/v1/quote?symbol=${t}&token=${appData.apiKey}`)
+        .then(r=>r.json())
+        .then(d=>{
+          const el=document.getElementById('fav_price_'+t);
+          if(el&&d.c) el.textContent='$'+fmtNum(d.c);
+        }).catch(()=>{});
+    }
+  });
+}
+
+document.addEventListener('DOMContentLoaded',()=>{
+  const favSearch=document.getElementById('favoritesSearch');
+  if(favSearch){
+    favSearch.addEventListener('input',(e)=>{
+      const query=e.target.value.toLowerCase();
+      document.querySelectorAll('#favoritesList li').forEach(li=>{
+        const ticker=li.querySelector('.ticker').textContent.toLowerCase();
+        li.style.display=ticker.includes(query)?'flex':'none';
+      });
+    });
+  }
+});
 
 async function loadTradeBoard(ticker){
   if(!ticker||ticker.length===0){showToast('Please select a ticker','error');return;}
   currentTradeTicker=ticker;
-  document.getElementById('tradeTicker').value=ticker;
+  document.getElementById('tradeTickerSearch').value=ticker;
   document.getElementById('tradeStockHeader').style.display='block';
-  document.getElementById('tradeChartControls').style.display='block';
+  document.getElementById('tradeChartTypeRow').style.display='flex';
+  document.getElementById('tradeChartPeriodRow').style.display='flex';
+  document.getElementById('tradeDrawingTools').style.display='flex';
   document.getElementById('tradeChartContainer').style.display='block';
+  document.getElementById('tradeIndicatorsPanel').style.display='block';
   document.getElementById('tradeExecutePanel').style.display='block';
   document.getElementById('tradeStockInfoCard').style.display='block';
   document.getElementById('tradeDCACalcCard').style.display='block';
@@ -3279,13 +3661,17 @@ async function loadTradeBoard(ticker){
     await calcDCASimulation();
     await calcSRLevels();
   }
+  initTradeSidebar();
   document.getElementById('sec-trade').scrollIntoView({behavior:'smooth'});
 }
 
 function closeTradeBoard(){
   document.getElementById('tradeStockHeader').style.display='none';
-  document.getElementById('tradeChartControls').style.display='none';
+  document.getElementById('tradeChartTypeRow').style.display='none';
+  document.getElementById('tradeChartPeriodRow').style.display='none';
+  document.getElementById('tradeDrawingTools').style.display='none';
   document.getElementById('tradeChartContainer').style.display='none';
+  document.getElementById('tradeIndicatorsPanel').style.display='none';
   document.getElementById('tradeExecutePanel').style.display='none';
   document.getElementById('tradeStockInfoCard').style.display='none';
   document.getElementById('tradeDCACalcCard').style.display='none';
@@ -3483,7 +3869,27 @@ async function loadTradeChart(ticker,period){
 
 function toggleTradeIndicator(ind){
   tradeIndicatorState[ind]=!tradeIndicatorState[ind];
+  const toggle=document.getElementById(ind+'Toggle');
+  if(toggle)toggle.classList.toggle('active',tradeIndicatorState[ind]);
   if(currentTradeTicker)loadTradeChart(currentTradeTicker,currentTradeChartPeriod);
+}
+
+function setChartType(type){
+  currentTradeChartType=type;
+  document.querySelectorAll('#tradeChartTypeRow .chart-type-btn').forEach(b=>b.classList.remove('active'));
+  event.target.classList.add('active');
+  if(currentTradeTicker)loadTradeChart(currentTradeTicker,currentTradeChartPeriod);
+}
+
+function activateDrawingTool(tool){
+  currentDrawingTool=currentDrawingTool===tool?null:tool;
+  document.querySelectorAll('#tradeDrawingTools .drawing-tool').forEach(b=>b.classList.remove('active'));
+  if(currentDrawingTool&&event.target){
+    event.target.classList.add('active');
+  }
+  if(currentDrawingTool&&tradeChartInstance){
+    showToast(`Drawing tool "${tool}" activated. Click on chart to draw.`,'info');
+  }
 }
 
 // ===== STOCK DETAIL DRILL-DOWN =====
@@ -4440,8 +4846,7 @@ async function refreshAll(){
 // ===== TRADE =====
 function tradePreview(){
   const box=document.getElementById('tradePreviewBox');
-  let ticker=document.getElementById('tradeTicker').value.trim();
-  if(!ticker)ticker=currentTradeTicker||'';
+  let ticker=currentTradeTicker||'';
   const shares=parseFloat(document.getElementById('tradeShares').value)||0;
   const price=parseFloat(document.getElementById('tradePrice').value)||0;
   const side=document.getElementById('tradeSide').value;
@@ -4588,7 +4993,7 @@ function setTradeMode(mode){
 function tradeUSDPreview(){
   const box=document.getElementById('tradePreviewBox');
   const calcInfo=document.getElementById('tradeUSDCalcInfo');
-  let ticker=document.getElementById('tradeTicker').value.trim();
+  let ticker=currentTradeTicker;
   if(!ticker)ticker=currentTradeTicker||'';
   const usdAmount=parseFloat(document.getElementById('tradeUSDAmount').value)||0;
   const price=parseFloat(document.getElementById('tradePriceUSD').value)||0;
@@ -4681,7 +5086,7 @@ function updateTradeSimTitle(){
 
 // ===== DCA SIMULATION IN TRADE PAGE =====
 async function calcTradeDCA(){
-  const ticker=document.getElementById('tradeTicker').value.trim();
+  const ticker=currentTradeTicker;
   if(!ticker){document.getElementById('tradeDCASimOutput').innerHTML='';return;}
 
   const pfName=document.getElementById('tradePf').value;
@@ -4826,7 +5231,7 @@ async function calcTradeDCA(){
 }
 
 async function fetchTradePrice(){
-  const ticker=document.getElementById('tradeTicker').value.trim();
+  const ticker=currentTradeTicker;
   if(!ticker){toast('Enter a ticker first','error');return;}
   const pr=await getPrice(ticker);
   if(pr){
@@ -4841,7 +5246,7 @@ async function fetchTradePrice(){
 
 function executeTrade(){
   const pfName=document.getElementById('tradePf').value;
-  let ticker=document.getElementById('tradeTicker').value.trim();
+  let ticker=currentTradeTicker;
   if(!ticker)ticker=currentTradeTicker||'';
   const side=document.getElementById('tradeSide').value;
   const shares=parseFloat(document.getElementById('tradeShares').value)||0;
