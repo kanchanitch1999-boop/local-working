@@ -18,15 +18,15 @@ html{scroll-behavior:smooth;}
 
 @media(prefers-reduced-motion:reduce){*{animation-duration:.01ms!important;animation-iteration-count:1!important;transition-duration:.01ms!important;scroll-behavior:auto!important;}}
 
-/* ===== DESIGN TOKENS — WETHAIINVEST DARK THEME ===== */
+/* ===== DESIGN TOKENS — WETHAIINVEST LIGHT THEME ===== */
 :root{
-  --bg-base:#0d0d0d;--bg-surface:#1a1a1a;--bg-elevated:#222222;--bg-hover:#1f1f1f;
-  --border:#2a2a2a;--border-focus:#5AC8FA;
-  --tx-primary:#ffffff;--tx-secondary:#9CA3AF;--tx-muted:#6B7280;
-  --accent:#5AC8FA;--accent-hover:#7DD3FC;--accent-light:rgba(90,200,250,.06);
+  --bg-base:#f5f5f7;--bg-surface:#ffffff;--bg-elevated:#ffffff;--bg-hover:#f0f0f2;
+  --border:#e0e0e0;--border-focus:#5AC8FA;
+  --tx-primary:#1a1a1a;--tx-secondary:#6B7280;--tx-muted:#9CA3AF;
+  --accent:#5AC8FA;--accent-hover:#38b6ff;--accent-light:rgba(90,200,250,.08);
   --accent-gradient:linear-gradient(135deg,#5AC8FA 0%,#7DD3FC 100%);
-  --green:#00D09C;--green-bg:rgba(0,208,156,.08);--green-light:#00D09C;
-  --red:#FF5252;--red-bg:rgba(255,82,82,.08);--red-light:#FF5252;
+  --green:#00B87C;--green-bg:rgba(0,184,124,.08);--green-light:#00B87C;
+  --red:#E53935;--red-bg:rgba(229,57,53,.08);--red-light:#E53935;
   --orange:#FF9800;--orange-bg:rgba(255,152,0,.08);
   --purple:#5AC8FA;--purple-bg:rgba(90,200,250,.08);
   --shadow-xs:none;
@@ -77,7 +77,7 @@ a:hover{color:var(--accent-hover);}
   align-items:center;
   justify-content:center;
   min-height:100vh;
-  background:#0d0d0d;
+  background:#f5f5f7;
   position:relative;
   overflow:hidden;
 }
@@ -2382,6 +2382,7 @@ tbody tr:hover{
       <!-- Portfolio Summary Card -->
       <div class="portfolio-summary-card">
         <div class="header">Portfolio</div>
+        <div id="portfolioSelector" style="margin-bottom:12px;"></div>
         <div class="name" id="portfolioName">—</div>
         <div class="value" id="portfolioValue">$0.00</div>
         <div class="pl" id="portfolioPL">+$0.00</div>
@@ -3604,6 +3605,13 @@ let tradeChartInstance=null;
 let tradeMainSeries=null;
 let currentDrawingTool=null;
 
+function switchPortfolio(portName){
+  appData.activePort=portName;
+  updatePortfolioSummary();
+  populateFavoritesList();
+  showToast(`Switched to portfolio: ${portName}`,'info');
+}
+
 async function initTradeSidebar(){
   await updatePortfolioSummary();
   populateFavoritesList();
@@ -3617,12 +3625,21 @@ async function updatePortfolioSummary(){
     return;
   }
 
+  // Populate portfolio selector
+  const portfolioNames=Object.keys(appData.portfolios);
+  const selectorDiv=document.getElementById('portfolioSelector');
+  if(portfolioNames.length>1){
+    selectorDiv.innerHTML=portfolioNames.map(pn=>`<button class="btn btn-sm ${pn===portName?'active':''}" onclick="switchPortfolio('${pn}')" style="margin-right:6px;margin-bottom:6px;padding:6px 10px;font-size:11px;">${pn}</button>`).join('');
+  }else{
+    selectorDiv.innerHTML='';
+  }
+
   const stocks=currentPort.stocks||{};
   let totalValue=0,totalCost=0;
   for(const ticker in stocks){
     const s=stocks[ticker];
-    const qty=s.q||0;
-    const cost=s.c||0;
+    const qty=s.shares||s.q||0;
+    const cost=s.avgCost||s.c||0;
     // Try to get live price, fall back to cached price
     let price=s.p||cost;
     const cached=priceCache[ticker];
@@ -3663,7 +3680,9 @@ function populateFavoritesList(){
     idx++;
     const s=stocks[ticker];
     const li=document.createElement('li');
-    li.innerHTML=`<div><span class="ticker">${ticker}</span><span class="ticker" style="font-size:11px;color:var(--tx-secondary);">${fmtNum(s.q)} shares @ $${fmtNum(s.c)}</span></div><span class="price" id="fav_price_${ticker}">—</span>`;
+    const shares=s.shares||s.q||0;
+    const avgCost=s.avgCost||s.c||0;
+    li.innerHTML=`<div><span class="ticker">${ticker}</span><span class="ticker" style="font-size:11px;color:var(--tx-secondary);">${fmtNum(shares)} shares @ $${fmtNum(avgCost)}</span></div><span class="price" id="fav_price_${ticker}">—</span>`;
     li.onclick=()=>loadTradeBoard(ticker);
     favoritesList.appendChild(li);
     // Fetch live price for this stock
@@ -3725,8 +3744,8 @@ async function loadTradeBoard(ticker){
     const s=stocks[ticker];
     document.getElementById('tradeStockInfoCard').style.display='block';
     document.getElementById('tradeStockInfoPortfolio').textContent=appData.activePort||'Main';
-    document.getElementById('tradeStockInfoShares').textContent=fmtNum(s.q)+' shares';
-    document.getElementById('tradeStockInfoAvgCost').textContent='$'+fmtNum(s.c);
+    document.getElementById('tradeStockInfoShares').textContent=fmtNum(s.shares||s.q||0)+' shares';
+    document.getElementById('tradeStockInfoAvgCost').textContent='$'+fmtNum(s.avgCost||s.c||0);
     updateDCATable();
     updateLossScenario();
   }else{
@@ -3770,11 +3789,11 @@ async function loadTradeQuote(ticker){
     const s=stocks[ticker];
     const portfolioName=appData.activePort||'Main';
     document.getElementById('tradeStockInfoPortfolio').textContent=portfolioName;
-    document.getElementById('tradeStockInfoShares').textContent=fmtNum(s.q)+' shares';
-    document.getElementById('tradeStockInfoAvgCost').textContent='$'+fmtNum(s.c);
+    document.getElementById('tradeStockInfoShares').textContent=fmtNum(s.shares||s.q||0)+' shares';
+    document.getElementById('tradeStockInfoAvgCost').textContent='$'+fmtNum(s.avgCost||s.c||0);
     updateDCATable();
     updateLossScenario();
-    console.log(`Portfolio data updated for ${ticker}: ${s.q} shares @ $${s.c}`);
+    console.log(`Portfolio data updated for ${ticker}: ${s.shares||s.q||0} shares @ $${s.avgCost||s.c||0}`);
   }
 }
 
@@ -3789,8 +3808,8 @@ function updateDCATable(){
   }
   const currentPrice=parseFloat(document.getElementById('tradeChartPrice').textContent.replace('$',''))||0;
   const additionalAmount=parseFloat(document.getElementById('dcaAdditionalAmount').value)||0;
-  const currentShares=stock.q;
-  const currentAvgCost=stock.c;
+  const currentShares=stock.shares||stock.q||0;
+  const currentAvgCost=stock.avgCost||stock.c||0;
   const currentTotalCost=currentShares*currentAvgCost;
 
   if(additionalAmount>0){
@@ -3843,7 +3862,7 @@ function updateLossScenario(){
   let html='';
   scenarios.forEach(pct=>{
     const priceAtLevel=currentPrice*(1+pct/100);
-    const loss=(priceAtLevel-currentPrice)*stock.q;
+    const loss=(priceAtLevel-currentPrice)*(stock.shares||stock.q||0);
     const lossPercent=pct;
     let label='Monitor';
     if(pct<=-20)label='Critical';
@@ -3968,17 +3987,17 @@ async function loadTradeChart(ticker,period){
       width:containerWidth>0?containerWidth:600,
       height:420,
       layout:{
-        background:{type:'solid',color:'#0d0d0d'},
-        textColor:'#9CA3AF',
+        background:{type:'solid',color:'#ffffff'},
+        textColor:'#6B7280',
         fontFamily:'Inter, sans-serif',
       },
       grid:{
-        vertLines:{color:'rgba(255,255,255,0.06)'},
-        horzLines:{color:'rgba(255,255,255,0.06)'},
+        vertLines:{color:'rgba(0,0,0,0.06)'},
+        horzLines:{color:'rgba(0,0,0,0.06)'},
       },
-      rightPriceScale:{borderColor:'#1e293b'},
+      rightPriceScale:{borderColor:'#e0e0e0'},
       timeScale:{
-        borderColor:'#1e293b',
+        borderColor:'#e0e0e0',
         timeVisible:isIntraday,
         secondsVisible:false,
       },
@@ -4043,8 +4062,12 @@ async function loadTradeChart(ticker,period){
     }
 
     chart.timeScale().fitContent();
-    document.querySelectorAll('#tradeChartPeriodRow .period-btn').forEach(b=>b.classList.remove('active'));
-    document.querySelector(`#tradeChartPeriodRow .period-btn:nth-child(${['1D','5D','1M','6M','1Y'].indexOf(period)+1})`).classList.add('active');
+    const periodBtns=document.querySelectorAll('#tradeChartPeriodRow .period-btn');
+    periodBtns.forEach(b=>b.classList.remove('active'));
+    const periodIdx=['1D','5D','1M','6M','1Y'].indexOf(period);
+    if(periodIdx>=0&&periodBtns[periodIdx]){
+      periodBtns[periodIdx].classList.add('active');
+    }
     console.log(`Trade chart loaded for ${ticker}: ${ohlcData.length} candles, period=${period}`);
   }catch(e){
     console.error('Trade chart error:',e.message,e.stack);
@@ -4217,22 +4240,22 @@ async function loadStockChart(ticker,period){
   if(ohlcData.length===0){container.innerHTML='<p style="text-align:center;padding:40px;color:var(--tx-secondary);">No chart data available</p>';return;}
 
   try{
-  const isDark=true; // Always dark theme now (wethaiinvest.com style)
+  const isDark=false; // Light theme (white background)
   const chart=LightweightCharts.createChart(container,{
     width:container.clientWidth||container.offsetWidth||800,
     height:420,
     layout:{
-      background:{type:'solid',color:'#0d0d0d'},
-      textColor:'#9CA3AF',
+      background:{type:'solid',color:'#ffffff'},
+      textColor:'#6B7280',
       fontFamily:'Inter, sans-serif',
     },
     grid:{
       vertLines:{color:isDark?'rgba(255,255,255,0.06)':'rgba(0,0,0,0.06)'},
       horzLines:{color:isDark?'rgba(255,255,255,0.06)':'rgba(0,0,0,0.06)'},
     },
-    rightPriceScale:{borderColor:isDark?'#1e293b':'#e2e8f0'},
+    rightPriceScale:{borderColor:isDark?'#1e293b':'#e0e0e0'},
     timeScale:{
-      borderColor:isDark?'#1e293b':'#e2e8f0',
+      borderColor:isDark?'#1e293b':'#e0e0e0',
       timeVisible:isIntraday,
       secondsVisible:false,
     },
