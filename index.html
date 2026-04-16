@@ -1,7 +1,11 @@
 <!DOCTYPE html>
-<html lang="en">
+<html lang="en" data-theme="dark">
 <head>
 <meta charset="UTF-8">
+<script>
+// Apply saved theme immediately to prevent flash
+(function(){var t=localStorage.getItem('bell_theme');document.documentElement.setAttribute('data-theme',t||'dark');})();
+</script>
 <meta name="viewport" content="width=device-width, initial-scale=1.0">
 <title>BellFolio — US Stock Portfolio</title>
 <link rel="icon" type="image/svg+xml" href="data:image/svg+xml,%3Csvg viewBox='0 0 120 120' xmlns='http://www.w3.org/2000/svg'%3E%3Crect rx='28' width='120' height='120' fill='%230d0d0d'/%3E%3Cpath d='M30 78L50 58L65 66L90 36' stroke='%235AC8FA' stroke-width='5' stroke-linecap='round' stroke-linejoin='round' fill='none'/%3E%3Ccircle cx='90' cy='36' r='5' fill='%235AC8FA'/%3E%3Cpath d='M30 78L50 58L65 66L90 36L90 88L30 88Z' fill='%235AC8FA' opacity='.12'/%3E%3C/svg%3E">
@@ -37,7 +41,115 @@ html{scroll-behavior:smooth;}
   --radius:8px;--radius-lg:8px;--radius-full:9999px;
 }
 
-/* Dark theme is now the default */
+/* ===== DARK THEME (WeThaiInvest style) ===== */
+[data-theme="dark"]{
+  --bg-base:#0a0a0f;--bg-surface:#141419;--bg-elevated:#1a1a22;--bg-hover:#1e1e28;
+  --border:#2a2a35;--border-focus:#5AC8FA;
+  --tx-primary:#e8e8ec;--tx-secondary:#9ca3af;--tx-muted:#6b7280;
+  --accent:#5AC8FA;--accent-hover:#38b6ff;--accent-light:rgba(90,200,250,.1);
+  --accent-gradient:linear-gradient(135deg,#5AC8FA 0%,#7DD3FC 100%);
+  --green:#00d68f;--green-bg:rgba(0,214,143,.12);--green-light:#00d68f;
+  --red:#ff4757;--red-bg:rgba(255,71,87,.12);--red-light:#ff4757;
+  --orange:#ffa502;--orange-bg:rgba(255,165,2,.12);
+  --purple:#a78bfa;--purple-bg:rgba(167,139,250,.12);
+  --shadow-xs:0 1px 2px rgba(0,0,0,.4);
+  --shadow-sm:0 2px 4px rgba(0,0,0,.4);
+  --shadow-md:0 4px 8px rgba(0,0,0,.4);
+  --shadow-lg:0 8px 16px rgba(0,0,0,.5);
+  --shadow-xl:0 16px 32px rgba(0,0,0,.6);
+}
+
+[data-theme="dark"] body{background:#0a0a0f;color:#e8e8ec;}
+[data-theme="dark"] body::before{background:linear-gradient(90deg,#5AC8FA,#a78bfa,#00d68f,#ffa502,#5AC8FA);background-size:300% 100%;}
+
+[data-theme="dark"] .login-screen{background:#0a0a0f;}
+[data-theme="dark"] .login-box{background:#141419;border-color:#2a2a35;box-shadow:0 8px 32px rgba(0,0,0,.5);}
+[data-theme="dark"] .login-box .brand .logo-text{color:#e8e8ec;-webkit-text-fill-color:#e8e8ec;}
+[data-theme="dark"] .login-box .brand .logo-text span{-webkit-text-fill-color:#9ca3af;color:#9ca3af;}
+[data-theme="dark"] .login-box .sub{color:#9ca3af;}
+[data-theme="dark"] .login-box .fg input{background:#1a1a22;border-color:#2a2a35;color:#e8e8ec;}
+[data-theme="dark"] .login-box .login-hint{color:#9ca3af;}
+
+[data-theme="dark"] .header{background:#0d0d12;border-bottom-color:#2a2a35;}
+[data-theme="dark"] .tab{color:#9ca3af;}
+[data-theme="dark"] .tab.active{color:#5AC8FA;border-bottom-color:#5AC8FA;}
+[data-theme="dark"] .tab:hover{color:#e8e8ec;}
+
+[data-theme="dark"] .card{background:#141419;border-color:#2a2a35;}
+[data-theme="dark"] .card-title{color:#e8e8ec;}
+
+[data-theme="dark"] .summary-card{background:#141419;border-color:#2a2a35;}
+[data-theme="dark"] .summary-card .value{color:#e8e8ec;}
+
+[data-theme="dark"] input,
+[data-theme="dark"] select,
+[data-theme="dark"] textarea{background:#1a1a22;border-color:#2a2a35;color:#e8e8ec;}
+[data-theme="dark"] input:focus,
+[data-theme="dark"] select:focus,
+[data-theme="dark"] textarea:focus{border-color:#5AC8FA;background:#1e1e28;}
+[data-theme="dark"] input::placeholder{color:#6b7280;}
+
+[data-theme="dark"] .btn{background:#1a1a22;color:#e8e8ec;border-color:#2a2a35;}
+[data-theme="dark"] .btn:hover{background:#1e1e28;}
+[data-theme="dark"] .btn-fill{background:#5AC8FA;color:#000;}
+[data-theme="dark"] .btn-danger{background:rgba(255,71,87,.15);color:#ff4757;border-color:#ff4757;}
+
+[data-theme="dark"] .hdr-btn{color:#9ca3af;border-color:#2a2a35;}
+[data-theme="dark"] .hdr-btn:hover{color:#e8e8ec;background:#1e1e28;}
+
+[data-theme="dark"] .rate-badge{background:#1a1a22;border-color:#2a2a35;color:#ffa502;}
+[data-theme="dark"] .user-badge{background:#5AC8FA;color:#000;}
+
+[data-theme="dark"] .api-banner{background:#141419;border-color:#2a2a35;}
+
+[data-theme="dark"] .portfolio-summary-card{background:#141419;border-color:#2a2a35;}
+[data-theme="dark"] .portfolio-summary-card .name{color:#e8e8ec;}
+[data-theme="dark"] .portfolio-summary-card .value{color:#e8e8ec;}
+
+[data-theme="dark"] .favorites-section{background:#141419;border-color:#2a2a35;}
+[data-theme="dark"] .favorites-list li{border-bottom-color:#2a2a35;}
+[data-theme="dark"] .favorites-list li:hover{background:#1e1e28;}
+
+[data-theme="dark"] .stock-header{background:#141419;border-color:#2a2a35;}
+[data-theme="dark"] .chart-type-row{background:#141419;border-color:#2a2a35;}
+[data-theme="dark"] .period-row{background:#141419;border-color:#2a2a35;}
+[data-theme="dark"] .chart-type-btn{color:#9ca3af;border-color:#2a2a35;}
+[data-theme="dark"] .chart-type-btn.active{color:#5AC8FA;border-color:#5AC8FA;background:rgba(90,200,250,.1);}
+[data-theme="dark"] .period-btn{color:#9ca3af;border-color:#2a2a35;}
+[data-theme="dark"] .period-btn.active{color:#5AC8FA;border-color:#5AC8FA;background:rgba(90,200,250,.1);}
+[data-theme="dark"] .overlay-toggle{color:#9ca3af;border-color:#2a2a35;}
+[data-theme="dark"] .overlay-toggle.active{color:#5AC8FA;border-color:#5AC8FA;}
+[data-theme="dark"] .drawing-tools{background:#141419;border-color:#2a2a35;}
+[data-theme="dark"] .drawing-tool{color:#9ca3af;border-color:#2a2a35;}
+[data-theme="dark"] .drawing-tool.active{color:#5AC8FA;border-color:#5AC8FA;}
+
+[data-theme="dark"] .trading-panel{background:#141419;border-color:#2a2a35;}
+[data-theme="dark"] .trading-board-left-sidebar{background:#141419;border-color:#2a2a35;}
+
+[data-theme="dark"] .ticker-autocomplete{background:#1a1a22;border-color:#2a2a35;}
+[data-theme="dark"] .ticker-autocomplete-item:hover{background:#1e1e28;}
+[data-theme="dark"] .ticker-autocomplete-item .sym{color:#5AC8FA;}
+[data-theme="dark"] .ticker-autocomplete-item .name{color:#e8e8ec;}
+
+[data-theme="dark"] .toast{background:#141419;color:#e8e8ec;border-color:#2a2a35;}
+
+[data-theme="dark"] .fear-greed-card{background:#141419;}
+
+[data-theme="dark"] table th{color:#9ca3af;}
+[data-theme="dark"] table td{color:#e8e8ec;}
+[data-theme="dark"] table tr{border-bottom-color:#2a2a35;}
+
+[data-theme="dark"] .trade-preview{background:#1a1a22;border-color:#2a2a35;}
+[data-theme="dark"] .trade-mode-toggle{background:#1a1a22;border-color:#2a2a35;}
+[data-theme="dark"] .trade-mode-btn{color:#9ca3af;}
+[data-theme="dark"] .trade-mode-btn.active{color:#5AC8FA;background:rgba(90,200,250,.1);}
+
+[data-theme="dark"] .highlights-grid .highlight-item{background:#1a1a22;border-color:#2a2a35;}
+
+[data-theme="dark"] ::-webkit-scrollbar-thumb{background:#2a2a35;}
+[data-theme="dark"] ::-webkit-scrollbar-thumb:hover{background:#5AC8FA;}
+
+/* Light theme (white) */
 
 body{
   font-family:'Inter',sans-serif;
@@ -112,15 +224,14 @@ a:hover{color:var(--accent-hover);}
 }
 
 .login-box{
-  background:rgba(30,41,59,.6);
-  border:1px solid rgba(148,163,184,.1);
+  background:#ffffff;
+  border:1px solid #e0e0e0;
   border-radius:20px;
   padding:56px 44px 48px;
   width:400px;
   max-width:90vw;
   text-align:center;
-  box-shadow:0 24px 64px rgba(0,0,0,.3),0 0 0 1px rgba(148,163,184,.05);
-  backdrop-filter:blur(20px);
+  box-shadow:0 8px 32px rgba(0,0,0,.08),0 0 0 1px rgba(0,0,0,.04);
   position:relative;
   z-index:1;
   animation:fadeInUp .5s ease-out;
@@ -137,41 +248,41 @@ a:hover{color:var(--accent-hover);}
 .login-box .brand .logo-icon{width:40px;height:40px;flex-shrink:0;}
 
 .login-box .brand .logo-text{
-  color:#f1f5f9;
-  -webkit-text-fill-color:#f1f5f9;
+  color:#1a1a1a;
+  -webkit-text-fill-color:#1a1a1a;
   background:none;
 }
 
 .login-box .brand .logo-text span{
   display:block;font-size:12px;font-weight:500;letter-spacing:1px;text-transform:uppercase;
-  background:none;-webkit-text-fill-color:#64748b;color:#64748b;
+  background:none;-webkit-text-fill-color:#6B7280;color:#6B7280;
 }
 
 .login-box .sub{
-  color:#64748b;
+  color:#6B7280;
   font-size:14px;
   margin-bottom:36px;
   font-weight:400;
 }
 
-.login-box .fg label{color:#94a3b8;font-size:12px;letter-spacing:.8px;text-transform:uppercase;}
+.login-box .fg label{color:#6B7280;font-size:12px;letter-spacing:.8px;text-transform:uppercase;}
 
 .login-box .fg input{
-  background:rgba(15,23,42,.6);
-  border:1px solid rgba(148,163,184,.12);
-  color:#f1f5f9;
+  background:#f5f5f7;
+  border:1px solid #e0e0e0;
+  color:#1a1a1a;
   padding:13px 16px;
   font-size:14px;
   border-radius:10px;
   transition:border-color .2s,box-shadow .2s;
 }
 
-.login-box .fg input::placeholder{color:#475569;}
+.login-box .fg input::placeholder{color:#9CA3AF;}
 
 .login-box .fg input:focus{
-  border-color:rgba(90,200,250,.4);
-  box-shadow:0 0 0 3px rgba(90,200,250,.08);
-  background:rgba(15,23,42,.8);
+  border-color:#5AC8FA;
+  box-shadow:0 0 0 3px rgba(90,200,250,.12);
+  background:#ffffff;
 }
 
 .login-box .btn-primary{
@@ -189,7 +300,7 @@ a:hover{color:var(--accent-hover);}
   transform:translateY(-1px);
 }
 
-.login-box .login-hint{color:#475569;}
+.login-box .login-hint{color:#6B7280;}
 
 .fg{text-align:left;margin-bottom:20px;}
 
@@ -498,8 +609,8 @@ a:hover{color:var(--accent-hover);}
 }
 
 .card:hover{
-  border-color:#333333;
-  background:#1f1f1f;
+  border-color:var(--accent);
+  background:var(--bg-hover);
 }
 
 .card-title{
@@ -550,8 +661,8 @@ a:hover{color:var(--accent-hover);}
 }
 
 .sum-card:hover{
-  border-color:#333333;
-  background:#1f1f1f;
+  border-color:var(--accent);
+  background:var(--bg-hover);
 }
 
 .sum-card .label{
@@ -674,7 +785,7 @@ tbody tr:hover{
 
 .btn-fill{
   background:var(--accent);
-  color:#000000;
+  color:#ffffff;
   border-color:var(--accent);
   font-weight:600;
 }
@@ -690,20 +801,21 @@ tbody tr:hover{
 }
 
 .btn-danger:hover{
-  background:var(--red-light);
+  background:var(--red-bg);
   border-color:var(--red);
+  color:var(--red);
 }
 
 /* ===== MODAL ===== */
 .modal-bg{
   position:fixed;
   inset:0;
-  background:rgba(0,0,0,.5);
+  background:rgba(0,0,0,.25);
   display:flex;
   align-items:center;
   justify-content:center;
   z-index:500;
-  backdrop-filter:blur(6px);
+  backdrop-filter:blur(4px);
   animation:fadeIn .2s ease-out;
 }
 
@@ -714,7 +826,7 @@ tbody tr:hover{
   padding:36px;
   width:480px;
   max-width:92vw;
-  box-shadow:0 20px 25px -5px rgba(0,0,0,.5), 0 10px 10px -5px rgba(0,0,0,.3);
+  box-shadow:0 20px 25px -5px rgba(0,0,0,.1), 0 10px 10px -5px rgba(0,0,0,.06);
   max-height:90vh;
   overflow-y:auto;
   animation:slideUp .3s ease-out;
@@ -896,7 +1008,7 @@ tbody tr:hover{
   color:#fff;
   font-size:13px;
   font-weight:500;
-  box-shadow:0 10px 15px -3px rgba(0,0,0,.4), 0 4px 6px -2px rgba(0,0,0,.25);
+  box-shadow:0 10px 15px -3px rgba(0,0,0,.1), 0 4px 6px -2px rgba(0,0,0,.06);
   z-index:999;
   animation:slideInRight .3s ease-out;
   max-width:340px;
@@ -1483,7 +1595,7 @@ tbody tr:hover{
   border-color:var(--accent);
   background:var(--accent-light);
   transform:translateY(-2px);
-  box-shadow:0 4px 6px -1px rgba(0,0,0,.3);
+  box-shadow:0 4px 6px -1px rgba(0,0,0,.08);
 }
 
 .loss-scenario-card .pct{
@@ -1675,7 +1787,7 @@ tbody tr:hover{
   overflow-y:auto;
   z-index:50;
   display:none;
-  box-shadow:0 10px 15px -3px rgba(0,0,0,.4), 0 4px 6px -2px rgba(0,0,0,.25);
+  box-shadow:0 10px 15px -3px rgba(0,0,0,.08), 0 4px 6px -2px rgba(0,0,0,.04);
   margin-top:4px;
 }
 
@@ -2151,13 +2263,13 @@ tbody tr:hover{
   <!-- TABS IN HEADER -->
   <div class="tabs" id="tabBar">
     <div class="tab active" data-tab="dashboard" onclick="switchTab('dashboard')">Dashboard</div>
-    <div class="tab" data-tab="portfolio" onclick="switchTab('portfolio')">Portfolio</div>
-    <div class="tab" data-tab="trade" onclick="switchTab('trade')">Trade</div>
+    <div class="tab" data-tab="portfolio" onclick="switchTab('portfolio')">พอร์ตของฉัน</div>
+    <div class="tab" data-tab="trade" onclick="switchTab('trade')">กระดานเทรด</div>
     <div class="tab" data-tab="allocation" onclick="switchTab('allocation')">Allocation</div>
     <div class="tab" data-tab="watchlist" onclick="switchTab('watchlist')">Watchlist</div>
     <div class="tab" data-tab="history" onclick="switchTab('history')">History</div>
     <div class="tab" data-tab="guru" onclick="switchTab('guru')">Guru</div>
-    <div class="tab" data-tab="articles" onclick="switchTab('articles')">Articles</div>
+    <div class="tab" data-tab="articles" onclick="switchTab('articles')">ค้นหาบทความ</div>
     <div class="tab" data-tab="settings" onclick="switchTab('settings')">Settings</div>
     <div class="tab" data-tab="admin" onclick="switchTab('admin')" id="adminTab" style="display:none;">Admin</div>
   </div>
@@ -2368,7 +2480,7 @@ tbody tr:hover{
     <div style="display:flex;gap:12px;align-items:end;">
       <div class="fg ticker-autocomplete-wrapper" style="flex:1;min-width:200px;">
         <label>Select Stock to Trade</label>
-        <input id="tradeTickerSearch" placeholder="Search ticker e.g. AAPL, NVDA..." oninput="handleTickerInput(this.value,'tradeTickerSearch','tradeTickerAutocomplete');this.value=this.value.toUpperCase();onTradeTickerSelected()" autocomplete="off">
+        <input id="tradeTickerSearch" placeholder="Search ticker e.g. AAPL, NVDA..." oninput="handleTickerInput(this.value,'tradeTickerSearch','tradeTickerAutocomplete');this.value=this.value.toUpperCase();" autocomplete="off">
         <div id="tradeTickerAutocomplete" class="ticker-autocomplete"></div>
       </div>
       <button class="btn btn-fill" onclick="loadTradeBoard(document.getElementById('tradeTickerSearch').value)" style="margin-bottom:0;">Load Chart</button>
@@ -2417,10 +2529,13 @@ tbody tr:hover{
 
       <!-- Chart Type Row: Price Lines / Freestyle + Overlays -->
       <div id="tradeChartTypeRow" style="display:none;" class="chart-type-row">
-        <button class="chart-type-btn active" onclick="setChartType('candlestick')">Candlestick</button>
-        <button class="chart-type-btn" onclick="setChartType('line')">Line</button>
+        <button class="chart-type-btn active" onclick="setChartType('candlestick',this)">Candlestick</button>
+        <button class="chart-type-btn" onclick="setChartType('line',this)">Line</button>
         <span class="label" style="margin-left:auto;">Overlays:</span>
         <button class="overlay-toggle" id="bbToggle" onclick="toggleTradeIndicator('bb')">Bollinger Bands</button>
+        <button class="overlay-toggle" id="ema50Toggle" onclick="toggleTradeIndicator('ema50')">EMA50</button>
+        <button class="overlay-toggle" id="ema100Toggle" onclick="toggleTradeIndicator('ema100')">EMA100</button>
+        <button class="overlay-toggle" id="ema200Toggle" onclick="toggleTradeIndicator('ema200')">EMA200</button>
       </div>
 
       <!-- Period Selectors -->
@@ -2482,6 +2597,7 @@ tbody tr:hover{
       <!-- DCA Calculator Card -->
       <div class="card trading-panel" id="tradeDCACalcCard" style="display:none;margin-top:12px;">
         <div class="card-title">คำนวณค่าเฉลี่ยล่วงหน้า</div>
+        <div id="dcaAllocationInfo" style="font-size:12px;color:var(--accent);margin-bottom:8px;font-weight:600;"></div>
         <div id="dcaCurrentInfo" style="font-size:12px;color:var(--tx-secondary);margin-bottom:12px;"></div>
         <div class="fg" style="margin-bottom:12px;">
           <label style="font-size:11px;">ใส่เงินลงทุนเพิ่ม (USD)</label>
@@ -3300,10 +3416,11 @@ function calcPLPct(currentPrice,avgCost){
   return((currentPrice-avgCost)/avgCost)*100;
 }
 
-function fmtNum(n,dec=2){return Number(n).toLocaleString('en-US',{minimumFractionDigits:dec,maximumFractionDigits:dec});}
+function fmtNum(n,dec=2){const v=Number(n);if(isNaN(v)||!isFinite(v))return'0.00';return v.toLocaleString('en-US',{minimumFractionDigits:dec,maximumFractionDigits:dec});}
 function fmtMoney(n){
-  if(showCurrency==='THB')return'฿'+fmtNum(n*THB);
-  return'$'+fmtNum(n);
+  const v=Number(n);if(isNaN(v)||!isFinite(v))return showCurrency==='THB'?'฿0.00':'$0.00';
+  if(showCurrency==='THB')return'฿'+fmtNum(v*THB);
+  return'$'+fmtNum(v);
 }
 function fmtMoneyDual(n){
   return'$'+fmtNum(n)+' <span style="font-size:0.6em;color:var(--tx-secondary);font-weight:500;">(฿'+fmtNum(n*THB)+')</span>';
@@ -3317,8 +3434,10 @@ function toggleTheme(){
 }
 function loadTheme(){
   const t=localStorage.getItem('bell_theme');
-  if(t)document.documentElement.setAttribute('data-theme',t);
+  // Default to dark theme (WeThaiInvest style)
+  document.documentElement.setAttribute('data-theme',t||'dark');
 }
+function isDarkTheme(){return document.documentElement.getAttribute('data-theme')==='dark';}
 
 function toggleCurrency(){
   showCurrency=showCurrency==='USD'?'THB':'USD';
@@ -3516,7 +3635,16 @@ const TICKER_DB=[
   {s:'DRE',n:'Duke Realty',cat:'Dividend'},{s:'STAG',n:'STAG Industrial',cat:'Dividend'},{s:'ARCO',n:'Ares Commerical Real Estate',cat:'Dividend'},{s:'FCPT',n:'Four Corners Prop Trust',cat:'Dividend'},
   {s:'NLY',n:'New York Mortgage Trust',cat:'Dividend'},{s:'AGNC',n:'AGNC Investment Corp',cat:'Dividend'},{s:'ARM',n:'ARM Holdings',cat:'Growth'},
   {s:'DOCU',n:'DocuSign Inc.',cat:'Growth'},{s:'EPAM',n:'EPAM Systems',cat:'Large Cap'},{s:'OKLO',n:'Oklo Inc.',cat:'Growth'},{s:'RDW',n:'Redwire Corp.',cat:'Small Cap'},
-  {s:'TWST',n:'Twist Bioscience',cat:'Growth'},{s:'MELI',n:'MercadoLibre Inc.',cat:'Growth'},{s:'SOFI',n:'SoFi Technologies',cat:'Mid Cap'}
+  {s:'TWST',n:'Twist Bioscience',cat:'Growth'},{s:'MELI',n:'MercadoLibre Inc.',cat:'Growth'},{s:'SOFI',n:'SoFi Technologies',cat:'Mid Cap'},
+  {s:'RKLB',n:'Rocket Lab USA',cat:'Small Cap'},{s:'ASTS',n:'AST SpaceMobile',cat:'Small Cap'},{s:'TEM',n:'Tempus AI Inc.',cat:'Growth'},
+  {s:'RBRK',n:'Rubrik Inc.',cat:'Growth'},{s:'CEG',n:'Constellation Energy',cat:'Large Cap'},{s:'TMDX',n:'TransMedics Group',cat:'Small Cap'},
+  {s:'PRCT',n:'PROCEPT BioRobotics',cat:'Small Cap'},{s:'RACE',n:'Ferrari N.V.',cat:'Large Cap'},{s:'AXON',n:'Axon Enterprise',cat:'Growth'},
+  {s:'FTNT',n:'Fortinet Inc.',cat:'Growth'},{s:'BLK',n:'BlackRock Inc.',cat:'Large Cap'},{s:'FSLR',n:'First Solar Inc.',cat:'Growth'},
+  {s:'EOSE',n:'Eos Energy Enterprises',cat:'Small Cap'},{s:'MDB',n:'MongoDB Inc.',cat:'Growth'},{s:'GLBE',n:'Global-E Online',cat:'Growth'},
+  {s:'DOCN',n:'DigitalOcean',cat:'Growth'},{s:'SPGI',n:'S&P Global',cat:'Large Cap'},{s:'APD',n:'Air Products & Chemicals',cat:'Large Cap'},
+  {s:'LOW',n:'Lowes Companies',cat:'Large Cap'},{s:'ACLS',n:'Axcelis Technologies',cat:'Growth'},{s:'AMKR',n:'Amkor Technology',cat:'Large Cap'},
+  {s:'SGOV',n:'iShares 0-3 Month Treasury Bond ETF',cat:'ETF'},{s:'IVV',n:'iShares Core S&P 500 ETF',cat:'ETF'},
+  {s:'DIA',n:'SPDR Dow Jones Industrial ETF',cat:'ETF'},{s:'GLD',n:'SPDR Gold Trust',cat:'ETF'},{s:'USO',n:'United States Oil Fund',cat:'ETF'}
 ];
 
 // Build ticker lookup map for O(1) lookups (Step A optimization)
@@ -3600,7 +3728,7 @@ let currentTradeTicker=null;
 let currentTradeChartPeriod='1D';
 let currentTradeChartType='candlestick';
 let currentTradeChartFreq='day';
-let tradeIndicatorState={bb:false,sma20:false,sma50:false};
+let tradeIndicatorState={bb:false,sma20:false,sma50:false,ema50:false,ema100:false,ema200:false};
 let tradeChartInstance=null;
 let tradeMainSeries=null;
 let currentDrawingTool=null;
@@ -3638,8 +3766,8 @@ async function updatePortfolioSummary(){
   let totalValue=0,totalCost=0;
   for(const ticker in stocks){
     const s=stocks[ticker];
-    const qty=s.shares||s.q||0;
-    const cost=s.avgCost||s.c||0;
+    const qty=parseFloat(s.shares)||parseFloat(s.q)||0;
+    const cost=parseFloat(s.avgCost)||parseFloat(s.c)||0;
     // Try to get live price, fall back to cached price
     let price=s.p||cost;
     const cached=priceCache[ticker];
@@ -3680,8 +3808,8 @@ function populateFavoritesList(){
     idx++;
     const s=stocks[ticker];
     const li=document.createElement('li');
-    const shares=s.shares||s.q||0;
-    const avgCost=s.avgCost||s.c||0;
+    const shares=parseFloat(s.shares)||parseFloat(s.q)||0;
+    const avgCost=parseFloat(s.avgCost)||parseFloat(s.c)||0;
     li.innerHTML=`<div><span class="ticker">${ticker}</span><span class="ticker" style="font-size:11px;color:var(--tx-secondary);">${fmtNum(shares)} shares @ $${fmtNum(avgCost)}</span></div><span class="price" id="fav_price_${ticker}">—</span>`;
     li.onclick=()=>loadTradeBoard(ticker);
     favoritesList.appendChild(li);
@@ -3744,8 +3872,8 @@ async function loadTradeBoard(ticker){
     const s=stocks[ticker];
     document.getElementById('tradeStockInfoCard').style.display='block';
     document.getElementById('tradeStockInfoPortfolio').textContent=appData.activePort||'Main';
-    document.getElementById('tradeStockInfoShares').textContent=fmtNum(s.shares||s.q||0)+' shares';
-    document.getElementById('tradeStockInfoAvgCost').textContent='$'+fmtNum(s.avgCost||s.c||0);
+    document.getElementById('tradeStockInfoShares').textContent=fmtNum(parseFloat(s.shares)||parseFloat(s.q)||0)+' shares';
+    document.getElementById('tradeStockInfoAvgCost').textContent='$'+fmtNum(parseFloat(s.avgCost)||parseFloat(s.c)||0);
     updateDCATable();
     updateLossScenario();
   }else{
@@ -3789,8 +3917,8 @@ async function loadTradeQuote(ticker){
     const s=stocks[ticker];
     const portfolioName=appData.activePort||'Main';
     document.getElementById('tradeStockInfoPortfolio').textContent=portfolioName;
-    document.getElementById('tradeStockInfoShares').textContent=fmtNum(s.shares||s.q||0)+' shares';
-    document.getElementById('tradeStockInfoAvgCost').textContent='$'+fmtNum(s.avgCost||s.c||0);
+    document.getElementById('tradeStockInfoShares').textContent=fmtNum(parseFloat(s.shares)||parseFloat(s.q)||0)+' shares';
+    document.getElementById('tradeStockInfoAvgCost').textContent='$'+fmtNum(parseFloat(s.avgCost)||parseFloat(s.c)||0);
     updateDCATable();
     updateLossScenario();
     console.log(`Portfolio data updated for ${ticker}: ${s.shares||s.q||0} shares @ $${s.avgCost||s.c||0}`);
@@ -3808,8 +3936,8 @@ function updateDCATable(){
   }
   const currentPrice=parseFloat(document.getElementById('tradeChartPrice').textContent.replace('$',''))||0;
   const additionalAmount=parseFloat(document.getElementById('dcaAdditionalAmount').value)||0;
-  const currentShares=stock.shares||stock.q||0;
-  const currentAvgCost=stock.avgCost||stock.c||0;
+  const currentShares=parseFloat(stock.shares)||parseFloat(stock.q)||0;
+  const currentAvgCost=parseFloat(stock.avgCost)||parseFloat(stock.c)||0;
   const currentTotalCost=currentShares*currentAvgCost;
 
   if(additionalAmount>0){
@@ -3828,6 +3956,23 @@ function updateDCATable(){
     document.getElementById('dcaTotalShares').textContent=fmtNum(currentShares)+' shares';
     document.getElementById('dcaTotalCost').textContent=fmtMoney(currentTotalCost);
     document.getElementById('dcaCurrentInfo').textContent=`Current: ${fmtNum(currentShares)} shares @ $${fmtNum(currentAvgCost)} avg`;
+  }
+
+  // Update allocation % display (like WeThaiInvest)
+  const allocEl=document.getElementById('dcaAllocationInfo');
+  if(allocEl&&ticker){
+    const allStocks=getStocks();
+    let totalPortValue=0;
+    for(const t in allStocks){
+      const st=allStocks[t];
+      const qty=parseFloat(st.shares)||parseFloat(st.q)||0;
+      const pr=priceCache[t]?priceCache[t].p:(parseFloat(st.avgCost)||parseFloat(st.c)||0);
+      totalPortValue+=qty*pr;
+    }
+    const thisValue=currentShares*currentPrice;
+    const currentAlloc=totalPortValue>0?((thisValue/totalPortValue)*100):0;
+    const targetAlloc=appData.allocLimits&&appData.allocLimits[ticker]?appData.allocLimits[ticker]:0;
+    allocEl.textContent=`สัดส่วนปัจจุบัน: ${fmtNum(currentAlloc)}% | เป้าหมาย: ${fmtNum(targetAlloc)}%`;
   }
 
   const amounts=[100,300,500,800,1000,1500];
@@ -3983,21 +4128,22 @@ async function loadTradeChart(ticker,period){
     if(typeof LightweightCharts==='undefined'){console.error('LightweightCharts library not loaded');container.innerHTML='<p style="text-align:center;padding:40px;color:var(--tx-secondary);">Chart library error</p>';return;}
     const containerWidth=container.clientWidth||container.offsetWidth||600;
     if(containerWidth===0){console.warn('Container width is 0, using default 600px');container.style.width='100%';}
+    const dark=isDarkTheme();
     const chart=LightweightCharts.createChart(container,{
       width:containerWidth>0?containerWidth:600,
       height:420,
       layout:{
-        background:{type:'solid',color:'#ffffff'},
-        textColor:'#6B7280',
+        background:{type:'solid',color:dark?'#141419':'#ffffff'},
+        textColor:dark?'#9ca3af':'#6B7280',
         fontFamily:'Inter, sans-serif',
       },
       grid:{
-        vertLines:{color:'rgba(0,0,0,0.06)'},
-        horzLines:{color:'rgba(0,0,0,0.06)'},
+        vertLines:{color:dark?'rgba(255,255,255,0.04)':'rgba(0,0,0,0.06)'},
+        horzLines:{color:dark?'rgba(255,255,255,0.04)':'rgba(0,0,0,0.06)'},
       },
-      rightPriceScale:{borderColor:'#e0e0e0'},
+      rightPriceScale:{borderColor:dark?'#2a2a35':'#e0e0e0'},
       timeScale:{
-        borderColor:'#e0e0e0',
+        borderColor:dark?'#2a2a35':'#e0e0e0',
         timeVisible:isIntraday,
         secondsVisible:false,
       },
@@ -4058,6 +4204,22 @@ async function loadTradeChart(ticker,period){
           upperSeries.setData(times.map((t,i)=>({time:t,value:bb.upper[i]})).filter(d=>d.value));
           lowerSeries.setData(times.map((t,i)=>({time:t,value:bb.lower[i]})).filter(d=>d.value));
         }
+        // EMA indicators (WeThaiInvest style: EMA50=white, EMA100=pink/magenta, EMA200=yellow)
+        if(tradeIndicatorState.ema50){
+          const ema50=calcEMA(closes,50);
+          const ema50Series=chart.addLineSeries({color:'#ffffff',lineWidth:1.5});
+          ema50Series.setData(times.map((t,i)=>({time:t,value:ema50[i]})).filter(d=>d.value));
+        }
+        if(tradeIndicatorState.ema100){
+          const ema100=calcEMA(closes,100);
+          const ema100Series=chart.addLineSeries({color:'#e879f9',lineWidth:1.5,lineStyle:2});
+          ema100Series.setData(times.map((t,i)=>({time:t,value:ema100[i]})).filter(d=>d.value));
+        }
+        if(tradeIndicatorState.ema200){
+          const ema200=calcEMA(closes,200);
+          const ema200Series=chart.addLineSeries({color:'#fbbf24',lineWidth:1.5});
+          ema200Series.setData(times.map((t,i)=>({time:t,value:ema200[i]})).filter(d=>d.value));
+        }
       }catch(ie){console.log('Indicator error:',ie);}
     }
 
@@ -4084,17 +4246,19 @@ function toggleTradeIndicator(ind){
   if(currentTradeTicker)loadTradeChart(currentTradeTicker,currentTradeChartPeriod);
 }
 
-function setChartType(type){
+function setChartType(type,el){
   currentTradeChartType=type;
   document.querySelectorAll('#tradeChartTypeRow .chart-type-btn').forEach(b=>b.classList.remove('active'));
-  event.target.classList.add('active');
+  if(el)el.classList.add('active');
+  else{const ev=window.event;if(ev&&ev.target)ev.target.classList.add('active');}
   if(currentTradeTicker)loadTradeChart(currentTradeTicker,currentTradeChartPeriod);
 }
 
 function activateDrawingTool(tool){
   currentDrawingTool=currentDrawingTool===tool?null:tool;
   document.querySelectorAll('#tradeDrawingTools .drawing-tool').forEach(b=>b.classList.remove('active'));
-  if(currentDrawingTool&&event.target){
+  const ev=window.event;
+  if(currentDrawingTool&&ev&&ev.target){
     event.target.classList.add('active');
   }
   if(currentDrawingTool&&tradeChartInstance){
@@ -4240,13 +4404,13 @@ async function loadStockChart(ticker,period){
   if(ohlcData.length===0){container.innerHTML='<p style="text-align:center;padding:40px;color:var(--tx-secondary);">No chart data available</p>';return;}
 
   try{
-  const isDark=false; // Light theme (white background)
+  const isDark=isDarkTheme();
   const chart=LightweightCharts.createChart(container,{
     width:container.clientWidth||container.offsetWidth||800,
     height:420,
     layout:{
-      background:{type:'solid',color:'#ffffff'},
-      textColor:'#6B7280',
+      background:{type:'solid',color:isDark?'#141419':'#ffffff'},
+      textColor:isDark?'#9ca3af':'#6B7280',
       fontFamily:'Inter, sans-serif',
     },
     grid:{
@@ -5758,6 +5922,21 @@ function calcSMA(prices,period){
   return sma;
 }
 
+function calcEMA(prices,period){
+  const ema=[];
+  const k=2/(period+1);
+  for(let i=0;i<prices.length;i++){
+    if(i<period-1){ema.push(null);continue;}
+    if(i===period-1){
+      const sum=prices.slice(0,period).reduce((a,b)=>a+b,0);
+      ema.push(sum/period);
+    }else{
+      ema.push(prices[i]*k+ema[i-1]*(1-k));
+    }
+  }
+  return ema;
+}
+
 function calcBollingerBands(prices,period=20,stdDev=2){
   const sma=calcSMA(prices,period);
   const bb={upper:[],middle:sma,lower:[]};
@@ -6328,15 +6507,21 @@ async function updateFearGreedIndex(){
   const cnnUrl='https://production.dataviz.cnn.io/index/fearandgreed/graphdata/';
   const proxies=[
     'https://api.allorigins.win/raw?url=',
-    'https://corsproxy.io/?',
+    'https://corsproxy.io/?url=',
     'https://api.codetabs.com/v1/proxy?quest=',
+    'https://corsproxy.org/?',
+    'https://api.allorigins.win/get?url=',
   ];
 
   for(const proxy of proxies){
     try{
-      const cnnRes=await fetch(proxy+encodeURIComponent(cnnUrl),{signal:AbortSignal.timeout(8000)});
+      const cnnRes=await fetch(proxy+encodeURIComponent(cnnUrl),{signal:AbortSignal.timeout(12000)});
       if(cnnRes.ok){
-        const cnnData=await cnnRes.json();
+        let cnnData=await cnnRes.json();
+        // Handle allorigins /get endpoint which wraps response
+        if(cnnData.contents && typeof cnnData.contents === 'string'){
+          try { cnnData = JSON.parse(cnnData.contents); } catch(e2){}
+        }
         const fg=cnnData.fear_and_greed;
         if(fg && typeof fg.score==='number'){
           const score=Math.round(fg.score);
