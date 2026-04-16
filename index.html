@@ -49,6 +49,19 @@ body{
   line-height:1.6;
 }
 
+body::before{
+  content:'';
+  position:fixed;
+  top:0;
+  left:0;
+  right:0;
+  height:3px;
+  background:linear-gradient(90deg,#FF6B6B,#FFE66D,#4ECDC4,#45B7D1,#96CEB4,#FF6B6B);
+  background-size:300% 100%;
+  animation:gradientSlide 4s ease infinite;
+  z-index:9999;
+}
+
 a{color:var(--accent);text-decoration:none;transition:color .2s ease;}
 a:hover{color:var(--accent-hover);}
 
@@ -90,6 +103,12 @@ a:hover{color:var(--accent-hover);}
 @keyframes fadeInUp{
   from{opacity:0;transform:translateY(16px);}
   to{opacity:1;transform:translateY(0);}
+}
+
+@keyframes gradientSlide{
+  0%{background-position:0% 50%;}
+  50%{background-position:100% 50%;}
+  100%{background-position:0% 50%;}
 }
 
 .login-box{
@@ -246,14 +265,15 @@ a:hover{color:var(--accent-hover);}
   background:var(--bg-surface);
   border-bottom:1px solid var(--border);
   padding:0 24px;
-  height:48px;
+  height:56px;
   display:flex;
   align-items:center;
   justify-content:space-between;
   position:sticky;
-  top:0;
+  top:3px;
   z-index:100;
   backdrop-filter:blur(16px);
+  gap:16px;
 }
 
 .header.scroll-shadow{
@@ -405,24 +425,29 @@ a:hover{color:var(--accent-hover);}
 /* ===== TABS ===== */
 .tabs{
   display:flex;
-  gap:2px;
-  padding:12px 24px 0;
-  flex-wrap:wrap;
-  border-bottom:1px solid var(--border);
+  gap:0;
+  padding:0;
+  flex-wrap:nowrap;
+  background:transparent;
+  border:none;
+  flex:1;
+  justify-content:center;
+  align-items:center;
 }
 
 .tab{
   padding:8px 16px;
-  border-radius:8px 8px 0 0;
+  border-radius:0;
   font-size:13px;
   font-weight:500;
   cursor:pointer;
-  color:var(--tx-muted);
+  color:var(--tx-secondary);
   transition:color .15s ease;
   border:none;
   background:transparent;
   position:relative;
   letter-spacing:0;
+  white-space:nowrap;
 }
 
 .tab:hover{
@@ -431,19 +456,13 @@ a:hover{color:var(--accent-hover);}
 
 .tab.active{
   color:var(--accent);
-  font-weight:600;
+  font-weight:500;
   background:transparent;
+  border-bottom:2px solid var(--accent);
 }
 
 .tab.active::after{
-  content:'';
-  position:absolute;
-  bottom:-1px;
-  left:8px;
-  right:8px;
-  height:2px;
-  background:var(--accent);
-  border-radius:var(--radius-full);
+  display:none;
 }
 
 /* ===== CONTENT ===== */
@@ -2129,6 +2148,19 @@ tbody tr:hover{
     </svg>
     <div class="logo-text">BellFolio <span>by Bell</span></div>
   </div>
+  <!-- TABS IN HEADER -->
+  <div class="tabs" id="tabBar">
+    <div class="tab active" data-tab="dashboard" onclick="switchTab('dashboard')">Dashboard</div>
+    <div class="tab" data-tab="portfolio" onclick="switchTab('portfolio')">Portfolio</div>
+    <div class="tab" data-tab="trade" onclick="switchTab('trade')">Trade</div>
+    <div class="tab" data-tab="allocation" onclick="switchTab('allocation')">Allocation</div>
+    <div class="tab" data-tab="watchlist" onclick="switchTab('watchlist')">Watchlist</div>
+    <div class="tab" data-tab="history" onclick="switchTab('history')">History</div>
+    <div class="tab" data-tab="guru" onclick="switchTab('guru')">Guru</div>
+    <div class="tab" data-tab="articles" onclick="switchTab('articles')">Articles</div>
+    <div class="tab" data-tab="settings" onclick="switchTab('settings')">Settings</div>
+    <div class="tab" data-tab="admin" onclick="switchTab('admin')" id="adminTab" style="display:none;">Admin</div>
+  </div>
   <div class="hdr-right">
     <span class="user-badge" id="userDisplay">User</span>
     <div class="rate-badge" id="rateBadge">USD/THB: <b id="rateVal">--</b></div>
@@ -2147,20 +2179,6 @@ tbody tr:hover{
   <input id="apiKeyInput" placeholder="Enter Finnhub API key..." />
   <button class="btn-sm" onclick="saveApiKey()">Connect</button>
   <button class="btn-sm" style="background:var(--tx-muted);" onclick="dismissBanner()">Later</button>
-</div>
-
-<!-- TABS -->
-<div class="tabs" id="tabBar">
-  <div class="tab active" data-tab="dashboard" onclick="switchTab('dashboard')">Dashboard</div>
-  <div class="tab" data-tab="portfolio" onclick="switchTab('portfolio')">Portfolio</div>
-  <div class="tab" data-tab="trade" onclick="switchTab('trade')">Trade</div>
-  <div class="tab" data-tab="allocation" onclick="switchTab('allocation')">Allocation</div>
-  <div class="tab" data-tab="watchlist" onclick="switchTab('watchlist')">Watchlist</div>
-  <div class="tab" data-tab="history" onclick="switchTab('history')">History</div>
-  <div class="tab" data-tab="guru" onclick="switchTab('guru')">Guru</div>
-  <div class="tab" data-tab="articles" onclick="switchTab('articles')">Articles</div>
-  <div class="tab" data-tab="settings" onclick="switchTab('settings')">Settings</div>
-  <div class="tab" data-tab="admin" onclick="switchTab('admin')" id="adminTab" style="display:none;">Admin</div>
 </div>
 
 <div class="content">
@@ -2437,57 +2455,60 @@ tbody tr:hover{
 
     <!-- RIGHT SIDEBAR: Trade Form & Tools (350px) -->
     <div class="trading-board-right">
+      <!-- Portfolio Manager Section Header -->
+      <div style="font-size:14px;font-weight:600;color:var(--tx-primary);padding:12px 0 8px 0;margin-bottom:8px;">จัดการพอร์ต</div>
+
       <!-- Stock Info Card -->
       <div class="card trading-panel" id="tradeStockInfoCard" style="display:none;">
-        <div class="card-title">Stock Info</div>
+        <div class="card-title">ข้อมูลหุ้น</div>
         <div style="display:flex;flex-direction:column;gap:12px;">
           <div style="display:flex;justify-content:space-between;padding:8px 0;border-bottom:1px solid var(--border);">
-            <span style="color:var(--tx-secondary);font-size:12px;">Portfolio</span>
+            <span style="color:var(--tx-secondary);font-size:12px;">พอร์ต</span>
             <span id="tradeStockInfoPortfolio" style="font-weight:600;font-size:13px;">—</span>
           </div>
           <div style="display:flex;justify-content:space-between;padding:8px 0;border-bottom:1px solid var(--border);">
-            <span style="color:var(--tx-secondary);font-size:12px;">Shares</span>
+            <span style="color:var(--tx-secondary);font-size:12px;">จำนวนหุ้น</span>
             <span id="tradeStockInfoShares" style="font-weight:600;font-size:13px;">—</span>
           </div>
           <div style="display:flex;justify-content:space-between;padding:8px 0;border-bottom:1px solid var(--border);">
-            <span style="color:var(--tx-secondary);font-size:12px;">Avg Cost</span>
+            <span style="color:var(--tx-secondary);font-size:12px;">ต้นทุนเฉลี่ย</span>
             <span id="tradeStockInfoAvgCost" style="font-weight:600;font-size:13px;">—</span>
           </div>
-          <button class="btn btn-fill" style="margin-top:8px;background:var(--accent);color:#000;font-weight:600;padding:10px;" onclick="editPosition()">Edit Position</button>
+          <button class="btn btn-fill" style="margin-top:8px;background:#FFD700;color:#000;font-weight:600;padding:10px;" onclick="editPosition()">แก้ไขข้อมูล</button>
         </div>
       </div>
 
       <!-- DCA Calculator Card -->
       <div class="card trading-panel" id="tradeDCACalcCard" style="display:none;margin-top:12px;">
-        <div class="card-title">DCA Calculator</div>
+        <div class="card-title">คำนวณค่าเฉลี่ยล่วงหน้า</div>
         <div id="dcaCurrentInfo" style="font-size:12px;color:var(--tx-secondary);margin-bottom:12px;"></div>
         <div class="fg" style="margin-bottom:12px;">
-          <label style="font-size:11px;">Additional Investment (USD)</label>
+          <label style="font-size:11px;">ใส่เงินลงทุนเพิ่ม (USD)</label>
           <div style="position:relative;">
             <span style="position:absolute;left:12px;top:50%;transform:translateY(-50%);color:var(--tx-secondary);">$</span>
             <input type="number" id="dcaAdditionalAmount" min="0" step="0.01" placeholder="0" oninput="updateDCATable()" style="font-size:12px;padding-left:24px;">
           </div>
         </div>
         <div style="margin-top:16px;margin-bottom:12px;">
-          <div style="font-size:12px;font-weight:600;color:var(--tx-primary);margin-bottom:8px;">Results</div>
+          <div style="font-size:12px;font-weight:600;color:var(--tx-primary);margin-bottom:8px;">ผลลัพธ์</div>
           <div style="display:grid;grid-template-columns:1fr 1fr;gap:8px;font-size:11px;">
             <div style="padding:8px;background:var(--bg-surface);border-radius:var(--radius);">
-              <div style="color:var(--tx-secondary);margin-bottom:2px;">New Avg Cost</div>
+              <div style="color:var(--tx-secondary);margin-bottom:2px;">ต้นทุนเฉลี่ยใหม่</div>
               <div id="dcaNewAvgCost" style="font-weight:600;color:var(--accent);font-size:13px;">—</div>
             </div>
             <div style="padding:8px;background:var(--bg-surface);border-radius:var(--radius);">
-              <div style="color:var(--tx-secondary);margin-bottom:2px;">Total Shares (new)</div>
+              <div style="color:var(--tx-secondary);margin-bottom:2px;">จำนวนหุ้นทั้งหมด (ใหม่)</div>
               <div id="dcaTotalShares" style="font-weight:600;color:var(--accent);font-size:13px;">—</div>
             </div>
             <div style="padding:8px;background:var(--bg-surface);border-radius:var(--radius);grid-column:1/-1;">
-              <div style="color:var(--tx-secondary);margin-bottom:2px;">Total Cost</div>
+              <div style="color:var(--tx-secondary);margin-bottom:2px;">ต้นทุนรวม</div>
               <div id="dcaTotalCost" style="font-weight:600;color:var(--accent);font-size:13px;">—</div>
             </div>
           </div>
         </div>
         <!-- DCA Table -->
         <div style="margin-top:16px;">
-          <div style="font-size:12px;font-weight:600;color:var(--tx-primary);margin-bottom:8px;">DCA Breakdown</div>
+          <div style="font-size:12px;font-weight:600;color:var(--tx-primary);margin-bottom:8px;">คำนวณเพิ่มเติม</div>
           <div style="overflow-x:auto;">
             <table style="width:100%;font-size:11px;border-collapse:collapse;">
               <thead style="border-bottom:1px solid var(--border);">
@@ -2507,13 +2528,13 @@ tbody tr:hover{
 
       <!-- Support/Resistance & Loss Scenarios Card -->
       <div class="card trading-panel" id="tradeSRCard" style="display:none;margin-top:12px;">
-        <div class="card-title">Support / Resistance</div>
+        <div class="card-title">คำนวณความเสียหายล่วงหน้า</div>
         <div id="srLossOutput" style="font-size:12px;"></div>
       </div>
 
       <!-- Execute Trade Card (moved to bottom) -->
       <div class="card trading-panel" id="tradeExecutePanel" style="display:none;margin-top:12px;">
-        <div class="card-title">Execute Trade</div>
+        <div class="card-title">ซื้อ-ขาย</div>
         <div class="form-row">
           <div class="fg"><label>Portfolio</label><select id="tradePf" onchange="tradePreview()"></select></div>
           <div class="fg"><label>Side</label><select id="tradeSide" onchange="tradePreview();updateTradeSimTitle()"><option value="buy">BUY</option><option value="sell">SELL</option></select></div>
@@ -2683,7 +2704,7 @@ tbody tr:hover{
 
     <!-- ===== SUPPORT & RESISTANCE WITH P/L ===== -->
     <div style="margin-top:16px;padding-top:16px;border-top:1px solid var(--border);">
-      <div class="card-title" style="margin-bottom:4px;cursor:pointer;" onclick="this.nextElementSibling.style.display=this.nextElementSibling.style.display==='none'?'':'none';this.querySelector('.toggle-icon').textContent=this.nextElementSibling.style.display==='none'?'▶':'▼';">Support / Resistance แนวรับ-แนวต้าน <span class="toggle-icon" style="font-size:12px;margin-left:8px;">▼</span></div>
+      <div class="card-title" style="margin-bottom:4px;cursor:pointer;" onclick="this.nextElementSibling.style.display=this.nextElementSibling.style.display==='none'?'':'none';this.querySelector('.toggle-icon').textContent=this.nextElementSibling.style.display==='none'?'▶':'▼';">คำนวณความเสียหายล่วงหน้า <span class="toggle-icon" style="font-size:12px;margin-left:8px;">▼</span></div>
       <div>
         <p style="font-size:12px;color:var(--tx-secondary);margin-bottom:12px;">กำไร/ขาดทุนที่แต่ละแนวรับ-แนวต้าน</p>
         <div class="fg" style="margin-bottom:12px;">
@@ -3583,15 +3604,18 @@ let tradeChartInstance=null;
 let tradeMainSeries=null;
 let currentDrawingTool=null;
 
-function initTradeSidebar(){
-  updatePortfolioSummary();
+async function initTradeSidebar(){
+  await updatePortfolioSummary();
   populateFavoritesList();
 }
 
-function updatePortfolioSummary(){
+async function updatePortfolioSummary(){
   const portName=appData.activePort||Object.keys(appData.portfolios)[0]||'Main';
   const currentPort=appData.portfolios[portName];
-  if(!currentPort)return;
+  if(!currentPort){
+    console.warn('Portfolio not found:',portName);
+    return;
+  }
 
   const stocks=currentPort.stocks||{};
   let totalValue=0,totalCost=0;
@@ -3599,7 +3623,18 @@ function updatePortfolioSummary(){
     const s=stocks[ticker];
     const qty=s.q||0;
     const cost=s.c||0;
-    const price=s.p||cost;
+    // Try to get live price, fall back to cached price
+    let price=s.p||cost;
+    const cached=priceCache[ticker];
+    if(cached&&Date.now()-cached.ts<300000){
+      price=cached.p;
+    }else{
+      const pr=await getPrice(ticker);
+      if(pr){
+        price=pr.p;
+        s.p=pr.p;
+      }
+    }
     totalCost+=cost*qty;
     totalValue+=price*qty;
   }
@@ -3611,6 +3646,7 @@ function updatePortfolioSummary(){
   const plEl=document.getElementById('portfolioPL');
   plEl.textContent=(pl>=0?'+':'')+('$'+fmtNum(Math.abs(pl)))+' ('+(pl>=0?'+':'')+fmtNum(pct)+'%)';
   plEl.className='pl '+(pl>=0?'positive':'negative');
+  console.log(`Portfolio summary updated: $${fmtNum(totalValue)} (${pl>=0?'+':''}${fmtNum(pct)}%)`);
 }
 
 function populateFavoritesList(){
@@ -3631,14 +3667,23 @@ function populateFavoritesList(){
     li.onclick=()=>loadTradeBoard(ticker);
     favoritesList.appendChild(li);
     // Fetch live price for this stock
-    if(appData.apiKey){
-      fetch(`https://finnhub.io/api/v1/quote?symbol=${ticker}&token=${appData.apiKey}`)
+    const key=appData.apiKey||apiKey;
+    if(key){
+      fetch(`https://finnhub.io/api/v1/quote?symbol=${encodeURIComponent(ticker)}&token=${key}`)
         .then(r=>r.json())
         .then(d=>{
           const el=document.getElementById('fav_price_'+ticker);
-          if(el&&d.c) el.textContent='$'+fmtNum(d.c);
-        }).catch(()=>{});
+          if(el&&d.c){
+            el.textContent='$'+fmtNum(d.c);
+            el.style.color=d.d>=0?'var(--green)':'var(--red)';
+          }
+        }).catch((e)=>{
+          console.warn(`Failed to load price for ${ticker}:`,e.message);
+        });
     }
+  }
+  if(idx===0){
+    favoritesList.innerHTML='<li style="padding:12px;text-align:center;color:var(--tx-muted);font-size:12px;">No stocks in portfolio</li>';
   }
 }
 
@@ -3687,8 +3732,10 @@ async function loadTradeBoard(ticker){
   }else{
     document.getElementById('tradeStockInfoCard').style.display='none';
   }
-  initTradeSidebar();
-  document.getElementById('sec-trade').scrollIntoView({behavior:'smooth'});
+  (async()=>{
+    await initTradeSidebar();
+    document.getElementById('sec-trade').scrollIntoView({behavior:'smooth'});
+  })();
 }
 
 function closeTradeBoard(){
@@ -3708,11 +3755,15 @@ function closeTradeBoard(){
 
 async function loadTradeQuote(ticker){
   const pr=await getPrice(ticker);
-  if(!pr){return;}
+  if(!pr){
+    console.warn('Failed to load price for',ticker);
+    return;
+  }
   document.getElementById('tradeChartPrice').textContent=fmtMoney(pr.p);
   const changeEl=document.getElementById('tradeChartChange');
   changeEl.textContent=`${pr.c>=0?'+':''}${fmtNum(pr.c)} (${pr.pct>=0?'+':''}${fmtNum(pr.pct)}%)`;
   changeEl.className='stock-change '+(pr.c>=0?'positive':'negative');
+  console.log(`Loaded quote for ${ticker}: $${pr.p} (${pr.c>=0?'+':''} ${pr.pct}%)`);
 
   const stocks=getStocks();
   if(stocks[ticker]){
@@ -3721,8 +3772,9 @@ async function loadTradeQuote(ticker){
     document.getElementById('tradeStockInfoPortfolio').textContent=portfolioName;
     document.getElementById('tradeStockInfoShares').textContent=fmtNum(s.q)+' shares';
     document.getElementById('tradeStockInfoAvgCost').textContent='$'+fmtNum(s.c);
-    await updateDCATable();
-    await updateLossScenario();
+    updateDCATable();
+    updateLossScenario();
+    console.log(`Portfolio data updated for ${ticker}: ${s.q} shares @ $${s.c}`);
   }
 }
 
@@ -3903,13 +3955,17 @@ async function loadTradeChart(ticker,period){
 
   if(tradeChartInstance){try{tradeChartInstance.remove();}catch(e){}tradeChartInstance=null;tradeMainSeries=null;}
   const container=document.getElementById('tradeChart');
+  if(!container){console.error('Trade chart container not found');return;}
   container.innerHTML='';
 
   if(ohlcData.length===0){container.innerHTML='<p style="text-align:center;padding:40px;color:var(--tx-secondary);">No chart data available</p>';return;}
 
   try{
+    if(typeof LightweightCharts==='undefined'){console.error('LightweightCharts library not loaded');container.innerHTML='<p style="text-align:center;padding:40px;color:var(--tx-secondary);">Chart library error</p>';return;}
+    const containerWidth=container.clientWidth||container.offsetWidth||600;
+    if(containerWidth===0){console.warn('Container width is 0, using default 600px');container.style.width='100%';}
     const chart=LightweightCharts.createChart(container,{
-      width:container.clientWidth||container.offsetWidth||600,
+      width:containerWidth>0?containerWidth:600,
       height:420,
       layout:{
         background:{type:'solid',color:'#0d0d0d'},
@@ -3989,7 +4045,13 @@ async function loadTradeChart(ticker,period){
     chart.timeScale().fitContent();
     document.querySelectorAll('#tradeChartPeriodRow .period-btn').forEach(b=>b.classList.remove('active'));
     document.querySelector(`#tradeChartPeriodRow .period-btn:nth-child(${['1D','5D','1M','6M','1Y'].indexOf(period)+1})`).classList.add('active');
-  }catch(e){console.log('Trade chart error:',e);container.innerHTML='<p style="text-align:center;padding:40px;color:var(--tx-secondary);">Unable to load chart</p>';}
+    console.log(`Trade chart loaded for ${ticker}: ${ohlcData.length} candles, period=${period}`);
+  }catch(e){
+    console.error('Trade chart error:',e.message,e.stack);
+    if(container){
+      container.innerHTML='<p style="text-align:center;padding:40px;color:var(--tx-secondary);">Unable to load chart<br><small style="font-size:10px;color:var(--tx-muted);">'+e.message+'</small></p>';
+    }
+  }
 }
 
 function toggleTradeIndicator(ind){
@@ -6249,7 +6311,7 @@ async function updateFearGreedIndex(){
 
   for(const proxy of proxies){
     try{
-      const cnnRes=await fetch(proxy+encodeURIComponent(cnnUrl),{timeout:5000});
+      const cnnRes=await fetch(proxy+encodeURIComponent(cnnUrl),{signal:AbortSignal.timeout(8000)});
       if(cnnRes.ok){
         const cnnData=await cnnRes.json();
         const fg=cnnData.fear_and_greed;
@@ -6275,6 +6337,7 @@ async function updateFearGreedIndex(){
             const m=fg.previous_1_month?Math.round(fg.previous_1_month):'--';
             factors.innerHTML=`Yesterday: ${prev} | 1 Week: ${w} | 1 Month: ${m}`;
           }
+          console.log('Fear/Greed Index updated from CNN:',score);
           return;
         }
       }
@@ -6286,16 +6349,25 @@ async function updateFearGreedIndex(){
   console.warn('All CNN proxies failed, using Finnhub fallback');
 
   // FALLBACK: Multi-factor calculation via Finnhub
-  if(!apiKey)return;
+  const key=appData.apiKey||apiKey;
+  if(!key){
+    console.warn('No API key available for Fear/Greed fallback');
+    document.getElementById('fearLabel').textContent='No Data';
+    document.getElementById('fearValue').textContent='--';
+    return;
+  }
   try{
     const [spyRes,vixyRes,gldRes,qqqRes]=await Promise.all([
-      fetch('https://finnhub.io/api/v1/quote?symbol=SPY&token='+apiKey),
-      fetch('https://finnhub.io/api/v1/quote?symbol=VIXY&token='+apiKey),
-      fetch('https://finnhub.io/api/v1/quote?symbol=GLD&token='+apiKey),
-      fetch('https://finnhub.io/api/v1/quote?symbol=QQQ&token='+apiKey)
+      fetch('https://finnhub.io/api/v1/quote?symbol=SPY&token='+key),
+      fetch('https://finnhub.io/api/v1/quote?symbol=VIXY&token='+key),
+      fetch('https://finnhub.io/api/v1/quote?symbol=GLD&token='+key),
+      fetch('https://finnhub.io/api/v1/quote?symbol=QQQ&token='+key)
     ]);
     const [spy,vixy,gld,qqq]=await Promise.all([spyRes.json(),vixyRes.json(),gldRes.json(),qqqRes.json()]);
-    if(!spy.c||!spy.pc)return;
+    if(!spy.c||!spy.pc){
+      console.warn('Invalid SPY data for Fear/Greed calculation');
+      return;
+    }
 
     const spyChg=((spy.c-spy.pc)/spy.pc)*100;
     const f1=Math.max(0,Math.min(100,50+(spyChg/3)*50));
@@ -6333,6 +6405,7 @@ async function updateFearGreedIndex(){
 
     const factors=document.getElementById('fearFactors');
     if(factors) factors.innerHTML=`SPY: ${f1.toFixed(0)} | VIX: ${f2.toFixed(0)} | Gold: ${f3.toFixed(0)} | Breadth: ${f4.toFixed(0)}`;
+    console.log('Fear/Greed Index updated from Finnhub fallback:',score);
   }catch(e){
     console.error('Fear/Greed fallback error:',e);
   }
@@ -6368,13 +6441,17 @@ function applyFearGreedUI(score,label,color,source,timestamp){
 }
 
 async function updateMarketOverview(){
-  if(!apiKey)return;
+  const key=appData.apiKey||apiKey;
+  if(!key){
+    console.warn('No API key available for market overview');
+    return;
+  }
   const symbols=['SPY','QQQ','DIA','GLD','COIN','USO'];
   const _now=new Date();
   let updatedAt=_now.toLocaleDateString('en-US',{month:'short',day:'numeric'})+' at '+_now.toLocaleTimeString('en-US',{hour:'numeric',minute:'2-digit',second:'2-digit',hour12:true});
   for(const sym of symbols){
     try{
-      const res=await fetch('https://finnhub.io/api/v1/quote?symbol='+sym+'&token='+apiKey);
+      const res=await fetch('https://finnhub.io/api/v1/quote?symbol='+sym+'&token='+key);
       const d=await res.json();
       if(!d.c)continue;
       const chg=d.d||0;
