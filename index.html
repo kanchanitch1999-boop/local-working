@@ -4,11 +4,11 @@
 <meta charset="UTF-8">
 <script>
 // Apply saved theme immediately to prevent flash
-(function(){var t=localStorage.getItem('bell_theme');document.documentElement.setAttribute('data-theme',t||'dark');})();
+(function(){var t=localStorage.getItem('sp_theme');document.documentElement.setAttribute('data-theme',t||'dark');})();
 </script>
 <meta name="viewport" content="width=device-width, initial-scale=1.0">
-<title>BellFolio — US Stock Portfolio</title>
-<link rel="icon" type="image/svg+xml" href="data:image/svg+xml,%3Csvg viewBox='0 0 120 120' xmlns='http://www.w3.org/2000/svg'%3E%3Crect rx='28' width='120' height='120' fill='%230d0d0d'/%3E%3Cpath d='M30 78L50 58L65 66L90 36' stroke='%235AC8FA' stroke-width='5' stroke-linecap='round' stroke-linejoin='round' fill='none'/%3E%3Ccircle cx='90' cy='36' r='5' fill='%235AC8FA'/%3E%3Cpath d='M30 78L50 58L65 66L90 36L90 88L30 88Z' fill='%235AC8FA' opacity='.12'/%3E%3C/svg%3E">
+<title>StockPulse — ชีพจรหุ้น</title>
+<link rel="icon" type="image/svg+xml" href="data:image/svg+xml,%3Csvg viewBox='0 0 120 120' xmlns='http://www.w3.org/2000/svg'%3E%3Crect rx='24' width='120' height='120' fill='%230f172a'/%3E%3Cpath d='M15 60H30L40 30L55 85L70 45L82 60H105' stroke='%2300d4ff' stroke-width='5' stroke-linecap='round' stroke-linejoin='round' fill='none'/%3E%3C/svg%3E">
 <script src="https://www.gstatic.com/firebasejs/10.12.0/firebase-app-compat.js"></script>
 <script src="https://www.gstatic.com/firebasejs/10.12.0/firebase-database-compat.js"></script>
 <script src="https://cdnjs.cloudflare.com/ajax/libs/Chart.js/4.4.1/chart.umd.min.js"></script>
@@ -22,134 +22,58 @@ html{scroll-behavior:smooth;}
 
 @media(prefers-reduced-motion:reduce){*{animation-duration:.01ms!important;animation-iteration-count:1!important;transition-duration:.01ms!important;scroll-behavior:auto!important;}}
 
-/* ===== DESIGN TOKENS — WETHAIINVEST LIGHT THEME ===== */
+/* ===== DESIGN TOKENS — DARK PRO TRADING THEME ===== */
 :root{
-  --bg-base:#f5f5f7;--bg-surface:#ffffff;--bg-elevated:#ffffff;--bg-hover:#f0f0f2;
-  --border:#e0e0e0;--border-focus:#5AC8FA;
-  --tx-primary:#1a1a1a;--tx-secondary:#6B7280;--tx-muted:#9CA3AF;
-  --accent:#5AC8FA;--accent-hover:#38b6ff;--accent-light:rgba(90,200,250,.08);
-  --accent-gradient:linear-gradient(135deg,#5AC8FA 0%,#7DD3FC 100%);
-  --green:#00B87C;--green-bg:rgba(0,184,124,.08);--green-light:#00B87C;
-  --red:#E53935;--red-bg:rgba(229,57,53,.08);--red-light:#E53935;
-  --orange:#FF9800;--orange-bg:rgba(255,152,0,.08);
-  --purple:#5AC8FA;--purple-bg:rgba(90,200,250,.08);
-  --shadow-xs:none;
-  --shadow-sm:none;
-  --shadow-md:none;
-  --shadow-lg:none;
-  --shadow-xl:none;
-  --radius:8px;--radius-lg:8px;--radius-full:9999px;
+  --bg-base:#0a0e1a;--bg-surface:#111827;--bg-elevated:#1a1f35;--bg-hover:#1e2642;
+  --border:#2a3050;--border-focus:#00d4ff;
+  --tx-primary:#e8ecf4;--tx-secondary:#8892a8;--tx-muted:#5a6478;
+  --accent:#00d4ff;--accent-hover:#33ddff;--accent-light:rgba(0,212,255,.08);
+  --accent-gradient:linear-gradient(135deg,#6366f1 0%,#00d4ff 50%,#10b981 100%);
+  --green:#10b981;--green-bg:rgba(16,185,129,.12);--green-light:#064e3b;
+  --red:#ef4444;--red-bg:rgba(239,68,68,.12);--red-light:#7f1d1d;
+  --orange:#f59e0b;--orange-bg:rgba(245,158,11,.12);
+  --purple:#8b5cf6;--purple-bg:rgba(139,92,246,.12);
+  --shadow-xs:0 1px 2px rgba(0,0,0,.3);
+  --shadow-sm:0 1px 3px rgba(0,0,0,.3),0 4px 12px rgba(0,0,0,.2);
+  --shadow-md:0 2px 6px rgba(0,0,0,.3),0 8px 20px rgba(0,0,0,.25);
+  --shadow-lg:0 4px 12px rgba(0,0,0,.3),0 16px 32px rgba(0,0,0,.3);
+  --shadow-xl:0 8px 24px rgba(0,0,0,.35),0 24px 48px rgba(0,0,0,.35);
+  --radius:10px;--radius-lg:14px;--radius-full:9999px;
 }
 
-/* ===== DARK THEME (WeThaiInvest style) ===== */
+/* ===== LIGHT THEME ===== */
+[data-theme="light"]{
+  --bg-base:#f8f9fb;--bg-surface:#ffffff;--bg-elevated:#ffffff;--bg-hover:#f1f3f5;
+  --border:#e2e5e9;--border-focus:#6366f1;
+  --tx-primary:#0f172a;--tx-secondary:#64748b;--tx-muted:#94a3b8;
+  --accent:#6366f1;--accent-hover:#4f46e5;--accent-light:rgba(99,102,241,.06);
+  --accent-gradient:linear-gradient(135deg,#6366f1 0%,#00d4ff 50%,#10b981 100%);
+  --green:#059669;--green-bg:rgba(5,150,105,.06);--green-light:#ecfdf5;
+  --red:#dc2626;--red-bg:rgba(220,38,38,.06);--red-light:#fef2f2;
+  --orange:#d97706;--orange-bg:rgba(217,119,6,.06);
+  --purple:#7c3aed;--purple-bg:rgba(124,58,237,.06);
+  --shadow-xs:0 1px 2px rgba(0,0,0,.03);
+  --shadow-sm:0 1px 3px rgba(0,0,0,.03),0 4px 12px rgba(0,0,0,.04);
+  --shadow-md:0 2px 6px rgba(0,0,0,.04),0 8px 20px rgba(0,0,0,.06);
+  --shadow-lg:0 4px 12px rgba(0,0,0,.05),0 16px 32px rgba(0,0,0,.08);
+  --shadow-xl:0 8px 24px rgba(0,0,0,.06),0 24px 48px rgba(0,0,0,.10);
+}
+
+/* ===== DARK THEME (same as root — dark is default) ===== */
 [data-theme="dark"]{
-  --bg-base:#0a0a0f;--bg-surface:#141419;--bg-elevated:#1a1a22;--bg-hover:#1e1e28;
-  --border:#2a2a35;--border-focus:#5AC8FA;
-  --tx-primary:#e8e8ec;--tx-secondary:#9ca3af;--tx-muted:#6b7280;
-  --accent:#5AC8FA;--accent-hover:#38b6ff;--accent-light:rgba(90,200,250,.1);
-  --accent-gradient:linear-gradient(135deg,#5AC8FA 0%,#7DD3FC 100%);
-  --green:#00d68f;--green-bg:rgba(0,214,143,.12);--green-light:#00d68f;
-  --red:#ff4757;--red-bg:rgba(255,71,87,.12);--red-light:#ff4757;
-  --orange:#ffa502;--orange-bg:rgba(255,165,2,.12);
-  --purple:#a78bfa;--purple-bg:rgba(167,139,250,.12);
-  --shadow-xs:0 1px 2px rgba(0,0,0,.4);
-  --shadow-sm:0 2px 4px rgba(0,0,0,.4);
-  --shadow-md:0 4px 8px rgba(0,0,0,.4);
-  --shadow-lg:0 8px 16px rgba(0,0,0,.5);
-  --shadow-xl:0 16px 32px rgba(0,0,0,.6);
+  /* Same as root — dark is default */
 }
 
-[data-theme="dark"] body{background:#0a0a0f;color:#e8e8ec;}
-[data-theme="dark"] body::before{background:linear-gradient(90deg,#5AC8FA,#a78bfa,#00d68f,#ffa502,#5AC8FA);background-size:300% 100%;}
+/* Dark-mode overrides now handled by :root defaults — removed hardcoded values */
 
-[data-theme="dark"] .login-screen{background:#0a0a0f;}
-[data-theme="dark"] .login-box{background:#141419;border-color:#2a2a35;box-shadow:0 8px 32px rgba(0,0,0,.5);}
-[data-theme="dark"] .login-box .brand .logo-text{color:#e8e8ec;-webkit-text-fill-color:#e8e8ec;}
-[data-theme="dark"] .login-box .brand .logo-text span{-webkit-text-fill-color:#9ca3af;color:#9ca3af;}
-[data-theme="dark"] .login-box .sub{color:#9ca3af;}
-[data-theme="dark"] .login-box .fg input{background:#1a1a22;border-color:#2a2a35;color:#e8e8ec;}
-[data-theme="dark"] .login-box .login-hint{color:#9ca3af;}
-
-[data-theme="dark"] .header{background:#0d0d12;border-bottom-color:#2a2a35;}
-[data-theme="dark"] .tab{color:#9ca3af;}
-[data-theme="dark"] .tab.active{color:#5AC8FA;border-bottom-color:#5AC8FA;}
-[data-theme="dark"] .tab:hover{color:#e8e8ec;}
-
-[data-theme="dark"] .card{background:#141419;border-color:#2a2a35;}
-[data-theme="dark"] .card-title{color:#e8e8ec;}
-
-[data-theme="dark"] .summary-card{background:#141419;border-color:#2a2a35;}
-[data-theme="dark"] .summary-card .value{color:#e8e8ec;}
-
-[data-theme="dark"] input,
-[data-theme="dark"] select,
-[data-theme="dark"] textarea{background:#1a1a22;border-color:#2a2a35;color:#e8e8ec;}
-[data-theme="dark"] input:focus,
-[data-theme="dark"] select:focus,
-[data-theme="dark"] textarea:focus{border-color:#5AC8FA;background:#1e1e28;}
-[data-theme="dark"] input::placeholder{color:#6b7280;}
-
-[data-theme="dark"] .btn{background:#1a1a22;color:#e8e8ec;border-color:#2a2a35;}
-[data-theme="dark"] .btn:hover{background:#1e1e28;}
-[data-theme="dark"] .btn-fill{background:#5AC8FA;color:#000;}
-[data-theme="dark"] .btn-danger{background:rgba(255,71,87,.15);color:#ff4757;border-color:#ff4757;}
-
-[data-theme="dark"] .hdr-btn{color:#9ca3af;border-color:#2a2a35;}
-[data-theme="dark"] .hdr-btn:hover{color:#e8e8ec;background:#1e1e28;}
-
-[data-theme="dark"] .rate-badge{background:#1a1a22;border-color:#2a2a35;color:#ffa502;}
-[data-theme="dark"] .user-badge{background:#5AC8FA;color:#000;}
-
-[data-theme="dark"] .api-banner{background:#141419;border-color:#2a2a35;}
-
-[data-theme="dark"] .portfolio-summary-card{background:#141419;border-color:#2a2a35;}
-[data-theme="dark"] .portfolio-summary-card .name{color:#e8e8ec;}
-[data-theme="dark"] .portfolio-summary-card .value{color:#e8e8ec;}
-
-[data-theme="dark"] .favorites-section{background:#141419;border-color:#2a2a35;}
-[data-theme="dark"] .favorites-list li{border-bottom-color:#2a2a35;}
-[data-theme="dark"] .favorites-list li:hover{background:#1e1e28;}
-
-[data-theme="dark"] .stock-header{background:#141419;border-color:#2a2a35;}
-[data-theme="dark"] .chart-type-row{background:#141419;border-color:#2a2a35;}
-[data-theme="dark"] .period-row{background:#141419;border-color:#2a2a35;}
-[data-theme="dark"] .chart-type-btn{color:#9ca3af;border-color:#2a2a35;}
-[data-theme="dark"] .chart-type-btn.active{color:#5AC8FA;border-color:#5AC8FA;background:rgba(90,200,250,.1);}
-[data-theme="dark"] .period-btn{color:#9ca3af;border-color:#2a2a35;}
-[data-theme="dark"] .period-btn.active{color:#5AC8FA;border-color:#5AC8FA;background:rgba(90,200,250,.1);}
-[data-theme="dark"] .overlay-toggle{color:#9ca3af;border-color:#2a2a35;}
-[data-theme="dark"] .overlay-toggle.active{color:#5AC8FA;border-color:#5AC8FA;}
-[data-theme="dark"] .drawing-tools{background:#141419;border-color:#2a2a35;}
-[data-theme="dark"] .drawing-tool{color:#9ca3af;border-color:#2a2a35;}
-[data-theme="dark"] .drawing-tool.active{color:#5AC8FA;border-color:#5AC8FA;}
-
-[data-theme="dark"] .trading-panel{background:#141419;border-color:#2a2a35;}
-[data-theme="dark"] .trading-board-left-sidebar{background:#141419;border-color:#2a2a35;}
-
-[data-theme="dark"] .ticker-autocomplete{background:#1a1a22;border-color:#2a2a35;}
-[data-theme="dark"] .ticker-autocomplete-item:hover{background:#1e1e28;}
-[data-theme="dark"] .ticker-autocomplete-item .sym{color:#5AC8FA;}
-[data-theme="dark"] .ticker-autocomplete-item .name{color:#e8e8ec;}
-
-[data-theme="dark"] .toast{background:#141419;color:#e8e8ec;border-color:#2a2a35;}
-
-[data-theme="dark"] .fear-greed-card{background:#141419;}
-
-[data-theme="dark"] table th{color:#9ca3af;}
-[data-theme="dark"] table td{color:#e8e8ec;}
-[data-theme="dark"] table tr{border-bottom-color:#2a2a35;}
-
-[data-theme="dark"] .trade-preview{background:#1a1a22;border-color:#2a2a35;}
-[data-theme="dark"] .trade-mode-toggle{background:#1a1a22;border-color:#2a2a35;}
-[data-theme="dark"] .trade-mode-btn{color:#9ca3af;}
-[data-theme="dark"] .trade-mode-btn.active{color:#5AC8FA;background:rgba(90,200,250,.1);}
-
-[data-theme="dark"] .highlights-grid .highlight-item{background:#1a1a22;border-color:#2a2a35;}
-
-[data-theme="dark"] ::-webkit-scrollbar-thumb{background:#2a2a35;}
-[data-theme="dark"] ::-webkit-scrollbar-thumb:hover{background:#5AC8FA;}
-
-/* Light theme (white) */
+/* ===== LIGHT THEME COMPONENT OVERRIDES ===== */
+[data-theme="light"] .login-screen{background:#f8f9fb;}
+[data-theme="light"] .login-box{background:#ffffff;border-color:#e2e5e9;box-shadow:0 8px 32px rgba(0,0,0,.08);}
+[data-theme="light"] .login-box .brand .logo-text{color:#0f172a;-webkit-text-fill-color:#0f172a;}
+[data-theme="light"] .login-box .brand .logo-text span{-webkit-text-fill-color:#64748b;color:#64748b;}
+[data-theme="light"] .login-box .sub{color:#64748b;}
+[data-theme="light"] .login-box .fg input{background:#f8f9fb;border-color:#e2e5e9;color:#0f172a;}
+[data-theme="light"] .login-box .login-hint{color:#94a3b8;}
 
 body{
   font-family:'Inter',sans-serif;
@@ -168,7 +92,7 @@ body::before{
   left:0;
   right:0;
   height:3px;
-  background:linear-gradient(90deg,#FF6B6B,#FFE66D,#4ECDC4,#45B7D1,#96CEB4,#FF6B6B);
+  background:linear-gradient(90deg,#6366f1,#00d4ff,#10b981,#f59e0b,#6366f1);
   background-size:300% 100%;
   animation:gradientSlide 4s ease infinite;
   z-index:9999;
@@ -189,7 +113,7 @@ a:hover{color:var(--accent-hover);}
   align-items:center;
   justify-content:center;
   min-height:100vh;
-  background:#f5f5f7;
+  background:linear-gradient(135deg,#0a0e1a 0%,#111827 50%,#0a0e1a 100%);
   position:relative;
   overflow:hidden;
 }
@@ -199,8 +123,9 @@ a:hover{color:var(--accent-hover);}
   position:absolute;
   inset:0;
   background:
-    radial-gradient(ellipse 60% 50% at 20% 60%,rgba(90,200,250,.06) 0%,transparent 70%),
-    radial-gradient(ellipse 50% 40% at 80% 30%,rgba(99,102,241,.05) 0%,transparent 70%);
+    radial-gradient(ellipse 60% 50% at 20% 60%,rgba(0,212,255,.06) 0%,transparent 70%),
+    radial-gradient(ellipse 50% 40% at 80% 30%,rgba(99,102,241,.08) 0%,transparent 70%),
+    radial-gradient(ellipse 40% 30% at 60% 80%,rgba(16,185,129,.05) 0%,transparent 70%);
   pointer-events:none;
 }
 
@@ -209,7 +134,12 @@ a:hover{color:var(--accent-hover);}
   position:absolute;
   bottom:0;left:0;right:0;
   height:1px;
-  background:linear-gradient(90deg,transparent,rgba(90,200,250,.15),transparent);
+  background:linear-gradient(90deg,transparent,rgba(0,212,255,.2),transparent);
+}
+
+@keyframes pulseGlow{
+  0%,100%{opacity:.6;filter:drop-shadow(0 0 8px rgba(0,212,255,.3));}
+  50%{opacity:1;filter:drop-shadow(0 0 16px rgba(0,212,255,.6));}
 }
 
 @keyframes fadeInUp{
@@ -224,17 +154,33 @@ a:hover{color:var(--accent-hover);}
 }
 
 .login-box{
-  background:#ffffff;
-  border:1px solid #e0e0e0;
+  background:rgba(17,24,39,.7);
+  backdrop-filter:blur(20px);
+  -webkit-backdrop-filter:blur(20px);
+  border:1px solid rgba(42,48,80,.6);
+  border-image:linear-gradient(135deg,rgba(99,102,241,.4),rgba(0,212,255,.4),rgba(16,185,129,.4)) 1;
+  border-image-slice:1;
   border-radius:20px;
   padding:56px 44px 48px;
-  width:400px;
+  width:420px;
   max-width:90vw;
   text-align:center;
-  box-shadow:0 8px 32px rgba(0,0,0,.08),0 0 0 1px rgba(0,0,0,.04);
+  box-shadow:0 8px 32px rgba(0,0,0,.4),0 0 60px rgba(0,212,255,.05);
   position:relative;
   z-index:1;
   animation:fadeInUp .5s ease-out;
+  /* Fix border-image vs border-radius conflict */
+  border-image:none;
+  border-color:rgba(42,48,80,.6);
+  background-clip:padding-box;
+}
+
+.login-box::before{
+  content:'';position:absolute;inset:-1px;border-radius:20px;padding:1px;
+  background:linear-gradient(135deg,rgba(99,102,241,.4),rgba(0,212,255,.3),rgba(16,185,129,.4));
+  -webkit-mask:linear-gradient(#fff 0 0) content-box,linear-gradient(#fff 0 0);
+  -webkit-mask-composite:xor;mask-composite:exclude;
+  pointer-events:none;
 }
 
 .login-box .brand{
@@ -248,59 +194,60 @@ a:hover{color:var(--accent-hover);}
 .login-box .brand .logo-icon{width:40px;height:40px;flex-shrink:0;}
 
 .login-box .brand .logo-text{
-  color:#1a1a1a;
-  -webkit-text-fill-color:#1a1a1a;
+  color:#e8ecf4;
+  -webkit-text-fill-color:#e8ecf4;
   background:none;
 }
 
 .login-box .brand .logo-text span{
   display:block;font-size:12px;font-weight:500;letter-spacing:1px;text-transform:uppercase;
-  background:none;-webkit-text-fill-color:#6B7280;color:#6B7280;
+  background:none;-webkit-text-fill-color:#8892a8;color:#8892a8;
 }
 
 .login-box .sub{
-  color:#6B7280;
+  color:#8892a8;
   font-size:14px;
   margin-bottom:36px;
   font-weight:400;
 }
 
-.login-box .fg label{color:#6B7280;font-size:12px;letter-spacing:.8px;text-transform:uppercase;}
+.login-box .fg label{color:#8892a8;font-size:12px;letter-spacing:.8px;text-transform:uppercase;}
 
 .login-box .fg input{
-  background:#f5f5f7;
-  border:1px solid #e0e0e0;
-  color:#1a1a1a;
+  background:rgba(26,31,53,.8);
+  border:1px solid #2a3050;
+  color:#e8ecf4;
   padding:13px 16px;
   font-size:14px;
   border-radius:10px;
   transition:border-color .2s,box-shadow .2s;
 }
 
-.login-box .fg input::placeholder{color:#9CA3AF;}
+.login-box .fg input::placeholder{color:#5a6478;}
 
 .login-box .fg input:focus{
-  border-color:#5AC8FA;
-  box-shadow:0 0 0 3px rgba(90,200,250,.12);
-  background:#ffffff;
+  border-color:#00d4ff;
+  box-shadow:0 0 0 3px rgba(0,212,255,.15);
+  background:rgba(30,38,66,.9);
 }
 
 .login-box .btn-primary{
-  background:#5AC8FA;
-  box-shadow:0 4px 16px rgba(90,200,250,.25);
+  background:linear-gradient(135deg,#6366f1,#00d4ff);
+  box-shadow:0 4px 16px rgba(0,212,255,.25);
   border-radius:10px;
   font-size:14px;
   font-weight:600;
   letter-spacing:.3px;
   padding:13px 16px;
+  color:#fff;
 }
 
 .login-box .btn-primary:hover{
-  box-shadow:0 6px 24px rgba(90,200,250,.35);
+  box-shadow:0 6px 24px rgba(0,212,255,.4);
   transform:translateY(-1px);
 }
 
-.login-box .login-hint{color:#6B7280;}
+.login-box .login-hint{color:#5a6478;}
 
 .fg{text-align:left;margin-bottom:20px;}
 
@@ -340,7 +287,7 @@ a:hover{color:var(--accent-hover);}
   border:none;
   border-radius:8px;
   background:var(--accent);
-  color:#000000;
+  color:#fff;
   font-size:14px;
   font-weight:600;
   cursor:pointer;
@@ -373,8 +320,9 @@ a:hover{color:var(--accent-hover);}
 
 /* ===== HEADER ===== */
 .header{
-  background:var(--bg-surface);
-  border-bottom:1px solid var(--border);
+  background:rgba(10,14,26,.92);
+  backdrop-filter:blur(16px);
+  border-bottom:none;
   padding:0 24px;
   height:56px;
   display:flex;
@@ -383,13 +331,20 @@ a:hover{color:var(--accent-hover);}
   position:sticky;
   top:3px;
   z-index:100;
-  backdrop-filter:blur(16px);
   gap:16px;
 }
 
-.header.scroll-shadow{
-  box-shadow:inset 0 -1px 0 var(--border);
+.header::after{
+  content:'';position:absolute;bottom:0;left:0;right:0;height:1px;
+  background:linear-gradient(90deg,transparent,rgba(0,212,255,.2),rgba(99,102,241,.15),transparent);
 }
+
+.header.scroll-shadow{
+  box-shadow:0 4px 20px rgba(0,0,0,.3);
+}
+
+[data-theme="light"] .header{background:rgba(255,255,255,.92);}
+[data-theme="light"] .header::after{background:linear-gradient(90deg,transparent,rgba(99,102,241,.15),transparent);}
 
 .header .brand{
   font-size:18px;
@@ -533,47 +488,58 @@ a:hover{color:var(--accent-hover);}
 
 .hide{display:none!important;}
 
-/* ===== TABS ===== */
+/* ===== TOP NAV BAR (tabs restyled) ===== */
 .tabs{
   display:flex;
-  gap:0;
+  gap:2px;
   padding:0;
   flex-wrap:nowrap;
-  background:transparent;
+  background:rgba(10,14,26,.85);
+  backdrop-filter:blur(12px);
   border:none;
   flex:1;
   justify-content:center;
   align-items:center;
+  overflow-x:auto;
+  -webkit-overflow-scrolling:touch;
+  scrollbar-width:none;
 }
+.tabs::-webkit-scrollbar{display:none;}
 
 .tab{
-  padding:8px 16px;
-  border-radius:0;
+  padding:10px 18px;
+  border-radius:6px;
   font-size:13px;
   font-weight:500;
   cursor:pointer;
-  color:var(--tx-secondary);
-  transition:color .15s ease;
+  color:var(--tx-muted);
+  transition:all .2s ease;
   border:none;
   background:transparent;
   position:relative;
-  letter-spacing:0;
+  letter-spacing:.2px;
   white-space:nowrap;
 }
 
 .tab:hover{
   color:var(--tx-primary);
+  background:var(--bg-hover);
 }
 
 .tab.active{
   color:var(--accent);
-  font-weight:500;
-  background:transparent;
-  border-bottom:2px solid var(--accent);
+  font-weight:600;
+  background:var(--accent-light);
+  border-bottom:none;
 }
 
 .tab.active::after{
-  display:none;
+  content:'';
+  position:absolute;
+  bottom:0;left:25%;right:25%;
+  height:2px;
+  background:var(--accent-gradient);
+  border-radius:2px;
 }
 
 /* ===== CONTENT ===== */
@@ -598,20 +564,33 @@ a:hover{color:var(--accent-hover);}
 }
 
 .card{
-  background:var(--bg-surface);
+  background:rgba(17,24,39,.65);
   border:1px solid var(--border);
   border-radius:var(--radius);
   padding:20px;
   margin-bottom:16px;
   box-shadow:none;
-  transition:border-color .2s ease,background .2s ease;
+  transition:border-color .3s ease,background .3s ease,box-shadow .3s ease;
   position:relative;
+  backdrop-filter:blur(8px);
 }
 
 .card:hover{
-  border-color:var(--accent);
-  background:var(--bg-hover);
+  border-color:transparent;
+  background:rgba(26,31,53,.8);
+  box-shadow:0 0 0 1px rgba(0,212,255,.15);
 }
+
+.card:hover::before{
+  content:'';position:absolute;inset:-1px;border-radius:var(--radius);padding:1px;
+  background:linear-gradient(135deg,rgba(99,102,241,.2),rgba(0,212,255,.15),rgba(16,185,129,.2));
+  -webkit-mask:linear-gradient(#fff 0 0) content-box,linear-gradient(#fff 0 0);
+  -webkit-mask-composite:xor;mask-composite:exclude;pointer-events:none;
+}
+
+[data-theme="light"] .card{background:var(--bg-surface);backdrop-filter:none;}
+[data-theme="light"] .card:hover{background:var(--bg-hover);box-shadow:var(--shadow-sm);}
+[data-theme="light"] .card:hover::before{display:none;}
 
 .card-title{
   font-size:14px;
@@ -2227,17 +2206,15 @@ tbody tr:hover{
 <div class="login-screen" id="loginScreen">
   <div class="login-box">
     <div class="brand">
-      <svg class="logo-icon" viewBox="0 0 120 120" fill="none" xmlns="http://www.w3.org/2000/svg">
-        <rect rx="28" width="120" height="120" fill="#0d0d0d"/>
-        <rect rx="28" width="120" height="120" fill="url(#loginLogoGrad)" opacity=".15"/>
-        <defs><linearGradient id="loginLogoGrad" x1="0" y1="120" x2="120" y2="0"><stop offset="0%" stop-color="#5AC8FA"/><stop offset="100%" stop-color="#7DD3FC"/></linearGradient></defs>
-        <path d="M30 78L50 58L65 66L90 36" stroke="#5AC8FA" stroke-width="5" stroke-linecap="round" stroke-linejoin="round" fill="none"/>
-        <circle cx="90" cy="36" r="5" fill="#5AC8FA"/>
-        <path d="M30 78L50 58L65 66L90 36L90 88L30 88Z" fill="#5AC8FA" opacity=".1"/>
+      <svg class="logo-icon" viewBox="0 0 120 120" fill="none" xmlns="http://www.w3.org/2000/svg" style="width:52px;height:52px;animation:pulseGlow 2s ease-in-out infinite;">
+        <rect rx="24" width="120" height="120" fill="#0f172a"/>
+        <rect rx="24" width="120" height="120" fill="url(#loginLogoGrad)" opacity=".12"/>
+        <defs><linearGradient id="loginLogoGrad" x1="0" y1="120" x2="120" y2="0"><stop offset="0%" stop-color="#6366f1"/><stop offset="50%" stop-color="#00d4ff"/><stop offset="100%" stop-color="#10b981"/></linearGradient></defs>
+        <path d="M15 60H30L40 30L55 85L70 45L82 60H105" stroke="url(#loginLogoGrad)" stroke-width="5" stroke-linecap="round" stroke-linejoin="round" fill="none"/>
       </svg>
-      <div class="logo-text">BellFolio<span>US Stock Portfolio</span></div>
+      <div class="logo-text">StockPulse<span>ชีพจรหุ้น — Stock Analysis Platform</span></div>
     </div>
-    <div class="sub">Smart portfolio tracking for US stocks</div>
+    <div class="sub">ชีพจรหุ้น — Stock Analysis Platform</div>
     <div class="fg"><label>Username</label><input id="loginUser" placeholder="Enter username" autocomplete="username"></div>
     <div class="fg"><label>Password</label><input id="loginPass" type="password" placeholder="Enter password" autocomplete="current-password"></div>
     <button class="btn-primary" onclick="doLogin()" style="margin-top:8px;">Sign In</button>
@@ -2253,12 +2230,11 @@ tbody tr:hover{
 <div class="header">
   <div class="brand">
     <svg class="logo-icon" viewBox="0 0 120 120" fill="none" xmlns="http://www.w3.org/2000/svg">
-      <rect rx="28" width="120" height="120" fill="#0d0d0d"/>
-      <path d="M30 78L50 58L65 66L90 36" stroke="#5AC8FA" stroke-width="5" stroke-linecap="round" stroke-linejoin="round" fill="none"/>
-      <circle cx="90" cy="36" r="5" fill="#5AC8FA"/>
-      <path d="M30 78L50 58L65 66L90 36L90 88L30 88Z" fill="#5AC8FA" opacity=".1"/>
+      <rect rx="24" width="120" height="120" fill="#0f172a"/>
+      <defs><linearGradient id="hdrLogoGrad" x1="0" y1="120" x2="120" y2="0"><stop offset="0%" stop-color="#6366f1"/><stop offset="50%" stop-color="#00d4ff"/><stop offset="100%" stop-color="#10b981"/></linearGradient></defs>
+      <path d="M15 60H30L40 30L55 85L70 45L82 60H105" stroke="url(#hdrLogoGrad)" stroke-width="5" stroke-linecap="round" stroke-linejoin="round" fill="none"/>
     </svg>
-    <div class="logo-text">BellFolio <span>by Bell</span></div>
+    <div class="logo-text">StockPulse <span>ชีพจรหุ้น</span></div>
   </div>
   <!-- TABS IN HEADER -->
   <div class="tabs" id="tabBar">
@@ -3026,16 +3002,16 @@ tbody tr:hover{
 
 <script>
 /* =============================================================
-   BellFolio — Smart US Stock Portfolio Manager
+   StockPulse — ชีพจรหุ้น Stock Analysis Platform
    ============================================================= */
 
 // Register Chart.js plugins
 Chart.register(ChartDataLabels);
 
 // ===== AUTH =====
-const USERS_KEY='bell_users';
-const SESSION_KEY='bell_session';
-const DATA_PREFIX='bell_data_';
+const USERS_KEY='sp_users';
+const SESSION_KEY='sp_session';
+const DATA_PREFIX='sp_data_';
 
 function getUsers(){
   const u=localStorage.getItem(USERS_KEY);
@@ -3139,7 +3115,7 @@ const FIREBASE_CONFIG_EMBEDDED=null;
 let firebaseApp=null;
 let firebaseDB=null;
 let firebaseConnected=false;
-const FB_CONFIG_KEY='bell_firebase_config';
+const FB_CONFIG_KEY='sp_firebase_config';
 
 function getFirebaseConfig(){
   // Embedded config (admin set) takes priority over localStorage
@@ -3428,13 +3404,13 @@ function fmtMoneyDual(n){
 
 // ===== THEME =====
 function toggleTheme(){
-  const t=document.documentElement.getAttribute('data-theme')==='dark'?'':'dark';
+  const t=document.documentElement.getAttribute('data-theme')==='dark'?'light':'dark';
   document.documentElement.setAttribute('data-theme',t);
-  localStorage.setItem('bell_theme',t);
+  localStorage.setItem('sp_theme',t);
 }
 function loadTheme(){
-  const t=localStorage.getItem('bell_theme');
-  // Default to dark theme (WeThaiInvest style)
+  const t=localStorage.getItem('sp_theme');
+  // Default to dark theme
   document.documentElement.setAttribute('data-theme',t||'dark');
 }
 function isDarkTheme(){return document.documentElement.getAttribute('data-theme')==='dark';}
@@ -5852,15 +5828,15 @@ async function changePassword(){
 // ===== IMPORT / EXPORT =====
 function exportData(){
   const blob=new Blob([JSON.stringify(appData,null,2)],{type:'application/json'});
-  const a=document.createElement('a');a.href=URL.createObjectURL(blob);a.download='bellfolio-backup-'+currentUser+'-'+new Date().toISOString().slice(0,10)+'.json';a.click();
+  const a=document.createElement('a');a.href=URL.createObjectURL(blob);a.download='stockpulse-backup-'+currentUser+'-'+new Date().toISOString().slice(0,10)+'.json';a.click();
   // Record last backup time
-  localStorage.setItem('bell_last_backup',Date.now().toString());
+  localStorage.setItem('sp_last_backup',Date.now().toString());
   toast('Backup saved!','success');
 }
 
 // ===== AUTO-BACKUP REMINDER =====
 function checkBackupReminder(){
-  const last=parseInt(localStorage.getItem('bell_last_backup')||'0');
+  const last=parseInt(localStorage.getItem('sp_last_backup')||'0');
   const daysSince=Math.floor((Date.now()-last)/86400000);
   // Remind every 7 days
   if(daysSince>=7&&Object.keys(getStocks()).length>0){
@@ -5870,7 +5846,7 @@ function checkBackupReminder(){
 
 function showBackupReminder(days){
   // Don't show if already dismissed today
-  const dismissed=localStorage.getItem('bell_backup_dismissed');
+  const dismissed=localStorage.getItem('sp_backup_dismissed');
   if(dismissed&&Date.now()-parseInt(dismissed)<86400000)return;
 
   const bar=document.createElement('div');
@@ -5880,7 +5856,7 @@ function showBackupReminder(days){
     <span>${days>365?'ยังไม่เคย backup เลย':'ไม่ได้ backup มา '+days+' วันแล้ว'} — แนะนำให้ Export Data เก็บไว้เผื่อเปลี่ยน domain หรือล้างเบราว์เซอร์</span>
     <span style="display:flex;gap:8px;flex-shrink:0;">
       <button onclick="exportData();document.getElementById('backupReminder').remove();" style="padding:6px 14px;border-radius:6px;border:none;background:var(--accent);color:#fff;font-size:12px;font-weight:600;cursor:pointer;">Backup Now</button>
-      <button onclick="localStorage.setItem('bell_backup_dismissed',Date.now().toString());document.getElementById('backupReminder').remove();" style="padding:6px 10px;border-radius:6px;border:1px solid rgba(255,255,255,.3);background:transparent;color:inherit;font-size:12px;cursor:pointer;">Later</button>
+      <button onclick="localStorage.setItem('sp_backup_dismissed',Date.now().toString());document.getElementById('backupReminder').remove();" style="padding:6px 10px;border-radius:6px;border:1px solid rgba(255,255,255,.3);background:transparent;color:inherit;font-size:12px;cursor:pointer;">Later</button>
     </span>
   `;
   document.body.appendChild(bar);
